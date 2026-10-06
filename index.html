@@ -234,6 +234,11 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 .map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.9) contrast(.9)}
 .ph img{filter:grayscale(1);transition:filter .9s ease,transform 1.2s}.ph:hover img{filter:none}
 @media(max-width:760px){.map{height:260px}}
+
+#loader .h{animation-duration:3s}
+#loader .h:nth-child(1){animation-delay:0s}
+#loader .h:nth-child(2){animation-delay:-1s}
+#loader .h:nth-child(3){animation-delay:-2s}
 </style>
 </head>
 <body>
@@ -324,7 +329,7 @@ document.getElementById('rt').innerHTML=
 var s='<path d="M3 31Q40 27 74 22T109 14" stroke="#e8e0d8" stroke-width=".8"/>';
 [[18,29,-35],[30,28,40],[44,26,-40],[56,24,38],[68,22,-42],[80,19,-30],[92,16,-38],[100,15,30]].forEach(function(p){s+=leaf(15,5.5,p[2],p[0],p[1],5,.5,'#e8e0d8')});
 document.getElementById('sp').innerHTML=s;
-setTimeout(openInv,3840);
+setTimeout(openInv,3000);
 
 var CFG={date:new Date(2026,11,13,16,0,0),rsvp:''};
 var PH=[{c:'w'},{c:'t'},{},{},{c:'w'},{},{c:'t'}].map(function(p){p.s='';return p});
