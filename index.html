@@ -257,6 +257,13 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 #loader .h:nth-child(1){animation-delay:0s}
 #loader .h:nth-child(2){animation-delay:-1.2s}
 #loader .h:nth-child(3){animation-delay:-2.4s}
+
+.dc{margin-top:56px;padding:44px 24px 48px}
+.dc b{display:block;margin-bottom:16px}
+.dc .pal{margin-top:34px;gap:48px}
+.dc .pal small{margin-bottom:18px}
+.dc .sw{gap:16px}.dc .sw i{width:40px;height:40px}
+@media(max-width:760px){.dc{margin-top:40px;padding:36px 16px 40px}.dc .pal{gap:34px}}
 </style>
 </head>
 <body>
@@ -268,7 +275,7 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
   </div>
   
 <div id="inv" role="dialog" aria-label="Convite"><svg class="rp" viewBox="0 0 32 29.6" aria-hidden="true"><path d="M16 29.6C9.5 20.3 0 17.8 0 8.4C0 3.8 3.8 0 8.4 0C11.8 0 14.7 2.7 16 5.6C17.3 2.7 20.2 0 23.6 0C28.2 0 32 3.8 32 8.4C32 17.8 22.5 20.3 16 29.6Z"/></svg><svg class="rp" viewBox="0 0 32 29.6" aria-hidden="true"><path d="M16 29.6C9.5 20.3 0 17.8 0 8.4C0 3.8 3.8 0 8.4 0C11.8 0 14.7 2.7 16 5.6C17.3 2.7 20.2 0 23.6 0C28.2 0 32 3.8 32 8.4C32 17.8 22.5 20.3 16 29.6Z"/></svg><svg class="rp" viewBox="0 0 32 29.6" aria-hidden="true"><path d="M16 29.6C9.5 20.3 0 17.8 0 8.4C0 3.8 3.8 0 8.4 0C11.8 0 14.7 2.7 16 5.6C17.3 2.7 20.2 0 23.6 0C28.2 0 32 3.8 32 8.4C32 17.8 22.5 20.3 16 29.6Z"/></svg><svg class="ib" viewBox="0 0 32 29.6"> <path d="M16 29.6C9.5 20.3 0 17.8 0 8.4C0 3.8 3.8 0 8.4 0C11.8 0 14.7 2.7 16 5.6C17.3 2.7 20.2 0 23.6 0C28.2 0 32 3.8 32 8.4C32 17.8 22.5 20.3 16 29.6Z"/></svg>
-<div class="it"><small>Voc&#234; &#233; nosso convidado</small><h3>Charles<br>&amp; Juliane</h3><p>13/12/2026</p><em>[Hor&#225;rio e local]</em><button class="btn" id="ic">Entrar</button></div></div>
+<div class="it"><small>Voc&#234; &#233; nosso convidado</small><h3>Charles<br>&amp; Juliane</h3><p>13/12/2026</p><em>16h00 &middot; Lapa - PR</em><button class="btn" id="ic">Entrar</button></div></div>
 </div>
 
 <header class="hero" id="home">
@@ -300,11 +307,9 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 
 <section id="cerimonia"><h2 class="rv">Cerim&#244;nia e recep&#231;&#227;o</h2>
 <div class="grid2">
-<div class="card rv"><h3 style="font-weight:300;letter-spacing:.2em;text-transform:uppercase;margin:0 0 8px">Cerim&#244;nia</h3>13/12/2026<br><span class="muted">[Hor&#225;rio] &#183; [Nome do local]<br>[Endere&#231;o completo], Lapa - PR</span></div>
-<div class="card rv"><h3 style="font-weight:300;letter-spacing:.2em;text-transform:uppercase;margin:0 0 8px">Recep&#231;&#227;o</h3>13/12/2026<br><span class="muted">[Hor&#225;rio] &#183; [Nome do local]<br>[Endere&#231;o completo], Lapa - PR</span></div></div>
-<div class="map rv"></div>
-<a class="btn rv" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Lapa,+PR,+83750-000/@-25.7731144,-49.7167209,276m/data=!3m1!1e3!4m6!3m5!1s0x94dd7510d745006f:0x47e70c24d180c3d3!8m2!3d-25.7696777!4d-49.7159059!16s%2Fg%2F11bxfvfghd">Abrir no Google Maps</a>
-<div class="card rv"><b style="letter-spacing:.2em;text-transform:uppercase;font-weight:400">Dress code</b><br><span class="muted">Sugerimos os tons das paletas abaixo (exemplos, a confirmar).</span>
+<div class="card rv"><h3 style="font-weight:300;letter-spacing:.2em;text-transform:uppercase;margin:0 0 8px">Cerim&#244;nia</h3>13/12/2026 &middot; 16h00<br><span class="muted">Igreja Matriz de Santo Ant&#244;nio<br>Centro Hist&#243;rico, Lapa - PR, 83750-000</span></div>
+<div class="card rv"><h3 style="font-weight:300;letter-spacing:.2em;text-transform:uppercase;margin:0 0 8px">Recep&#231;&#227;o</h3>13/12/2026 &middot; 19h00<br><span class="muted">Espa&#231;o Jardim da Lapa (exemplo)<br>Rua das Flores, 123, Centro, Lapa - PR, 83750-000</span></div></div>
+<div class="card rv dc"><b style="letter-spacing:.2em;text-transform:uppercase;font-weight:400">Dress code</b><span class="muted">Sugerimos os tons das paletas abaixo (exemplos, a confirmar).</span>
 <div class="pal"><div><small>Paleta 1 &middot; Tons terrosos</small><p class="sw"><i style="background:#8b5a3c"></i><i style="background:#c98f5f"></i><i style="background:#d9c3a5"></i><i style="background:#5e4b3c"></i></p></div>
 <div><small>Paleta 2 &middot; Tons suaves</small><p class="sw"><i style="background:#a3b18a"></i><i style="background:#d8a7a0"></i><i style="background:#efe6da"></i><i style="background:#6b7b8c"></i></p></div></div></div></section>
 
