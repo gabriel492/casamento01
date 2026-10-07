@@ -239,6 +239,19 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 #loader .h:nth-child(1){animation-delay:0s}
 #loader .h:nth-child(2){animation-delay:-1s}
 #loader .h:nth-child(3){animation-delay:-2s}
+
+#loader .h{animation-duration:2s}
+#loader .h:nth-child(1){animation-delay:0s}
+#loader .h:nth-child(2){animation-delay:-.67s}
+#loader .h:nth-child(3){animation-delay:-1.33s}
+.rv.slow{transition:opacity 2s ease,transform 2s ease}
+.rv.fx{transition:opacity 1.6s ease,filter 1.6s ease}
+.pal{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.pal small{display:block;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:10px}
+.sw{display:flex;gap:10px;justify-content:center;margin:0}
+.sw i{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.25)}
+#galeria{overflow:hidden}
+.ph.ga{transition:opacity 1.8s ease,translate 2.4s cubic-bezier(.2,.7,.2,1),rotate 2.4s cubic-bezier(.2,.7,.2,1),scale 2.4s cubic-bezier(.2,.7,.2,1)}
 </style>
 </head>
 <body>
@@ -271,7 +284,7 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 
 
 <section id="contagem"><h2 class="rv slow">Contagem regressiva</h2>
-<div class="cd" id="cd"><div class="rv fx" style="transition-delay:0.6s"><b id="d">0</b><span>Dias</span></div><div class="rv fx" style="transition-delay:1.2s"><b id="hh">0</b><span>Horas</span></div><div class="rv fx" style="transition-delay:1.8s"><b id="m">0</b><span>Minutos</span></div><div class="rv fx" style="transition-delay:2.4s"><b id="s">0</b><span>Segundos</span></div></div></section>
+<div class="cd" id="cd"><div class="rv fx" style="transition-delay:0.45s"><b id="d">0</b><span>Dias</span></div><div class="rv fx" style="transition-delay:0.9s"><b id="hh">0</b><span>Horas</span></div><div class="rv fx" style="transition-delay:1.35s"><b id="m">0</b><span>Minutos</span></div><div class="rv fx" style="transition-delay:1.8s"><b id="s">0</b><span>Segundos</span></div></div></section>
 
 <section id="historia"><h2 class="rv" style="transition-delay:0s">Nossa hist&#243;ria</h2>
 <p class="muted rv" style="transition-delay:.4s">Aqui vamos contar a voc&#234;s, queridos amigos e familiares, os momentos mais marcantes da nossa hist&#243;ria de amor.</p>
@@ -286,7 +299,9 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 <div class="card rv"><h3 style="font-weight:300;letter-spacing:.2em;text-transform:uppercase;margin:0 0 8px">Recep&#231;&#227;o</h3>13/12/2026<br><span class="muted">[Hor&#225;rio] &#183; [Nome do local]<br>[Endere&#231;o completo], Lapa - PR</span></div></div>
 <div class="map rv"></div>
 <a class="btn rv" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Lapa,+PR,+83750-000/@-25.7731144,-49.7167209,276m/data=!3m1!1e3!4m6!3m5!1s0x94dd7510d745006f:0x47e70c24d180c3d3!8m2!3d-25.7696777!4d-49.7159059!16s%2Fg%2F11bxfvfghd">Abrir no Google Maps</a>
-<div class="card rv"><b style="letter-spacing:.2em;text-transform:uppercase;font-weight:400">Dress code</b><br><span class="muted">[Informa&#231;&#245;es de traje a definir]</span></div></section>
+<div class="card rv"><b style="letter-spacing:.2em;text-transform:uppercase;font-weight:400">Dress code</b><br><span class="muted">Sugerimos os tons das paletas abaixo (exemplos, a confirmar).</span>
+<div class="pal"><div><small>Paleta 1 &middot; Tons terrosos</small><p class="sw"><i style="background:#8b5a3c"></i><i style="background:#c98f5f"></i><i style="background:#d9c3a5"></i><i style="background:#5e4b3c"></i></p></div>
+<div><small>Paleta 2 &middot; Tons suaves</small><p class="sw"><i style="background:#a3b18a"></i><i style="background:#d8a7a0"></i><i style="background:#efe6da"></i><i style="background:#6b7b8c"></i></p></div></div></div></section>
 
 <section id="galeria"><h2 class="rv">Galeria</h2><div class="gal" id="gal"></div></section>
 
@@ -329,7 +344,7 @@ document.getElementById('rt').innerHTML=
 var s='<path d="M3 31Q40 27 74 22T109 14" stroke="#e8e0d8" stroke-width=".8"/>';
 [[18,29,-35],[30,28,40],[44,26,-40],[56,24,38],[68,22,-42],[80,19,-30],[92,16,-38],[100,15,30]].forEach(function(p){s+=leaf(15,5.5,p[2],p[0],p[1],5,.5,'#e8e0d8')});
 document.getElementById('sp').innerHTML=s;
-setTimeout(openInv,3000);
+setTimeout(openInv,2000);
 
 var CFG={date:new Date(2026,11,13,16,0,0),rsvp:''};
 var PH=[{c:'w'},{c:'t'},{},{},{c:'w'},{},{c:'t'}].map(function(p){p.s='';return p});
@@ -351,7 +366,7 @@ function tg(o){bg.classList.toggle('o',o);mm.classList.toggle('o',o)}
 bg.onclick=function(){tg(!mm.classList.contains('o'))};mm.querySelectorAll('a').forEach(function(a){a.onclick=function(){tg(false)}});
 var ao=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)document.querySelectorAll('.menu a').forEach(function(a){a.classList.toggle('act',a.getAttribute('href')=='#'+e.target.id)})})},{rootMargin:'-40% 0px -55% 0px'});
 document.querySelectorAll('section').forEach(function(s){ao.observe(s)});
-window.startReveal=function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target,d=0;if(t.classList.contains('fx'))t._t=Date.now();if(t.classList.contains('photo')){var q=document.getElementById('s').parentNode;if(q._t)d=Math.max(0,q._t+4700-Date.now())}io.unobserve(t);setTimeout(function(){t.classList.add('in')},d)}})},{threshold:.15});
+window.startReveal=function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){var t=e.target;if(e.intersectionRatio>=.15){if(t.classList.contains('fx'))t._t=Date.now();t.classList.add('in')}else if(!e.isIntersecting){t.classList.remove('in')}})},{threshold:[0,.15]});
  document.querySelectorAll('.rv,.lf,.rt').forEach(function(el){io.observe(el)})};
 var f=$('f'),st=$('st');
 f.onsubmit=function(e){e.preventDefault();var b=f.querySelector('button');if(!f.nome.value.trim()){st.textContent='Por favor, informe seu nome.';return}
@@ -374,7 +389,7 @@ s.innerHTML='<path d="M'+P(-5,525)+'C'+P(20,400)+' '+P(50,260)+' '+P(66,165)+'M'
 Lf(210,80,-45,70,160,48)+Lf(238,70,24,92,190,48)+Lf(300,38,6,24,345,52)+Lf(150,60,-125,48,261,34)+Lf(130,55,-150,18,410,30)})();
 
 (function(){var m=document.getElementById('mos'),im=m.querySelector('img'),T=[],RM=matchMedia('(prefers-reduced-motion:reduce)').matches,rz,sc=document.getElementById('s').parentNode,cs=document.getElementById('contagem'),op=false;
-function chk(){if(!op&&(sc._t?Date.now()>=sc._t+4700:cs.getBoundingClientRect().bottom<0))op=true;return op}
+function chk(){if(!op&&(sc._t?Date.now()>=sc._t+3600:cs.getBoundingClientRect().bottom<0))op=true;return op}
 m.style.setProperty('--im','url("'+im.getAttribute('src')+'")');
 function upd(){var r=m.getBoundingClientRect(),vh=innerHeight,cp=function(x){return Math.min(1,Math.max(0,x))},p=RM?1:(chk()?cp((vh*.95-r.top)/(vh*.8)):0),q=RM?0:cp((vh*.55-r.bottom)/(vh*.5));
  T.forEach(function(o){var e=1-Math.pow(1-cp((p-o.t)/.4),3),f=1-Math.pow(1-cp((q-o.u)/.4),3),v=e*(1-f);o.e.style.opacity=v.toFixed(3);o.e.style.transform=RM?'none':'translate('+(f*o.x).toFixed(1)+'px,'+((1-e)*36-f*40).toFixed(1)+'px) scale('+(.85+.15*v).toFixed(3)+')'})}
@@ -397,7 +412,7 @@ var P=[];
  s.querySelectorAll('.rv').forEach(function(e){e.classList.remove('rv','in');e.style.transitionDelay=''});
  s.querySelectorAll('h2,p.muted').forEach(function(t){var w=t.textContent.trim().split(/\s+/);t.textContent='';
   w.forEach(function(x,i){var sp=document.createElement('span');sp.className='as aw';sp.textContent=x;t.appendChild(sp);if(i<w.length-1)t.appendChild(document.createTextNode(' '));P.push({e:sp,j:0,ty:0})})});
- s.querySelectorAll('.card,.map,.btn,.gift,.ph,form>div').forEach(function(e){if(e.classList.contains('btn')&&e.closest('.gift'))return;e.classList.add('as');P.push({e:e,j:0,ty:0})})});
+ s.querySelectorAll('.card,.map,.btn,.gift,form>div').forEach(function(e){if(e.classList.contains('btn')&&e.closest('.gift'))return;e.classList.add('as');P.push({e:e,j:0,ty:0})})});
 P.forEach(function(o,i){o.j=((i*37)%23)/23*.2});
 function upd(){var vh=innerHeight,r=P.map(function(o){return o.e.getBoundingClientRect().top-o.ty});
  P.forEach(function(o,i){var l=Math.min(1,Math.max(0,(vh*.97-r[i]-o.j*vh)/(vh*.28))),e=1-Math.pow(1-l,3);o.ty=(1-e)*34;
@@ -412,6 +427,14 @@ var fb=document.createElement('div');fb.className='mapfb';fb.innerHTML='<svg vie
 var fr=document.createElement('iframe');fr.src='https://www.google.com/maps?q=-25.7696777,-49.7159059&z=16&output=embed';fr.loading='lazy';fr.title='Mapa de Lapa, PR';fr.setAttribute('referrerpolicy','no-referrer-when-downgrade');
 document.addEventListener('securitypolicyviolation',function(e){if(String(e.blockedURI).indexOf('google')>-1||String(e.violatedDirective).indexOf('frame')>-1)fr.remove()});
 m.appendChild(fr)})();
+
+(function(){var g=document.getElementById('gal');if(!g||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+var L=[].slice.call(g.querySelectorAll('.ph')),on=false;
+function hide(){L.forEach(function(e){var a=Math.random()*6.2832,d=140+Math.random()*100,s=Math.random()<.5?-1:1;
+ e.classList.add('ga');e.style.transitionDelay='0s';e.style.opacity=0;e.style.translate=(Math.cos(a)*d).toFixed(0)+'px '+(Math.sin(a)*d).toFixed(0)+'px';e.style.rotate=(s*(10+Math.random()*20)).toFixed(0)+'deg';e.style.scale=.75})}
+function show(){L.slice().sort(function(){return Math.random()-.5}).forEach(function(e,i){e.style.transitionDelay=(i*.35+Math.random()*.5).toFixed(2)+'s';e.style.opacity=1;e.style.translate='0 0';e.style.rotate='0deg';e.style.scale=1})}
+hide();
+new IntersectionObserver(function(es){var e=es[0];if(e.intersectionRatio>=.15&&!on){on=true;show()}else if(!e.isIntersecting&&on){on=false;hide()}},{threshold:[0,.15]}).observe(g)})();
 </script>
 </body>
 </html>
