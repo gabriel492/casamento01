@@ -264,6 +264,9 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 .dc .pal small{margin-bottom:18px}
 .dc .sw{gap:16px}.dc .sw i{width:40px;height:40px}
 @media(max-width:760px){.dc{margin-top:40px;padding:36px 16px 40px}.dc .pal{gap:34px}}
+
+.rv.slow{transition:opacity 1.6s ease,transform 1.6s ease}
+.rv.fx{transition:opacity 1.3s ease,filter 1.3s ease}
 </style>
 </head>
 <body>
@@ -296,7 +299,7 @@ button.btn{background:transparent;cursor:pointer;font-family:inherit;justify-sel
 
 
 <section id="contagem"><h2 class="rv slow">Contagem regressiva</h2>
-<div class="cd" id="cd"><div class="rv fx" style="transition-delay:0.45s"><b id="d">0</b><span>Dias</span></div><div class="rv fx" style="transition-delay:0.9s"><b id="hh">0</b><span>Horas</span></div><div class="rv fx" style="transition-delay:1.35s"><b id="m">0</b><span>Minutos</span></div><div class="rv fx" style="transition-delay:1.8s"><b id="s">0</b><span>Segundos</span></div></div></section>
+<div class="cd" id="cd"><div class="rv fx" style="transition-delay:0.36s"><b id="d">0</b><span>Dias</span></div><div class="rv fx" style="transition-delay:0.72s"><b id="hh">0</b><span>Horas</span></div><div class="rv fx" style="transition-delay:1.08s"><b id="m">0</b><span>Minutos</span></div><div class="rv fx" style="transition-delay:1.44s"><b id="s">0</b><span>Segundos</span></div></div></section>
 
 <section id="historia"><h2 class="rv" style="transition-delay:0s">Nossa hist&#243;ria</h2>
 <p class="muted rv" style="transition-delay:.4s">Aqui vamos contar a voc&#234;s, queridos amigos e familiares, os momentos mais marcantes da nossa hist&#243;ria de amor.</p>
@@ -396,7 +399,7 @@ s.innerHTML='<path d="M'+P(-5,525)+'C'+P(20,400)+' '+P(50,260)+' '+P(66,165)+'M'
 Lf(210,80,-45,70,160,48)+Lf(238,70,24,92,190,48)+Lf(300,38,6,24,345,52)+Lf(150,60,-125,48,261,34)+Lf(130,55,-150,18,410,30)})();
 
 (function(){var m=document.getElementById('mos'),im=m.querySelector('img'),T=[],RM=matchMedia('(prefers-reduced-motion:reduce)').matches,rz,sc=document.getElementById('s').parentNode,cs=document.getElementById('contagem'),op=false;
-function chk(){if(!op&&(sc._t?Date.now()>=sc._t+3600:cs.getBoundingClientRect().bottom<0))op=true;return op}
+function chk(){if(!op&&(sc._t?Date.now()>=sc._t+2900:cs.getBoundingClientRect().bottom<0))op=true;return op}
 m.style.setProperty('--im','url("'+im.getAttribute('src')+'")');
 function upd(){var r=m.getBoundingClientRect(),vh=innerHeight,cp=function(x){return Math.min(1,Math.max(0,x))},p=RM?1:(chk()?cp((vh*.95-r.top)/(vh*.8)):0),q=RM?0:cp((vh*.55-r.bottom)/(vh*.5));
  T.forEach(function(o){var e=1-Math.pow(1-cp((p-o.t)/.4),3),f=1-Math.pow(1-cp((q-o.u)/.4),3),v=e*(1-f);o.e.style.opacity=v.toFixed(3);o.e.style.transform=RM?'none':'translate('+(f*o.x).toFixed(1)+'px,'+((1-e)*36-f*40).toFixed(1)+'px) scale('+(.85+.15*v).toFixed(3)+')'})}
