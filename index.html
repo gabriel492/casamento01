@@ -100,8 +100,6 @@ details{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}summary{
 .xp{border:2px solid var(--sa);border-radius:14px;padding:16px;margin-bottom:8px}.xp p{margin:0 0 10px;font-weight:600}
 .chipx{display:inline-block;margin:4px;padding:8px 14px;border-radius:999px;background:var(--sa);color:var(--sh);font:600 12px system-ui,sans-serif;cursor:pointer}.chipx.gh{background:transparent;color:var(--st);border:1px solid color-mix(in srgb,var(--st) 30%,transparent)}
 .site:not(.edit) .xb.empty{display:none}
-
-/* Estilos de Moldura atualizados e orientações horizontais */
 .hero{position:relative}
 .hero.fr::before{content:"";position:absolute;inset:14px;pointer-events:none}
 .fr-thin::before{border:1px solid var(--fc)}.fr-double::before{border:5px double var(--fc)}.fr-dotted::before{border:3px dotted var(--fc)}
@@ -111,10 +109,10 @@ details{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}summary{
 .fr-corners::before{background:linear-gradient(var(--fc),var(--fc)) 0 0/38px 2px,linear-gradient(var(--fc),var(--fc)) 0 0/2px 38px,linear-gradient(var(--fc),var(--fc)) 100% 0/38px 2px,linear-gradient(var(--fc),var(--fc)) 100% 0/2px 38px,linear-gradient(var(--fc),var(--fc)) 0 100%/38px 2px,linear-gradient(var(--fc),var(--fc)) 0 100%/2px 38px,linear-gradient(var(--fc),var(--fc)) 100% 100%/38px 2px,linear-gradient(var(--fc),var(--fc)) 100% 100%/2px 38px;background-repeat:no-repeat}
 .hero.fr-polaroid{box-shadow:inset 0 0 0 14px var(--fc),inset 0 0 0 15px rgba(0,0,0,.14)}
 
-/* Novos layouts de molduras e fotos em mosaico horizontal incorporadas */
+/* Layout Horizontal e Grelha inspirada nos stories */
 .fr-dump{background:radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.2) 100%);}
-.hero-horiz-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:8px;padding:12px 20px;max-width:560px;margin:0 auto;}
-.hero-horiz-item{aspect-ratio:4/3;background:#ddd;border-radius:8px;overflow:hidden;position:relative;border:2px solid var(--fc);}
+.hero-horiz-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;padding:12px 20px;max-width:520px;margin:0 auto;}
+.hero-horiz-item{aspect-ratio:4/3;background:rgba(255,255,255,0.15);border-radius:8px;overflow:hidden;position:relative;border:2px solid var(--fc);}
 .hero-horiz-item img{width:100%;height:100%;object-fit:cover;display:block;}
 
 .fr-floral::before,.fr-leaf::before,.fr-heart::before,.fr-party::before{border:1px solid color-mix(in srgb,var(--fc) 55%,transparent)}
@@ -176,7 +174,7 @@ const BL=[['capa','Capa'],['sobre','Sobre o evento'],['prog','Programação'],['
 const S={tab:'Evento',tpl:'casamento',dirty:false,name:T.casamento.name,date:'2027-03-20',place:'Espaço Jardim das Flores',addr:'Rua das Acácias, 120 - Curitiba, PR',msg:T.casamento.msg,
  a:T.casamento.a,f:T.casamento.f,blocks:BL.map(b=>({id:b[0],on:true,menu:!!MENU0[b[0]],ml:MENU0[b[0]]||b[1]})),rsvp:[]};
 const $=s=>document.querySelector(s);
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;n'}[c]));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let mode='desk',edit=true;
 
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.i);toast.i=setTimeout(()=>t.classList.remove('on'),3800)}
@@ -263,19 +261,19 @@ function renderPanel(){
   <label>Local</label><input data-k="place" value="${esc(S.place)}">
   <label>Endereço</label><input data-k="addr" value="${esc(S.addr)}">
   <label>Mensagem</label><textarea data-k="msg">${esc(S.msg)}</textarea>
-  <p class="hint">Dica: escolha a moldura "Mosaico Horizontal (Exemplo)" no topo da Capa para encaixar fotos na horizontal perfeitamente tal como nos exemplos de stories em grelha.</p>`;
+  <p class="hint">Dica: escolha a moldura "Mosaico Horizontal (Exemplo)" no painel da Capa para organizar fotos na horizontal.</p>`;
  }else if(S.tab==='Blocos'){
-  p.innerHTML=`<p class="hint">Ligue/desligue e reordene os blocos do Início. Presentes e Confirmação são páginas próprias.</p>`+S.blocks.map((b,i)=>`<div class="row"><input type="checkbox" data-on="${i}" ${b.on?'checked':''}><span>${esc(b.type?b.lbl:BL.find(x=>x[0]===b.id)[1])}</span>${isHome(b)?`<button data-mv="${i},-1">▲</button><button data-mv="${i},1">▼</button>`:''}${b.type?`<button data-del="${i}" title="Excluir bloco">✕</button>`:''}${b.id==='capa'?'':`<div class="mrow"><label><input type="checkbox" data-mn="${i}" ${b.menu?'checked':''}> Mostrar no menu</label>${b.menu?`<input type="text" data-ml="${i}" value="${esc(b.ml||'')}" placeholder="Texto no menu">`:''}</div>`}</div>`).join('')+
+  p.innerHTML=`<p class="hint">Ligue/desligue e reordene os blocos do Início.</p>`+S.blocks.map((b,i)=>`<div class="row"><input type="checkbox" data-on="${i}" ${b.on?'checked':''}><span>${esc(b.type?b.lbl:BL.find(x=>x[0]===b.id)[1])}</span>${isHome(b)?`<button data-mv="${i},-1">▲</button><button data-mv="${i},1">▼</button>`:''}${b.type?`<button data-del="${i}" title="Excluir bloco">✕</button>`:''}${b.id==='capa'?'':`<div class="mrow"><label><input type="checkbox" data-mn="${i}" ${b.menu?'checked':''}> Mostrar no menu</label>${b.menu?`<input type="text" data-ml="${i}" value="${esc(b.ml||'')}" placeholder="Texto no menu">`:''}</div>`}</div>`).join('')+
   `<label>Criar novo bloco</label><div class="add">${CT.map(c=>`<button data-add="${c[0]}">${c[1]}</button>`).join('')}</div>`;
  }else if(S.tab==='Tema'){
-  p.innerHTML=`<label>Tema</label><select data-tsel>${THEMES.map(x=>`<option value="${x.id}" ${x.id===S.theme?'selected':''}>${esc(x.n)}${x.custom?' (meu)':''}</option>`).join('')}</select>
+  p.innerHTML=`<label>Tema</label><select data-tsel>${THEMES.map(x=>`<option value="${x.id}" ${x.id===S.theme?'selected':''}>${esc(x.n)}</option>`).join('')}</select>
   <div class="sw">${THEMES.map(x=>`<button class="swc ${x.id===S.theme?'on':''}" data-th="${x.id}" style="background:${x.b};color:${x.t};border-color:${x.a}"><i style="background:${x.a}"></i>${esc(x.n)}</button>`).join('')}</div>
-  <label>Modelo do evento (textos de exemplo)</label><div class="tabs">${Object.keys(T).map(k=>`<button class="chip ${S.tpl===k?'on':''}" data-tpl="${k}">${T[k].l}</button>`).join('')}</div>
-  <label>Cor principal (ajuste do tema)</label><input type="color" data-k="a" value="${S.a}">
+  <label>Modelo do evento</label><div class="tabs">${Object.keys(T).map(k=>`<button class="chip ${S.tpl===k?'on':''}" data-tpl="${k}">${T[k].l}</button>`).join('')}</div>
+  <label>Cor principal</label><input type="color" data-k="a" value="${S.a}">
   <label>Fonte</label><select data-k="f">${FONTS.map(f=>`<option value='${f[1]}' ${S.f===f[1]?'selected':''}>${f[0]}</option>`).join('')}</select>`;
  }else{
   const y=S.rsvp.filter(r=>r.s==='sim'),n=S.rsvp.length-y.length;
-  p.innerHTML=`<p class="hint">Painel do organizador: o formulário do site alimenta esta lista.</p>
+  p.innerHTML=`<p class="hint">Painel do organizador:</p>
   <div class="kpi"><div><b>${y.reduce((a,r)=>a+r.g,0)}</b>vão</div><div><b>${n}</b>não vão</div></div>`+
   (S.rsvp.map(r=>`<div class="row"><span>${esc(r.n)}</span><small>${r.s==='sim'?'✅ '+r.g:'❌'}</small></div>`).join('')||'<p class="hint">Nenhuma resposta ainda.</p>');
  }
