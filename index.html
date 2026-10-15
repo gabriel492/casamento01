@@ -100,8 +100,6 @@ details{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}summary{
 .chipx{display:inline-block;margin:4px;padding:8px 14px;border-radius:999px;background:var(--sa);color:var(--sh);font:600 12px system-ui,sans-serif;cursor:pointer}.chipx.gh{background:transparent;color:var(--st);border:1px solid color-mix(in srgb,var(--st) 30%,transparent)}
 .site:not(.edit) .xb.empty{display:none}
 .hero{position:relative}.site h1,.site h2{font-family:var(--hf)}
-.pj,.pj-ph{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}.pj canvas{pointer-events:none}
-.hero>*:not(.pj):not(.pj-ph):not(.fk){position:relative;z-index:1}
 .hero.fr::before{content:"";position:absolute;inset:14px;pointer-events:none}
 .fr-thin::before{border:1px solid var(--fc)}.fr-double::before{border:5px double var(--fc)}.fr-dotted::before{border:3px dotted var(--fc)}
 .fr-round::before{border:2px solid var(--fc);border-radius:30px}.fr-arch::before{border:2px solid var(--fc);border-radius:50% 50% 0 0/62% 62% 0 0}
@@ -171,7 +169,6 @@ details{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}summary{
  <button id="fr" title="Voltar ao padrão do tema">↺ Padrão</button>
 </div>
 <div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.bundle.min.js" async onload="window.mountPj&&mountPj()"></script>
 <script>
 const T={
  casamento:{l:'Casamento',a:'#b07a5a',b:'#fbf6f1',t:'#3b2a22',f:'Georgia,"Times New Roman",serif',name:'Ana & Pedro',msg:'Depois de 8 anos juntos, vamos dizer sim. Queremos você ao nosso lado nesse dia tão especial.',st:'Nossa história',prog:[['16:00','Cerimônia'],['17:30','Coquetel'],['19:00','Jantar e festa']]},
@@ -223,7 +220,7 @@ const applyTheme=id=>{const th=THEMES.find(x=>x.id===id)||THEMES[0];S.theme=th.i
 const isLight=c=>{const n=parseInt(c.slice(1),16);return (0.299*(n>>16)+0.587*((n>>8)&255)+0.114*(n&255))/255>.6};
 applyTheme('classico');
 const FIX=['name','msg','place','addr'];
-S.x={};S.hf='';S.slots={};S.bw=true;let slotT=null;S.frame='none';S.fc=null;S.pn=3;S.blocks.splice(S.blocks.findIndex(b=>b.id==='contato'),0,{id:'c0',type:'extra',on:true,lbl:'Bloco extra 1',ml:'Extras',menu:false,kids:[],open:false});S.mural=[{n:'Tia Marta',m:'Que a felicidade de vocês seja eterna!'},{n:'Carlos',m:'A contagem regressiva já começou! 🎉'}];S.dc=['#2f3e46','#84a98c','#cad2c5','#f4ede6'];let CN=0,blkT=null;S.xs={};S.cover=null;S.gal=[];S.page='home';S.pj='brilhos';S.cm='cartoes';
+S.x={};S.hf='';S.slots={};S.bw=true;let slotT=null;S.frame='none';S.fc=null;S.pn=3;S.blocks.splice(S.blocks.findIndex(b=>b.id==='contato'),0,{id:'c0',type:'extra',on:true,lbl:'Bloco extra 1',ml:'Extras',menu:false,kids:[],open:false});S.mural=[{n:'Tia Marta',m:'Que a felicidade de vocês seja eterna!'},{n:'Carlos',m:'A contagem regressiva já começou! 🎉'}];S.dc=['#2f3e46','#84a98c','#cad2c5','#f4ede6'];let CN=0,blkT=null;S.xs={};S.cover=null;S.gal=[];S.page='home';S.cm='cartoes';
 const g=(k,d)=>FIX.includes(k)?S[k]:(S.x[k]??d);
 const setv=(k,v)=>{S.dirty=true;if(FIX.includes(k))S[k]=v;else S.x[k]=v};
 const fmtStyle=k=>{const o=S.xs[k]||{};return [o.c&&'color:'+o.c,o.f&&'font-family:'+o.f,o.s&&'font-size:'+o.s+'px',o.b&&'font-weight:'+o.b,o.i&&'font-style:'+o.i].filter(Boolean).join(';')};
@@ -260,7 +257,7 @@ function lay(L){const d=dp();let bg='',h='';
 const pdef=i=>T[S.tpl].prog[i]||['20:00','Nova atividade'];
 const R={
  capa:()=>{if(LAYN[S.frame])return lay(S.frame);const fc=S.fc||(S.cover?'#fff':'var(--sh)');
-  return `<section class="hero${S.cover?' img':''}${S.frame!=='none'?' fr fr-'+S.frame:''}" style="${S.cover?`background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('${S.cover}') center/cover;--sh:#fff;`:''}--fc:${fc}">${S.pj!=='none'?'<div class="pj-ph"></div>':''}${EMO[S.frame]?['tl','tr','bl','br'].map(c=>`<i class="fk ${c}">${EMO[S.frame]}</i>`).join(''):''}<div class="k">${E('k',T[S.tpl].l)}</div><h1>${E('name')}</h1><p><span data-pick="date">${esc(dateLong())||'Escolher data'}</span> · ${E('place')}</p><div><span class="up" data-up="cover">📷 ${S.cover?'Trocar':'Adicionar'} imagem da capa</span>${S.cover?'<span class="up" data-rmc>✕ Remover</span>':''}</div><div><span class="up frm">🖼️ Moldura ${frameSel()}<input type="color" data-fc title="Cor da moldura" value="${/^#/.test(fc)?fc:'#ffffff'}"><span data-fcr style="cursor:pointer" title="Cor automática">↺</span></span></div></section>`},
+  return `<section class="hero${S.cover?' img':''}${S.frame!=='none'?' fr fr-'+S.frame:''}" style="${S.cover?`background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('${S.cover}') center/cover;--sh:#fff;`:''}--fc:${fc}">${EMO[S.frame]?['tl','tr','bl','br'].map(c=>`<i class="fk ${c}">${EMO[S.frame]}</i>`).join(''):''}<div class="k">${E('k',T[S.tpl].l)}</div><h1>${E('name')}</h1><p><span data-pick="date">${esc(dateLong())||'Escolher data'}</span> · ${E('place')}</p><div><span class="up" data-up="cover">📷 ${S.cover?'Trocar':'Adicionar'} imagem da capa</span>${S.cover?'<span class="up" data-rmc>✕ Remover</span>':''}</div><div><span class="up frm">🖼️ Moldura ${frameSel()}<input type="color" data-fc title="Cor da moldura" value="${/^#/.test(fc)?fc:'#ffffff'}"><span data-fcr style="cursor:pointer" title="Cor automática">↺</span></span></div></section>`},
  cron:()=>{const m=S.cm||'cartoes',H=['cartoes','flip','grande','anel'].includes(m)?`<h2>${E('cth','Falta pouco!')}</h2>`:'';
   const U=(k,l)=>`<div class="cdu"><b data-cd="${k}" data-p="2">--</b><small>${E('cu'+k,l)}</small></div>`;let b;
   if(m==='pilula')b=`<div class="cdpill"><b data-cd="D" data-p="1">--</b> ${E('cnt','dias para o grande dia')}</div>`;
@@ -273,8 +270,8 @@ const R={
  prog:()=>`<section><h2>${E('ph','Programação')}</h2><div class="prog">${Array.from({length:S.pn},(_,i)=>{const d=pdef(i);return `<div><b>${E('pt'+i,d[0])}</b>${E('pa'+i,d[1])}<span class="up" data-pdel="${i}" title="Remover item">✕</span></div>`}).join('')}</div><div><span class="up" data-padd>＋ Adicionar item</span></div></section>`,
  local:()=>`<section><h2>${E('lh','Local')}</h2><p><b>${E('place')}</b><br>${E('addr')}</p><div class="map">📍</div><a class="sb" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(S.addr)}">${E('lb','Como chegar')}</a></section>`,
  dress:()=>`<section><h2>${E('dh','Dress code')}</h2><p style="font-size:1.25em;font-weight:700;color:var(--sa);margin:0 0 6px">${E('dt','Traje social')}</p><p style="max-width:480px;margin:0 auto 14px">${E('dd','Pedimos que os convidados venham elegantes, em tons que combinem com a nossa paleta.')}</p><div class="sws">${S.dc.map((c,i)=>`<input type="color" class="swp" data-sw="${i}" value="${c}">`).join('')}</div><p style="margin-top:12px;font-size:13px;opacity:.8">${E('dn','Evite branco total e tons muito vibrantes.')}</p><div><span class="up" data-swadd>＋ Cor</span><span class="up" data-swdel>－ Cor</span></div></section>`,
- galeria:()=>`<section><h2>${E('gh','Galeria')}</h2><div class="gal">${S.gal.length?S.gal.map((u,i)=>`<div class="gi"><img src="${u}" alt=""><span class="up" data-rm="${i}">✕</span></div>`).join(''):[0,1,2,3,4,5].map(i=>`<i style="background:linear-gradient(${120+i*40}deg,color-mix(in srgb,var(--sa) ${90-i*10}%,#fff),color-mix(in srgb,var(--sa) ${40+i*8}%,#000))"></i>`).join('')}</div>${S.gal.length?'':`<p style="margin-top:10px;font-size:12px;opacity:.7">${E('gnote','Suas fotos aparecem aqui.')}</p>`}<span class="up" data-up="gal">📷 Adicionar fotos</span></section>`,
- mural:()=>`<section><h2>${E('mh','Mural de recados')}</h2><p style="max-width:480px;margin:0 auto 14px">${E('mp','Deixe uma mensagem carinhosa para os anfitriões.')}</p><div class="f"><input id="mn" placeholder="Seu nome" maxlength="40"><textarea id="mm" rows="3" maxlength="280" placeholder="Escreva seu recado..."></textarea><div class="sb" data-act="mural">${E('mb','Enviar recado')}</div></div><div class="wall">${S.mural.map((r,i)=>`<div class="note"><p>“${esc(r.m)}”</p><b>— ${esc(r.n)}</b><span class="up" data-msite="${i}">✕</span></div>`).join('')||'<p style="opacity:.7;font-size:13px">Seja o primeiro a deixar um recado!</p>'}</div></section>`,
+ galeria:()=>`<section><h2>${E('gh','Galeria')}</h2><div class="gal">${S.gal.length?S.gal.map((u,i)=>`<div class="gi"><img src="${u}" alt=""><span class="up" data-rm="${i}">✕</span></div>`).join(''):[0,1,2,3,4,5].map(i=>`<i style="background:linear-gradient(${120+i*40}deg,color-mix(in srgb,var(--sa)${90-i*10}%,#fff),color-mix(in srgb,var(--sa) ${40+i*8}%,#000))"></i>`).join('')}</div>${S.gal.length?'':`<p style="margin-top:10px;font-size:12px;opacity:.7">${E('gnote','Suas fotos aparecem aqui.')}</p>`}<span class="up" data-up="gal">📷 Adicionar fotos</span></section>`,
+ mural:()=>`<section><h2>${E('mh','Mural de recados')}</h2><p style="max-width:480px;margin:0 auto 14px">${E('mp','Deixe uma mensagem carinhosa para os anfitriões.')}</p><div class="f"><input id="mn" placeholder="Seu nome" maxlength="40"><textarea id="mm" rows="3" maxlength="280" placeholder="Escreva seu recado..."></textarea><div class="sb" data-act="mural">${E('mb','Enviar recado')}</div></div><div class="wall">${S.mural.map((r,i)=>`<div class="note"><p>“${esc(r.m)}”</p><b>—${esc(r.n)}</b><span class="up" data-msite="${i}">✕</span></div>`).join('')||'<p style="opacity:.7;font-size:13px">Seja o primeiro a deixar um recado!</p>'}</div></section>`,
  rsvp:()=>`<section id="s-rsvp"><h2>${E('rh','Confirme sua presença')}</h2><div class="f"><input id="rn" placeholder="Seu nome"><select id="rs"><option value="sim">Vou com certeza</option><option value="nao">Não poderei ir</option></select><input id="rg" type="number" min="1" max="10" value="1" placeholder="Nº de pessoas"><div class="sb" data-act="rsvp">${E('rb','Enviar confirmação')}</div></div></section>`,
  presentes:()=>`<section id="s-presentes"><h2>${E('gh2','Lista de presentes')}</h2><div class="gifts">${G.map((x,i)=>`<div>${E('gn'+i,x[0])}<b>${E('gp'+i,x[1])}</b><div class="sb" data-act="gift">${E('gb'+i,'Presentear')}</div></div>`).join('')}</div></section>`,
  contato:()=>`<section><h2>${E('ch','Contato')}</h2><p>${E('ct','Dúvidas? Fale com a gente.')}</p><div class="sb" data-act="wa">${E('cb','WhatsApp')}</div></section>`
@@ -294,7 +291,7 @@ function cust(b){const id=b.id;if(b.type==='extra')return extra(b);
  if(b.type==='botao')return `<section><h2>${E(id+'t','Título')}</h2><p>${E(id+'d','Texto de apoio')}</p><a class="sb" target="_blank" rel="noopener" href="${esc(lnk(b.url))}">${E(id+'l','Clique aqui')}</a><div><input class="up urlin" data-url="${id}" placeholder="Cole o link (https://...)" value="${esc(b.url||'')}"></div></section>`;
  return `<section><p style="font-size:1.6em;max-width:560px;margin:0 auto;font-style:italic">“${E(id+'d','Uma frase que representa vocês.')}”</p><p style="margin-top:10px;color:var(--sa);font-weight:700">${E(id+'a','Autor')}</p></section>`}
 function renderSite(){
- hideFmt();parkPj();[S.f,S.hf,...Object.values(S.xs).map(o=>o.f)].forEach(loadFont);if(LAYN[S.frame]){loadFont('"Playfair Display",x');loadFont('"Great Vibes",x')}
+ hideFmt();[S.f,S.hf,...Object.values(S.xs).map(o=>o.f)].forEach(loadFont);if(LAYN[S.frame]){loadFont('"Playfair Display",x');loadFont('"Great Vibes",x')}
  const s=$('#site'),t=T[S.tpl];
  s.className='site'+(mode==='mob'?' mob':'')+(edit?' edit':'');
  const th=theme(),lt=isLight(S.a);
@@ -306,7 +303,7 @@ function renderSite(){
  s.querySelectorAll('[data-e]').forEach(el=>{const o=S.xs[el.dataset.f||el.dataset.e];if(o&&o.fx)applyFx(el,o.fx)});
  document.querySelectorAll('[data-pg]').forEach(b=>b.classList.toggle('on',b.dataset.pg===S.page));
  s.querySelectorAll('[data-e]').forEach(el=>{try{el.contentEditable=edit?'plaintext-only':'false'}catch(_){el.contentEditable=edit?'true':'false'}});
- mountPj();tickCd();
+ tickCd();
 }
 
 function renderTabs(){
@@ -327,8 +324,6 @@ function renderPanel(){
  }else if(S.tab==='Tema'){
   p.innerHTML=`<label>Tema</label><select data-tsel>${THEMES.map(x=>`<option value="${x.id}" ${x.id===S.theme?'selected':''}>${esc(x.n)}${x.custom?' (meu)':''}</option>`).join('')}</select>
   <div class="sw">${THEMES.map(x=>`<button class="swc ${x.id===S.theme?'on':''}" data-th="${x.id}" style="background:${x.b};color:${x.t};border-color:${x.a}"><i style="background:${x.a}"></i>${esc(x.n)}</button>`).join('')}</div>
-  <label>✨ Partículas na capa (tsParticles)</label><select data-pj>${PJ.map(p=>`<option value="${p[0]}" ${S.pj===p[0]?'selected':''}>${p[1]}</option>`).join('')}</select>
-  <p class="hint">Efeito animado atrás do título da capa. Não aparece nos modelos de capa com fotos e fica desligado para quem prefere menos movimento.</p>
   <label>Modelo do evento (textos de exemplo)</label><div class="tabs">${Object.keys(T).map(k=>`<button class="chip ${S.tpl===k?'on':''}" data-tpl="${k}">${T[k].l}</button>`).join('')}</div>
   <label>Cor principal (ajuste do tema)</label><input type="color" data-k="a" value="${S.a}">
   <label>Combinações de fontes (Google Fonts)</label><div class="tabs">${PAIRS.map((q,i)=>`<button class="chip" data-pair="${i}">${q[0]}</button>`).join('')}</div>
@@ -415,7 +410,6 @@ document.addEventListener('input',e=>{
  else if(t.dataset.k){S[t.dataset.k]=t.value;if(['name','msg'].includes(t.dataset.k))S.dirty=true;renderSite()}
 });
 document.addEventListener('change',e=>{if(e.target.dataset.cm!==undefined){S.cm=e.target.value;renderSite();if(S.tab==='Blocos')renderPanel();return}
- if(e.target.dataset.pj!==undefined){S.pj=e.target.value;renderSite();return}
  if(e.target.dataset.bw!==undefined){S.bw=e.target.checked;renderSite();return}
  if(e.target.dataset.fr!==undefined){S.frame=e.target.value;renderSite();return}
  if(e.target.dataset.mn!==undefined){S.blocks[+e.target.dataset.mn].menu=e.target.checked;renderPanel();renderSite();return}
@@ -425,7 +419,7 @@ document.addEventListener('change',e=>{if(e.target.dataset.cm!==undefined){S.cm=
 const barH=()=>document.documentElement.style.setProperty('--barh',$('.bar').offsetHeight+'px');
 barH();window.addEventListener('resize',barH);if(window.ResizeObserver)new ResizeObserver(barH).observe($('.bar'));
 let cur=null;const fmt=$('#fmt');
-const FXL=[['Ao aparecer na tela',[['fade','Aparecer suavemente'],['up','Subir'],['left','Deslizar da esquerda'],['zoom','Zoom'],['blur','Desfocar → nítido']]],['Contínuos',[['pulse','Pulsar'],['float','Flutuar'],['glow','Brilho pulsante'],['wiggle','Balançar'],['shimmer','Reflexo (bom p/ botões)']]],['Ao passar o mouse',[['hlift','Elevar'],['hgrow','Aumentar'],['hglow','Brilho']]]];
+const FXL=[['Ao aparecer na tela',[['fade','Aparecer suavemente'],['up','Subir'],['left','Deslizar da esquerda'],['zoom','Zoom'],['blur','Desفocar → nítido']]],['Contínuos',[['pulse','Pulsar'],['float','Flutuar'],['glow','Brilho pulsante'],['wiggle','Balançar'],['shimmer','Reflexo (bom p/ botões)']]],['Ao passar o mouse',[['hlift','Elevar'],['hgrow','Aumentar'],['hglow','Brilho']]]];
 const ENTRY=['fade','up','left','zoom','blur'];
 $('#fx').innerHTML='<option value="">✨ Sem efeito</option>'+FXL.map(g=>`<optgroup label="${g[0]}">${g[1].map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</optgroup>`).join('');
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('fx-pre');e.target.classList.add('fx-in');io.unobserve(e.target)}}),{threshold:.15});
@@ -467,37 +461,6 @@ function tickCd(){const L=cdLeft(),st=L?L.st:'run',run=!L||L.st==='run';
   w.querySelectorAll('[data-cd]').forEach(el=>{const v=L&&run?String(L[el.dataset.cd]).padStart(+el.dataset.p||1,'0'):'--';if(el.textContent!==v)el.textContent=v});
   const r=w.querySelector('[data-ring]');if(r)r.style.strokeDashoffset=L&&run?(326.73*Math.min(L.D,365)/365).toFixed(2):326.73})}
 setInterval(tickCd,1000);
-/* ===== tsParticles (efeito animado da capa) ===== */
-const PJ=[['none','Sem partículas'],['brilhos','Brilhos ✨'],['confete','Confete 🎉'],['coracoes','Corações 💗'],['neve','Neve ❄️'],['bolhas','Bolhas'],['rede','Rede (corporativo)']];
-const RM=window.matchMedia('(prefers-reduced-motion:reduce)');
-let pjEl=null,pjc=null,pjSig='',pjTok=0;
-function pjOpts(){
- const base=isLight(S.a)?'#1a1a1a':'#ffffff',k=mode==='mob'?.6:1;
- const num=v=>({value:Math.round(v*k),density:{enable:false}});
- const mv=(d,a,b)=>({enable:true,direction:d,speed:{min:a,max:b},straight:false,outModes:{default:'out'}});
- const op=(a,b,tw)=>({value:{min:a,max:b},animation:tw?{enable:true,speed:1,sync:false}:{enable:false}});
- const P={
-  brilhos:{number:num(34),color:{value:[base,'#ffe58a']},shape:{type:'star'},size:{value:{min:2,max:6}},opacity:op(.15,1,1),move:mv('top',.2,.7)},
-  confete:{number:num(70),color:{value:[base,'#ffd166','#ef476f','#06d6a0','#118ab2']},shape:{type:['square','circle','triangle']},size:{value:{min:4,max:8}},opacity:op(.8,1),rotate:{value:{min:0,max:360},direction:'random',animation:{enable:true,speed:18}},move:mv('bottom',1.5,3.5)},
-  coracoes:{number:num(24),color:{value:['#ff8fab','#ff4d6d',base]},shape:{type:'heart'},size:{value:{min:8,max:18}},opacity:op(.5,.95),move:mv('top',.6,1.6)},
-  neve:{number:num(80),color:{value:base},shape:{type:'circle'},size:{value:{min:1.5,max:5}},opacity:op(.4,.9),move:mv('bottom',.5,1.5)},
-  bolhas:{number:num(22),color:{value:base},shape:{type:'circle'},size:{value:{min:6,max:22}},opacity:op(.08,.25),move:mv('top',.4,1.1)},
-  rede:{number:num(46),color:{value:base},shape:{type:'circle'},size:{value:{min:1.5,max:3.5}},opacity:op(.5,.9),links:{enable:true,distance:130,color:base,opacity:.35,width:1},move:mv('none',.4,1)}
- };
- return{fullScreen:{enable:false},fpsLimit:60,detectRetina:true,background:{color:'transparent'},particles:P[S.pj]||P.brilhos}}
-/* o canvas vive fora do innerHTML do site: é retirado antes de cada render e recolocado depois */
-function parkPj(){if(pjEl&&pjEl.parentNode)pjEl.remove()}
-function mountPj(){
- const ph=document.querySelector('#site .pj-ph');
- if(!ph){if(pjc){if(S.pj==='none'){pjc.destroy();pjc=null;pjSig=''}else pjc.pause()}return}
- if(RM.matches||!window.tsParticles)return;
- const sig=S.pj+'|'+S.a+'|'+mode;
- if(!pjEl){pjEl=document.createElement('div');pjEl.id='pj';pjEl.className='pj'}
- ph.replaceWith(pjEl);
- if(sig===pjSig){if(pjc){pjc.play();requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')))}return}
- pjSig=sig;const tok=++pjTok;
- if(pjc){pjc.destroy();pjc=null}
- tsParticles.load({id:'pj',element:pjEl,options:pjOpts()}).then(c=>{if(tok!==pjTok){c&&c.destroy();return}pjc=c}).catch(()=>toast('Não consegui iniciar as partículas.'))}
 /* ===== upload de imagens (reduz para até 1600px) ===== */
 const loadImg=f=>new Promise(r=>{const fr=new FileReader();fr.onerror=()=>r(null);fr.onload=()=>{const im=new Image();im.onerror=()=>r(null);im.onload=()=>{const k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.82))};im.src=fr.result};fr.readAsDataURL(f)});
 $('#fcover').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const u=await loadImg(f);if(u){S.cover=u;renderSite()}else toast('Não consegui ler essa imagem.')};
