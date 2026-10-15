@@ -140,6 +140,157 @@ details{margin-top:14px;border-top:1px solid var(--bd);padding-top:10px}summary{
 .cdrc{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.cdrc b{font-family:var(--hf);font-size:min(16cqw,60px);line-height:1;color:var(--sa)}.cdrc small{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
 .cdw.done .cdrun{display:none}.cdm[hidden]{display:none}
 @media(max-width:820px){.bar{flex-wrap:nowrap;overflow-x:auto}.bar button{white-space:nowrap;flex:none}.app{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--bd)}}
+
+/* ===== NOVAS MOLDURAS FESTEVA ===== */
+
+.hero.fr-gold::before {
+  inset: 12px;
+  border: 8px ridge #c6a04a;
+  outline: 2px solid #f8e7a0;
+  outline-offset: -13px;
+  box-shadow: inset 0 0 0 2px #8b6925;
+}
+
+.hero.fr-rococo::before {
+  inset: 16px;
+  border: 3px double #d5b36a;
+  border-radius: 28px 6px 28px 6px;
+  box-shadow:
+    inset 0 0 0 5px var(--sb),
+    inset 0 0 0 7px #d5b36a,
+    0 0 0 2px rgba(213,179,106,.3);
+}
+
+.hero.fr-botanical::before {
+  inset: 15px;
+  border: 2px solid #78936b;
+  border-radius: 42px 4px;
+  background:
+    radial-gradient(ellipse at 0 0, #78936b 0 2px, transparent 3px),
+    radial-gradient(ellipse at 100% 0, #78936b 0 2px, transparent 3px),
+    radial-gradient(ellipse at 0 100%, #78936b 0 2px, transparent 3px),
+    radial-gradient(ellipse at 100% 100%, #78936b 0 2px, transparent 3px);
+}
+
+.hero.fr-roses::before {
+  inset: 17px;
+  border: 2px solid #c77b91;
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 0 5px var(--sb),
+    inset 0 0 0 6px #e9b8c5,
+    0 0 0 1px #c77b91;
+}
+
+.hero.fr-stars::before {
+  inset: 14px;
+  border: 1px solid #e3c36d;
+  box-shadow:
+    inset 0 0 0 4px transparent,
+    0 0 12px rgba(227,195,109,.25);
+  background:
+    radial-gradient(circle, #f4d77e 1px, transparent 2px)
+    0 0 / 35px 35px;
+  opacity: .9;
+}
+
+.hero.fr-confetti::before {
+  inset: 12px;
+  border: 3px dashed #f29e4c;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle, #f29e4c 2px, transparent 3px)
+    10px 10px / 32px 30px,
+    radial-gradient(circle, #df5b75 2px, transparent 3px)
+    20px 18px / 42px 40px;
+  opacity: .8;
+}
+
+.hero.fr-lace::before {
+  inset: 13px;
+  border: 4px dotted #e6d7c5;
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 4px var(--sb),
+    inset 0 0 0 6px #e6d7c5;
+}
+
+.hero.fr-vintage::before {
+  inset: 18px;
+  border: 5px double #a98657;
+  border-radius: 2px;
+  outline: 1px solid #a98657;
+  outline-offset: 4px;
+  box-shadow: inset 0 0 18px rgba(130,95,55,.12);
+}
+
+.hero.fr-asym::before {
+  inset: 12px 22px 22px 12px;
+  border: 2px solid var(--fc);
+  border-radius: 40px 0 40px 0;
+  box-shadow: 8px 8px 0 -5px var(--fc);
+}
+
+.hero.fr-pearl::before {
+  inset: 14px;
+  border: 6px dotted #ead8bc;
+  border-radius: 24px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.35);
+}
+
+.hero.fr-ribbon::before {
+  inset: 16px;
+  border: 2px solid #c7a0a9;
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 0 5px var(--sb),
+    inset 0 0 0 7px #c7a0a9;
+}
+
+.hero.fr-celestial::before {
+  inset: 14px;
+  border: 1px solid #d7c3f1;
+  border-radius: 50% 50% 12px 12px;
+  box-shadow:
+    inset 0 0 0 5px transparent,
+    0 0 15px rgba(215,195,241,.35);
+}
+
+.hero.fr-emerald::before {
+  inset: 14px;
+  border: 6px double #1d765c;
+  outline: 1px solid #c7a86a;
+  outline-offset: 4px;
+  box-shadow: inset 0 0 0 2px #c7a86a;
+}
+
+.hero.fr-silver::before {
+  inset: 13px;
+  border: 5px double #bfc5ce;
+  outline: 1px solid #f5f6fa;
+  outline-offset: -10px;
+  box-shadow: 0 0 12px rgba(191,197,206,.35);
+}
+
+.hero.fr-minimal::before {
+  inset: 18px;
+  border: 1px solid var(--fc);
+  border-radius: 0;
+}
+
+.hero.fr-rainbow::before {
+  inset: 12px;
+  border: 6px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    #ff6b6b,
+    #feca57,
+    #48dbfb,
+    #a55eea,
+    #ff6b6b
+  ) 1;
+}
+
 </style>
 </head>
 <body>
@@ -203,9 +354,52 @@ const THEMES=[
  {id:'infantil',n:'Infantil',a:'#ff7a45',b:'#fff9e6',t:'#4a3220',f:st(gf('Fredoka')),r:20},
  {id:'minimal',n:'Minimalista',a:'#111111',b:'#ffffff',t:'#111111',f:st(gf('Inter')),r:0}
 ];
-const FR=[['none','Sem moldura'],['thin','Linha fina'],['double','Linha dupla'],['corners','Cantos clássicos'],['deco','Art déco'],['round','Arredondada'],['arch','Arco'],['polaroid','Polaroid'],['neon','Neon'],['dotted','Pontilhada'],['floral','Floral 🌸'],['leaf','Folhagem 🌿'],['heart','Corações 💗'],['party','Festa ✨']];
-const EMO={floral:'🌸',leaf:'🌿',heart:'💗',party:'✨'};
-const MENU0={rsvp:'Confirmar presença',presentes:'Lista de presentes'};
+const FR = [
+  ['none','Sem moldura'],
+  ['thin','Linha fina'],
+  ['double','Linha dupla'],
+  ['corners','Cantos clássicos'],
+  ['deco','Art déco'],
+  ['round','Arredondada'],
+  ['arch','Arco'],
+  ['polaroid','Polaroid'],
+  ['neon','Neon'],
+  ['dotted','Pontilhada'],
+  ['floral','Floral'],
+  ['leaf','Folhagem'],
+  ['heart','Corações'],
+  ['party','Festa'],
+  ['gold','Dourada luxuosa'],
+  ['rococo','Rococó ornamental'],
+  ['botanical','Botânica'],
+  ['roses','Rosas românticas'],
+  ['stars','Estrelas brilhantes'],
+  ['confetti','Confetes festivos'],
+  ['lace','Renda delicada'],
+  ['vintage','Vintage antigo'],
+  ['asym','Geométrica assimétrica'],
+  ['pearl','Pérolas'],
+  ['ribbon','Laço elegante'],
+  ['celestial','Celestial'],
+  ['emerald','Esmeralda luxuosa'],
+  ['silver','Prata sofisticada'],
+  ['minimal','Minimalista moderna'],
+  ['rainbow','Arco-íris']
+];
+
+const EMO = {
+  floral:'🌸',
+  leaf:'🌿',
+  heart:'💗',
+  party:'✨',
+  botanical:'🌿',
+  roses:'🌹',
+  stars:'✨',
+  confetti:'🎉',
+  lace:'🤍',
+  ribbon:'🎀',
+  celestial:'🌙'
+};onst MENU0={rsvp:'Confirmar presença',presentes:'Lista de presentes'};
 const BL=[['capa','Capa'],['cron','Cronômetro'],['sobre','Sobre o evento'],['prog','Programação'],['dress','Dress code'],['local','Local'],['galeria','Galeria de fotos'],['mural','Mural de recados'],['rsvp','Confirmar presença (página própria)'],['presentes','Lista de presentes (página própria)'],['contato','Contato']];
 const S={tab:'Evento',tpl:'casamento',dirty:false,name:T.casamento.name,date:'2027-03-20',place:'Espaço Jardim das Flores',addr:'Rua das Acácias, 120 - Curitiba, PR',msg:T.casamento.msg,
  a:T.casamento.a,f:T.casamento.f,blocks:BL.map(b=>({id:b[0],on:true,menu:!!MENU0[b[0]],ml:MENU0[b[0]]||b[1]})),rsvp:[]};
