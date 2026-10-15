@@ -419,7 +419,7 @@ document.addEventListener('change',e=>{if(e.target.dataset.cm!==undefined){S.cm=
 const barH=()=>document.documentElement.style.setProperty('--barh',$('.bar').offsetHeight+'px');
 barH();window.addEventListener('resize',barH);if(window.ResizeObserver)new ResizeObserver(barH).observe($('.bar'));
 let cur=null;const fmt=$('#fmt');
-const FXL=[['Ao aparecer na tela',[['fade','Aparecer suavemente'],['up','Subir'],['left','Deslizar da esquerda'],['zoom','Zoom'],['blur','Desفocar → nítido']]],['Contínuos',[['pulse','Pulsar'],['float','Flutuar'],['glow','Brilho pulsante'],['wiggle','Balançar'],['shimmer','Reflexo (bom p/ botões)']]],['Ao passar o mouse',[['hlift','Elevar'],['hgrow','Aumentar'],['hglow','Brilho']]]];
+const FXL=[['Ao aparecer na tela',[['fade','Aparecer suavemente'],['up','Subir'],['left','Deslizar da esquerda'],['zoom','Zoom'],['blur','Desfocar → nítido']]],['Contínuos',[['pulse','Pulsar'],['float','Flutuar'],['glow','Brilho pulsante'],['wiggle','Balançar'],['shimmer','Reflexo (bom p/ botões)']]],['Ao passar o mouse',[['hlift','Elevar'],['hgrow','Aumentar'],['hglow','Brilho']]]];
 const ENTRY=['fade','up','left','zoom','blur'];
 $('#fx').innerHTML='<option value="">✨ Sem efeito</option>'+FXL.map(g=>`<optgroup label="${g[0]}">${g[1].map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('')}</optgroup>`).join('');
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('fx-pre');e.target.classList.add('fx-in');io.unobserve(e.target)}}),{threshold:.15});
