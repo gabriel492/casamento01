@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Festeva — Construtor de Sites</title>
+    <title>Festeva — Construtor de Sites Completo</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- FontAwesome para ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Bebas+Neue&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- tsParticles para efeitos de capa -->
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.10.1/tsparticles.slim.bundle.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -24,34 +22,33 @@
                         cinzel: ['Cinzel', 'serif'],
                         montserrat: ['Montserrat', 'sans-serif'],
                         bebas: ['"Bebas Neue"', 'sans-serif'],
+                        caveat: ['Caveat', 'cursive']
                     }
                 }
             }
         }
     </script>
     <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Estilos das Molduras Decorativas */
+        .frame-arco { border-radius: 999px 999px 24px 24px; }
+        .frame-polaroid { padding: 12px 12px 36px 12px; background: white; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); color: #1e293b; }
+        .frame-neon { border: 2px solid #f43f5e; box-shadow: 0 0 15px #f43f5e, inset 0 0 15px #f43f5e; }
+        .frame-floral { border: 3px double #d97706; padding: 10px; position: relative; }
+        .frame-artdeco { border: 4px solid #eab308; outline: 2px dashed #eab308; outline-offset: 4px; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans antialiased h-screen flex flex-col overflow-hidden">
 
-    <!-- BARRA SUPERIOR DE CONTROLES -->
+    <!-- CABEÇALHO DE CONTROLES -->
     <header class="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between z-30 shrink-0">
         <div class="flex items-center space-x-3">
             <div class="bg-gradient-to-tr from-rose-500 to-amber-500 p-2 rounded-xl text-white shadow-lg">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
             </div>
             <div>
                 <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">Festeva</h1>
@@ -59,9 +56,8 @@
             </div>
         </div>
 
-        <!-- Seletor de Modo & Dispositivo -->
+        <!-- Seletor Modo & Dispositivo -->
         <div class="flex items-center space-x-4">
-            <!-- Alternar Modo Edição / Teste -->
             <div class="bg-slate-900 p-1 rounded-xl flex border border-slate-700">
                 <button id="btnModeEdit" onclick="setAppMode('edit')" class="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-rose-600 text-white shadow">
                     <i class="fa-solid fa-pen-to-square mr-1.5"></i> Modo Edição
@@ -73,49 +69,48 @@
 
             <div class="h-6 w-[1px] bg-slate-700"></div>
 
-            <!-- Alternar Visualização Desktop / Mobile -->
             <div class="bg-slate-900 p-1 rounded-xl flex border border-slate-700">
-                <button id="btnViewDesktop" onclick="setDeviceView('desktop')" class="px-3 py-1.5 rounded-lg text-xs text-rose-500 bg-rose-500/10 transition-all font-medium" title="Visualização Computador">
+                <button id="btnViewDesktop" onclick="setDeviceView('desktop')" class="px-3 py-1.5 rounded-lg text-xs text-rose-500 bg-rose-500/10 transition-all font-medium" title="Desktop">
                     <i class="fa-solid fa-desktop"></i>
                 </button>
-                <button id="btnViewMobile" onclick="setDeviceView('mobile')" class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-all font-medium" title="Visualização Celular">
+                <button id="btnViewMobile" onclick="setDeviceView('mobile')" class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white transition-all font-medium" title="Mobile">
                     <i class="fa-solid fa-mobile-screen"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Ações do Projeto -->
+        <!-- Botões de Ação -->
         <div class="flex items-center space-x-3">
             <button onclick="saveProject()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-2 border border-slate-600">
                 <i class="fa-solid fa-floppy-disk text-slate-400"></i>
-                <span>Salvar Projeto</span>
+                <span>Salvar</span>
             </button>
             <button onclick="publishSite()" class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-lg shadow-rose-600/20 transition flex items-center space-x-2">
                 <i class="fa-solid fa-globe"></i>
-                <span>Publicar Site</span>
+                <span>Publicar</span>
             </button>
         </div>
     </header>
 
-    <!-- CORPO PRINCIPAL -->
+    <!-- ÁREA PRINCIPAL DA APLICAÇÃO -->
     <div class="flex-1 flex overflow-hidden">
         
-        <!-- PAINEL LATERAL DE CONFIGURAÇÕES (Visível apenas no Modo Edição) -->
+        <!-- PAINEL LATERAL (SIDEBAR) -->
         <aside id="sidebarPanel" class="w-80 bg-slate-800/90 backdrop-blur border-r border-slate-700 flex flex-col z-20 shrink-0 transition-all">
             <!-- Abas da Sidebar -->
             <div class="grid grid-cols-3 border-b border-slate-700 text-center text-xs font-semibold">
                 <button onclick="switchTab('theme')" id="tabTheme" class="py-3 text-rose-500 border-b-2 border-rose-500 bg-slate-700/50 transition">Tema</button>
                 <button onclick="switchTab('sections')" id="tabSections" class="py-3 text-slate-400 hover:text-slate-200 transition">Seções</button>
-                <button onclick="switchTab('content')" id="tabContent" class="py-3 text-slate-400 hover:text-slate-200 transition">Conteúdo</button>
+                <button onclick="switchTab('content')" id="tabContent" class="py-3 text-slate-400 hover:text-slate-200 transition">Texto & Alignment</button>
             </div>
 
-            <!-- Conteúdo das Abas -->
+            <!-- Conteúdo da Sidebar -->
             <div class="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-6">
                 
-                <!-- ABA 1: TEMAS E ESTILOS -->
+                <!-- ABA 1: TEMAS, FONTES E MOLDURAS -->
                 <div id="paneTheme" class="space-y-5">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tema Visual do Site</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tema Visual</label>
                         <select id="selectTheme" onchange="changeTheme(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-rose-500">
                             <option value="classic">Clássico / Elegante</option>
                             <option value="romantic">Romântico / Casamento</option>
@@ -123,102 +118,105 @@
                             <option value="modern">Moderno / Minimalista</option>
                             <option value="tropical">Tropical / Praia</option>
                             <option value="night">Noturno / Balada</option>
-                            <option value="neon">Neon / Festa</option>
+                            <option value="neon">Neon / Festa Pop</option>
                             <option value="kids">Infantil / Lúdico</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Fonte Principal</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Tipografia (Fonte)</label>
                         <select id="selectFont" onchange="changeFont(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-rose-500">
                             <option value="font-sans">Plus Jakarta Sans (Moderna)</option>
                             <option value="font-playfair">Playfair Display (Elegante)</option>
+                            <option value="font-vibes">Great Vibes (Manuscrita / Cursiva)</option>
                             <option value="font-cinzel">Cinzel (Clássica)</option>
                             <option value="font-montserrat">Montserrat (Clean)</option>
                             <option value="font-bebas">Bebas Neue (Destaque)</option>
+                            <option value="font-caveat">Caveat (Lúdica / Descontraída)</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Estilo de Moldura Decorativa</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Moldura Decorativa de Destaque</label>
                         <select id="selectFrame" onchange="changeFrame(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-rose-500">
                             <option value="none">Nenhuma</option>
-                            <option value="arco">Arco Clássico</option>
-                            <option value="polaroid">Estilo Polaroid</option>
-                            <option value="neon">Borda Neon Brilhante</option>
-                            <option value="floral">Detalhe Floral</option>
-                            <option value="artdeco">Art Déco</option>
+                            <option value="frame-arco">Arco Elegante</option>
+                            <option value="frame-polaroid">Estilo Polaroid</option>
+                            <option value="frame-neon">Neon Glow</option>
+                            <option value="frame-floral">Borda Floral / Clássica</option>
+                            <option value="frame-artdeco">Art Déco Ouro</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Cores Principais</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Paleta de Cores de Destaque</label>
                         <div class="grid grid-cols-4 gap-2">
-                            <button onclick="setPrimaryColor('rose')" class="h-10 rounded-xl bg-rose-600 border-2 border-white/20 hover:scale-105 transition"></button>
-                            <button onclick="setPrimaryColor('amber')" class="h-10 rounded-xl bg-amber-500 border-2 border-white/20 hover:scale-105 transition"></button>
-                            <button onclick="setPrimaryColor('emerald')" class="h-10 rounded-xl bg-emerald-600 border-2 border-white/20 hover:scale-105 transition"></button>
-                            <button onclick="setPrimaryColor('indigo')" class="h-10 rounded-xl bg-indigo-600 border-2 border-white/20 hover:scale-105 transition"></button>
+                            <button onclick="setPrimaryColor('rose')" class="h-10 rounded-xl bg-rose-600 border-2 border-white/20 hover:scale-105 transition" title="Rosa / Magenta"></button>
+                            <button onclick="setPrimaryColor('amber')" class="h-10 rounded-xl bg-amber-500 border-2 border-white/20 hover:scale-105 transition" title="Dourado / Âmbar"></button>
+                            <button onclick="setPrimaryColor('emerald')" class="h-10 rounded-xl bg-emerald-600 border-2 border-white/20 hover:scale-105 transition" title="Verde Esmeralda"></button>
+                            <button onclick="setPrimaryColor('indigo')" class="h-10 rounded-xl bg-indigo-600 border-2 border-white/20 hover:scale-105 transition" title="Azul Índigo"></button>
                         </div>
                     </div>
                 </div>
 
-                <!-- ABA 2: GERENCIAR SEÇÕES -->
+                <!-- ABA 2: GERENCIAMENTO DE SEÇÕES E CRIAÇÃO DE BLOCOS -->
                 <div id="paneSections" class="hidden space-y-4">
-                    <p class="text-xs text-slate-400">Ative ou desative as seções que farão parte do seu site:</p>
+                    <p class="text-xs text-slate-400">Marque para exibir ou ocultar seções no site do evento:</p>
                     
                     <div id="sectionsList" class="space-y-2">
                         <!-- Preenchido via JS -->
                     </div>
 
-                    <div class="pt-4 border-t border-slate-700">
-                        <button onclick="addNewCustomBlock()" class="w-full bg-slate-700 hover:bg-slate-600 text-xs py-2.5 rounded-xl font-semibold border border-slate-600 transition flex items-center justify-center space-x-2">
+                    <div class="pt-4 border-t border-slate-700 space-y-2">
+                        <button onclick="addNewCustomBlock()" class="w-full bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 text-xs py-2.5 rounded-xl font-semibold border border-rose-500/30 transition flex items-center justify-center space-x-2">
                             <i class="fa-solid fa-plus"></i>
                             <span>Adicionar Bloco Personalizado</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- ABA 3: CONTEÚDO & ALINHAMENTO DE TEXTO -->
-                <div id="paneContent" class="space-y-5">
+                <!-- ABA 3: EDIÇÃO DE CONTEÚDO E ALINHAMENTO DE TEXTO -->
+                <div id="paneContent" class="hidden space-y-5">
                     <div id="selectedElementInfo" class="bg-slate-900/60 p-3 rounded-xl border border-slate-700 text-xs text-slate-400 mb-4">
-                        Clique em qualquer texto do site no modo de visualização para editá-lo e ajustar o alinhamento aqui.
+                        <i class="fa-solid fa-hand-pointer mr-1.5 text-rose-400"></i> Clique em qualquer texto no preview do site para editá-lo e ajustar o alinhamento.
                     </div>
 
                     <div id="textEditorConfig" class="space-y-4 hidden">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">Editar Texto Selecionado</h4>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">Edição de Texto Selecionado</h4>
                         
                         <div>
                             <label class="block text-xs text-slate-400 mb-1">Conteúdo do Texto</label>
                             <textarea id="inputEditText" rows="3" oninput="updateSelectedTextContent(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-slate-200 focus:outline-none focus:border-rose-500"></textarea>
                         </div>
 
-                        <!-- Opções de Alinhamento de Texto -->
+                        <!-- ALINHAMENTO DE TEXTO COMPLETO -->
                         <div>
                             <label class="block text-xs text-slate-400 mb-2">Alinhamento do Texto</label>
                             <div class="grid grid-cols-4 gap-1 bg-slate-900 p-1 rounded-xl border border-slate-700">
-                                <button onclick="setTextAlign('left')" id="alignLeftBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Esquerda">
+                                <button onclick="setTextAlign('left')" id="alignLeftBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Alinhar à Esquerda">
                                     <i class="fa-solid fa-align-left"></i>
                                 </button>
-                                <button onclick="setTextAlign('center')" id="alignCenterBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Centralizado">
+                                <button onclick="setTextAlign('center')" id="alignCenterBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Centralizar">
                                     <i class="fa-solid fa-align-center"></i>
                                 </button>
-                                <button onclick="setTextAlign('right')" id="alignRightBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Direita">
+                                <button onclick="setTextAlign('right')" id="alignRightBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Alinhar à Direita">
                                     <i class="fa-solid fa-align-right"></i>
                                 </button>
-                                <button onclick="setTextAlign('justify')" id="alignJustifyBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Justificado">
+                                <button onclick="setTextAlign('justify')" id="alignJustifyBtn" class="py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center" title="Justificar">
                                     <i class="fa-solid fa-align-justify"></i>
                                 </button>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Tamanho da Fonte</label>
+                            <label class="block text-xs text-slate-400 mb-1">Tamanho do Texto</label>
                             <select id="selectTextSize" onchange="setTextSize(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-rose-500">
+                                <option value="text-xs">Muito Pequeno</option>
                                 <option value="text-sm">Pequeno</option>
                                 <option value="text-base">Normal</option>
-                                <option value="text-xl">Médio / Título menor</option>
+                                <option value="text-xl">Médio / Subtítulo</option>
                                 <option value="text-3xl">Grande / Título</option>
-                                <option value="text-5xl">Extra Grande / Destaque</option>
+                                <option value="text-5xl">Extra Grande / Destaque Hero</option>
                             </select>
                         </div>
                     </div>
@@ -227,84 +225,176 @@
             </div>
         </aside>
 
-        <!-- ÁREA CENTRAL DE PREVIEW DO SITE -->
+        <!-- ÁREA CENTRAL DE VISUALIZAÇÃO DO SITE -->
         <main class="flex-1 bg-slate-950 flex items-center justify-center p-6 overflow-hidden relative">
             
-            <!-- Contêiner responsivo do site simulado -->
             <div id="deviceContainer" class="w-full h-full max-w-5xl bg-white text-slate-800 rounded-2xl shadow-2xl overflow-y-auto custom-scrollbar transition-all duration-300 relative flex flex-col">
                 
-                <!-- CONTEÚDO DO SITE RENDERIZADO -->
-                <div id="siteContent" class="flex-1 flex flex-col">
+                <!-- CONTAINER COM TODAS AS SEÇÕES DO SITE -->
+                <div id="siteContent" class="flex-1 flex flex-col font-sans">
                     
                     <!-- 1. CAPA / HERO -->
-                    <section id="sec-hero" data-section="hero" class="relative min-h-[550px] flex items-center justify-center text-center p-8 bg-cover bg-center text-white" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1600');">
-                        <div id="particles-js" class="absolute inset-0 pointer-events-none"></div>
-                        <div class="relative z-10 max-w-2xl mx-auto space-y-4">
-                            <span id="editable-badge" contenteditable="true" data-editable class="editable-text inline-block px-4 py-1 rounded-full bg-rose-600/80 text-xs font-semibold uppercase tracking-widest text-center">Casamento de Ana & Lucas</span>
-                            <h1 id="editable-title" contenteditable="true" data-editable class="editable-text text-4xl md:text-6xl font-playfair font-bold drop-shadow-md text-center">Celebre Conosco</h1>
-                            <p id="editable-subtitle" contenteditable="true" data-editable class="editable-text text-base md:text-lg text-slate-200 text-center">15 de Dezembro de 2026 • Espaço Bella Vista</p>
+                    <section id="sec-hero" data-section="hero" class="relative min-h-[550px] flex items-center justify-center text-center p-8 bg-cover bg-center text-white" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=1600');">
+                        <div id="heroFrameContainer" class="relative z-10 max-w-2xl mx-auto space-y-4 p-6 transition-all">
+                            <span contenteditable="true" data-editable class="editable-text inline-block px-4 py-1 rounded-full bg-rose-600/80 text-xs font-semibold uppercase tracking-widest text-center">Casamento de Ana & Lucas</span>
+                            <h1 contenteditable="true" data-editable class="editable-text text-4xl md:text-6xl font-playfair font-bold drop-shadow-md text-center">Celebre Conosco</h1>
+                            <p contenteditable="true" data-editable class="editable-text text-base md:text-lg text-slate-200 text-center">15 de Dezembro de 2026 • Espaço Bella Vista</p>
                         </div>
                     </section>
 
                     <!-- 2. CRONÔMETRO REGRESSIVO -->
                     <section id="sec-countdown" data-section="countdown" class="py-12 bg-slate-50 border-b border-slate-200 text-center">
-                        <div class="max-w-xl mx-auto px-4">
-                            <h3 id="editable-cd-title" contenteditable="true" data-editable class="editable-text text-xl font-bold mb-6 text-slate-800 text-center">Contagem Regressiva para o Grande Dia</h3>
+                        <div class="max-w-xl mx-auto px-4 space-y-6">
+                            <h3 contenteditable="true" data-editable class="editable-text text-xl font-bold text-slate-800 text-center">Contagem Regressiva para o Grande Dia</h3>
                             <div class="grid grid-cols-4 gap-4">
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                                    <span class="block text-2xl font-bold text-rose-600">142</span>
-                                    <span class="text-xs text-slate-500 uppercase">Dias</span>
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                                    <span class="block text-3xl font-bold text-rose-600">142</span>
+                                    <span class="text-xs text-slate-500 font-semibold uppercase">Dias</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                                    <span class="block text-2xl font-bold text-rose-600">18</span>
-                                    <span class="text-xs text-slate-500 uppercase">Horas</span>
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                                    <span class="block text-3xl font-bold text-rose-600">18</span>
+                                    <span class="text-xs text-slate-500 font-semibold uppercase">Horas</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                                    <span class="block text-2xl font-bold text-rose-600">45</span>
-                                    <span class="text-xs text-slate-500 uppercase">Min</span>
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                                    <span class="block text-3xl font-bold text-rose-600">45</span>
+                                    <span class="text-xs text-slate-500 font-semibold uppercase">Min</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                                    <span class="block text-2xl font-bold text-rose-600">30</span>
-                                    <span class="text-xs text-slate-500 uppercase">Seg</span>
+                                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                                    <span class="block text-3xl font-bold text-rose-600">30</span>
+                                    <span class="text-xs text-slate-500 font-semibold uppercase">Seg</span>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 3. SOBRE O EVENTO & PROGRAMAÇÃO -->
-                    <section id="sec-story" data-section="story" class="py-16 px-6 max-w-3xl mx-auto space-y-6">
+                    <!-- 3. SOBRE O EVENTO & PROGRAMAÇÃO / LINHA DO TEMPO -->
+                    <section id="sec-story" data-section="story" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
                         <div class="text-center">
-                            <h2 id="editable-story-title" contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Nossa História & Programação</h2>
-                            <p id="editable-story-desc" contenteditable="true" data-editable class="editable-text text-slate-600 mt-2 text-sm text-center">Confira os momentos marcantes e horários do nosso evento especial.</p>
+                            <h2 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Nossa História & Programação</h2>
+                            <p contenteditable="true" data-editable class="editable-text text-slate-600 mt-2 text-sm text-center">Confira os horários e momentos marcantes do nosso evento.</p>
                         </div>
-                        <div class="space-y-4 border-l-2 border-rose-500 pl-6 ml-4">
-                            <div>
-                                <span class="text-xs font-bold text-rose-600">16:00</span>
-                                <h4 id="editable-ev1" contenteditable="true" data-editable class="editable-text font-bold text-slate-800 text-left">Cerimônia Religiosa</h4>
-                                <p class="text-sm text-slate-600 text-left">Recepção dos convidados no altar principal.</p>
+                        <div class="space-y-6 border-l-2 border-rose-500 pl-6 ml-4">
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-rose-500 border-4 border-white"></div>
+                                <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">16:00</span>
+                                <h4 contenteditable="true" data-editable class="editable-text font-bold text-slate-800 text-left text-lg">Cerimônia Religiosa</h4>
+                                <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-left">Recepção dos convidados e início da celebração ao ar livre.</p>
                             </div>
-                            <div>
-                                <span class="text-xs font-bold text-rose-600">18:30</span>
-                                <h4 id="editable-ev2" contenteditable="true" data-editable class="editable-text font-bold text-slate-800 text-left">Coquetel e Jantar</h4>
-                                <p class="text-sm text-slate-600 text-left">Abertura do buffet e música ao vivo.</p>
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-rose-500 border-4 border-white"></div>
+                                <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">18:30</span>
+                                <h4 contenteditable="true" data-editable class="editable-text font-bold text-slate-800 text-left text-lg">Coquetel & Recepção</h4>
+                                <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-left">Abertura do serviço de bebidas e petiscos no salão principal.</p>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-rose-500 border-4 border-white"></div>
+                                <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">20:00</span>
+                                <h4 contenteditable="true" data-editable class="editable-text font-bold text-slate-800 text-left text-lg">Jantar & Festa</h4>
+                                <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-left">Abertura da pista de dança com DJ e banda ao vivo.</p>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 4. RSVP / CONFIRMAÇÃO DE PRESENÇA -->
-                    <section id="sec-rsvp" data-section="rsvp" class="py-16 bg-rose-50/50 border-t border-b border-rose-100 text-center px-6">
+                    <!-- 4. DRESS CODE & PALETA DE CORES -->
+                    <section id="sec-dresscode" data-section="dresscode" class="py-12 bg-slate-50 border-t border-b border-slate-200 px-6 text-center">
+                        <div class="max-w-xl mx-auto space-y-4">
+                            <i class="fa-solid fa-shirt text-2xl text-rose-600"></i>
+                            <h3 contenteditable="true" data-editable class="editable-text text-2xl font-bold font-playfair text-slate-800 text-center">Traje / Dress Code</h3>
+                            <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-center">Sugerimos o traje **Passeio Completo / Esporte Fino**. Recomendamos tons suaves para harmonizar com as fotos.</p>
+                            <div class="flex items-center justify-center space-x-3 pt-2">
+                                <div class="w-8 h-8 rounded-full bg-amber-100 border border-amber-300" title="Beige"></div>
+                                <div class="w-8 h-8 rounded-full bg-rose-200 border border-rose-300" title="Rose Soft"></div>
+                                <div class="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-300" title="Salvia"></div>
+                                <div class="w-8 h-8 rounded-full bg-slate-700 border border-slate-800" title="Azul Marinho"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 5. LOCALIZAÇÃO E MAPA -->
+                    <section id="sec-location" data-section="location" class="py-16 px-6 max-w-4xl mx-auto space-y-6 text-center">
+                        <h2 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Como Chegar</h2>
+                        <p contenteditable="true" data-editable class="editable-text text-slate-600 text-sm text-center">Espaço Bella Vista — Av. das Palmeiras, 1200 - São Paulo, SP</p>
+                        <div class="w-full h-64 bg-slate-200 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center border border-slate-300 relative">
+                            <div class="text-center p-6 bg-white/90 backdrop-blur rounded-2xl shadow-lg border border-slate-200 max-w-xs">
+                                <i class="fa-solid fa-location-dot text-3xl text-rose-600 mb-2"></i>
+                                <h4 class="font-bold text-slate-800 text-sm">Espaço Bella Vista</h4>
+                                <a href="https://maps.google.com" target="_blank" class="inline-block mt-3 text-xs bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-xl transition">Abrir no Google Maps</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 6. GALERIA DE FOTOS -->
+                    <section id="sec-gallery" data-section="gallery" class="py-16 bg-slate-900 text-white px-6">
+                        <div class="max-w-4xl mx-auto space-y-8 text-center">
+                            <h2 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-center">Galeria de Momentos</h2>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=600" class="w-full h-48 object-cover rounded-2xl hover:scale-105 transition shadow-md" alt="Foto 1">
+                                <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=600" class="w-full h-48 object-cover rounded-2xl hover:scale-105 transition shadow-md" alt="Foto 2">
+                                <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=600" class="w-full h-48 object-cover rounded-2xl hover:scale-105 transition shadow-md" alt="Foto 3">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 7. MURAL DE RECADOS -->
+                    <section id="sec-guestbook" data-section="guestbook" class="py-16 px-6 max-w-2xl mx-auto space-y-6">
+                        <div class="text-center">
+                            <h2 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Mural de Recados</h2>
+                            <p contenteditable="true" data-editable class="editable-text text-slate-600 text-sm mt-1 text-center">Deixe uma mensagem carinhosa aos noivos!</p>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                            <input type="text" placeholder="Seu Nome" class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500">
+                            <textarea rows="3" placeholder="Sua Mensagem..." class="w-full bg-white border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-rose-500"></textarea>
+                            <button onclick="addGuestMessage()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2.5 rounded-xl text-sm transition shadow-md shadow-rose-600/20">Enviar Recado</button>
+                        </div>
+                        <div id="messagesList" class="space-y-3 pt-4">
+                            <div class="p-4 bg-white rounded-xl border border-slate-200 text-left shadow-sm">
+                                <span class="font-bold text-xs text-rose-600">Mariana Costa</span>
+                                <p class="text-sm text-slate-700 mt-1">Desejo toda a felicidade do mundo a vocês nessa nova fase!</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 8. LISTA DE PRESENTES -->
+                    <section id="sec-gifts" data-section="gifts" class="py-16 bg-slate-50 border-t border-b border-slate-200 px-6 text-center">
+                        <div class="max-w-2xl mx-auto space-y-6">
+                            <h2 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Lista de Presentes</h2>
+                            <p contenteditable="true" data-editable class="editable-text text-slate-600 text-sm text-center">Sua presença é nosso maior presente! Se desejar nos presentear, confira nossas opções de cotas virtuais:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-sm">Cota Lua de Mel</h4>
+                                        <p class="text-xs text-slate-500">Contribuição PIX flexível</p>
+                                    </div>
+                                    <button class="bg-rose-600 text-white text-xs font-semibold px-3 py-2 rounded-xl">Presentear</button>
+                                </div>
+                                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-sm">Jantar Romântico</h4>
+                                        <p class="text-xs text-slate-500">R$ 150,00</p>
+                                    </div>
+                                    <button class="bg-rose-600 text-white text-xs font-semibold px-3 py-2 rounded-xl">Presentear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 9. RSVP / CONFIRMAÇÃO DE PRESENÇA -->
+                    <section id="sec-rsvp" data-section="rsvp" class="py-16 bg-rose-50/60 text-center px-6">
                         <div class="max-w-md mx-auto space-y-4">
-                            <h3 id="editable-rsvp-title" contenteditable="true" data-editable class="editable-text text-2xl font-bold font-playfair text-slate-800 text-center">Confirme sua Presença</h3>
-                            <p id="editable-rsvp-subtitle" contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-center">Por favor, confirme até o dia 01/11/2026.</p>
+                            <h3 contenteditable="true" data-editable class="editable-text text-3xl font-bold font-playfair text-slate-800 text-center">Confirme sua Presença</h3>
+                            <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-center">Por favor, confirme até o dia 01/11/2026.</p>
                             <input type="text" placeholder="Seu Nome Completo" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500">
-                            <input type="email" placeholder="Seu E-mail ou Telefone" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500">
+                            <input type="email" placeholder="E-mail ou Telefone" class="w-full bg-white border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-rose-500">
                             <button class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2.5 rounded-xl text-sm transition shadow-md shadow-rose-600/20">Confirmar Presença</button>
                         </div>
                     </section>
 
+                    <!-- CONTAINER PARA BLOCOS EXTRAS PERSONALIZADOS -->
+                    <div id="customBlocksContainer" class="flex flex-col"></div>
+
                     <!-- RODAPÉ DO SITE -->
                     <footer class="py-8 bg-slate-900 text-slate-400 text-center text-xs mt-auto">
-                        <p id="editable-footer" contenteditable="true" data-editable class="editable-text text-center">Feito com carinho via Festeva • 2026</p>
+                        <p contenteditable="true" data-editable class="editable-text text-center">Feito com carinho via Festeva • 2026</p>
                     </footer>
 
                 </div>
@@ -312,17 +402,22 @@
         </main>
     </div>
 
-    <!-- SCRIPT DE GERENCIAMENTO E ALINHAMENTO -->
+    <!-- SCRIPT JS DE INTEGRAÇÃO COMPLETA -->
     <script>
         let currentMode = 'edit';
         let currentDevice = 'desktop';
         let activeElement = null;
 
-        // Seções disponíveis
+        // Lista Completa de Seções
         let sectionsConfig = [
             { id: 'hero', name: 'Capa / Hero', active: true },
             { id: 'countdown', name: 'Contagem Regressiva', active: true },
             { id: 'story', name: 'História & Programação', active: true },
+            { id: 'dresscode', name: 'Dress Code & Cores', active: true },
+            { id: 'location', name: 'Localização & Mapa', active: true },
+            { id: 'gallery', name: 'Galeria de Fotos', active: true },
+            { id: 'guestbook', name: 'Mural de Recados', active: true },
+            { id: 'gifts', name: 'Lista de Presentes', active: true },
             { id: 'rsvp', name: 'Confirmação (RSVP)', active: true }
         ];
 
@@ -331,7 +426,7 @@
             setupEditableElements();
         }
 
-        // Alternar abas da sidebar
+        // Alternância de Abas da Sidebar
         function switchTab(tab) {
             document.getElementById('paneTheme').classList.add('hidden');
             document.getElementById('paneSections').classList.add('hidden');
@@ -353,7 +448,7 @@
             }
         }
 
-        // Gerenciar Modo Edição vs Teste
+        // Alternância de Modos (Edição x Teste)
         function setAppMode(mode) {
             currentMode = mode;
             const btnEdit = document.getElementById('btnModeEdit');
@@ -388,7 +483,7 @@
             });
         }
 
-        // Configurar Eventos nos Elementos Editáveis
+        // Eventos dos Elementos Editáveis
         function setupEditableElements() {
             const editables = document.querySelectorAll('[data-editable]');
             editables.forEach(el => {
@@ -414,21 +509,21 @@
             updateAlignButtonsUI();
         }
 
-        // Atualizar Conteúdo pelo Sidebar
+        // Atualização de Conteúdo
         function updateSelectedTextContent(val) {
             if(activeElement) {
                 activeElement.innerText = val;
             }
         }
 
-        // Definir Alinhamento do Texto (Esquerda, Centro, Direita, Justificado)
+        // ALINHAMENTO DE TEXTO (Esquerda, Centro, Direita, Justificado)
         function setTextAlign(alignment) {
             if(!activeElement) return;
 
-            // Remove classes anteriores de alinhamento
+            // Remove alinhamentos anteriores
             activeElement.classList.remove('text-left', 'text-center', 'text-right', 'text-justify');
 
-            // Adiciona a nova classe correspondente
+            // Aplica o novo alinhamento selecionado
             if(alignment === 'left') activeElement.classList.add('text-left');
             if(alignment === 'center') activeElement.classList.add('text-center');
             if(alignment === 'right') activeElement.classList.add('text-right');
@@ -445,12 +540,10 @@
             const btnRight = document.getElementById('alignRightBtn');
             const btnJustify = document.getElementById('alignJustifyBtn');
 
-            // Resetar estilos dos botões
             [btnLeft, btnCenter, btnRight, btnJustify].forEach(btn => {
                 btn.className = "py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition text-xs flex items-center justify-center";
             });
 
-            // Destacar o botão ativo com base nas classes atuais do elemento
             if(activeElement.classList.contains('text-right')) {
                 btnRight.className += " bg-rose-600 text-white";
             } else if(activeElement.classList.contains('text-center')) {
@@ -458,18 +551,17 @@
             } else if(activeElement.classList.contains('text-justify')) {
                 btnJustify.className += " bg-rose-600 text-white";
             } else {
-                // Padrão é esquerda
                 btnLeft.className += " bg-rose-600 text-white";
             }
         }
 
         function setTextSize(sizeClass) {
             if(!activeElement) return;
-            activeElement.classList.remove('text-sm', 'text-base', 'text-xl', 'text-3xl', 'text-5xl');
+            activeElement.classList.remove('text-xs', 'text-sm', 'text-base', 'text-xl', 'text-3xl', 'text-5xl');
             activeElement.classList.add(sizeClass);
         }
 
-        // Alternar Dispositivo Desktop / Mobile
+        // Troca de Dispositivo (Desktop / Mobile)
         function setDeviceView(device) {
             currentDevice = device;
             const container = document.getElementById('deviceContainer');
@@ -487,7 +579,7 @@
             }
         }
 
-        // Renderizar Lista de Seções
+        // Renderização e Alternância de Seções
         function renderSectionsList() {
             const list = document.getElementById('sectionsList');
             list.innerHTML = '';
@@ -506,28 +598,53 @@
             if(sec) {
                 sec.active = active;
                 const el = document.getElementById(`sec-${id}`);
-                if(el) {
-                    el.style.display = active ? 'block' : 'none';
-                }
+                if(el) el.style.display = active ? 'block' : 'none';
             }
+        }
+
+        // Estilos e Temas
+        function changeFont(fontClass) {
+            const content = document.getElementById('siteContent');
+            content.className = `flex-1 flex flex-col ${fontClass}`;
+        }
+
+        function changeFrame(frameClass) {
+            const heroBox = document.getElementById('heroFrameContainer');
+            heroBox.className = "relative z-10 max-w-2xl mx-auto space-y-4 p-6 transition-all " + (frameClass !== 'none' ? frameClass : '');
+        }
+
+        function setPrimaryColor(color) {
+            console.log("Cor definida:", color);
         }
 
         function changeTheme(theme) {
             console.log("Tema alterado para:", theme);
         }
 
-        function changeFont(fontClass) {
-            const content = document.getElementById('siteContent');
-            content.className = `flex-1 flex flex-col ${fontClass}`;
+        // Adicionar Bloco Personalizado
+        function addNewCustomBlock() {
+            const container = document.getElementById('customBlocksContainer');
+            const blockId = 'custom-' + Date.now();
+            const blockHtml = `
+                <section id="${blockId}" class="py-12 px-6 border-b border-slate-200 text-center relative group">
+                    <button onclick="document.getElementById('${blockId}').remove()" class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded hidden group-hover:block">Excluir Bloco</button>
+                    <div class="max-w-2xl mx-auto space-y-3">
+                        <h3 contenteditable="true" data-editable class="editable-text text-2xl font-bold font-playfair text-slate-800 text-center">Novo Bloco Personalizado</h3>
+                        <p contenteditable="true" data-editable class="editable-text text-sm text-slate-600 text-center">Escreva seu conteúdo personalizado aqui.</p>
+                    </div>
+                </section>
+            `;
+            container.insertAdjacentHTML('beforeend', blockHtml);
+            setupEditableElements();
+            if(currentMode === 'edit') enableEditing(true);
         }
 
-        function saveProject() {
-            alert('Projeto salvo com sucesso!');
+        function addGuestMessage() {
+            alert("Mensagem enviada com sucesso!");
         }
 
-        function publishSite() {
-            alert('Site publicado com sucesso e pronto para compartilhamento!');
-        }
+        function saveProject() { alert('Projeto salvo com sucesso!'); }
+        function publishSite() { alert('Site publicado com sucesso!'); }
 
         window.onload = initApp;
     </script>
