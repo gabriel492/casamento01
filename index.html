@@ -12,102 +12,96 @@
   --festeva-lilac: #8a82e5;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-html, body {
+body {
   margin: 0;
-  padding: 0;
   background: var(--festeva-bg);
   color: var(--festeva-ink);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }
 
-/* Container do Scroll */
-.festeva-scroll {
-  position: relative;
-  background: var(--festeva-bg);
+/* Espaço superior genérico para demonstrar a entrada por scroll */
+.fs-hero-demo {
+  height: 60vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #f4f2ee;
+  color: #666;
 }
 
-/* Palco Fixo que utiliza exatamente a altura total do viewport (100svh) */
-.fs-sticky {
+/* Contentor do Trilho de Scroll (Define a duração da trava) */
+.festeva-scroll-pin-wrapper {
+  position: relative;
+  height: 450vh; /* Controla o tempo de travamento na tela */
+}
+
+/* Palco Fixo Travado na Viewport */
+.fs-sticky-viewport {
   position: sticky;
   top: 0;
-  z-index: 1;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  height: 100svh;
-  padding: clamp(20px, 4vh, 40px) 16px clamp(16px, 3vh, 32px);
+  padding: clamp(16px, 3vh, 32px) 16px clamp(12px, 2vh, 24px);
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
+  background: var(--festeva-bg);
 }
 
-/* Título travado na parte superior */
+/* Título Topo */
 .fs-heading {
-  position: relative;
-  z-index: 5;
   text-align: center;
-  max-width: 900px;
-  width: 100%;
+  margin-top: clamp(8px, 2vh, 20px);
 }
 
 .fs-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
-  font-size: clamp(30px, 5.2vw, 56px);
+  font-size: clamp(26px, 4.5vw, 48px);
   font-weight: 400;
   letter-spacing: -.03em;
-  line-height: 1.08;
+  line-height: 1.05;
 }
 
 .fs-gradient-text {
-  background: linear-gradient(105deg, #d90091 0%, #8a82e5 28%, #47abf9 52%, #00d5f3 73%, #00cfa9 100%);
+  background: linear-gradient(105deg,#d90091 0%,#8a82e5 28%,#47abf9 52%,#00d5f3 73%,#00cfa9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Área inferior contendo o arco e a galeria */
-.fs-bottom-stage {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  flex-grow: 1;
-}
-
-/* Palco do Arco e Fotos */
+/* Palco do Arco e Fotos na Parte Inferior */
 .fs-stage {
   position: relative;
-  width: min(920px, 96vw);
-  height: clamp(190px, 28vh, 260px);
+  width: min(880px, 94vw);
+  height: clamp(180px, 28vh, 250px);
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-/* Arco SVG pontilhado */
+/* Arco SVG em Fundo */
 .fs-arc-svg {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(880px, 94vw);
+  width: 100%;
   height: 100%;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Container dos Cards */
+/* Cards de Fotos */
 .fs-cards-container {
   position: absolute;
   top: 0;
@@ -122,22 +116,21 @@ html, body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: clamp(150px, 20vw, 210px);
+  width: clamp(160px, 22vw, 210px);
   display: flex;
   flex-direction: column;
   align-items: center;
   transform-origin: center center;
   will-change: transform, opacity;
-  transition: opacity 0.1s linear;
 }
 
 .fs-photo {
   width: 100%;
-  height: clamp(170px, 25vh, 230px);
+  height: clamp(180px, 26vh, 235px);
   border-radius: 18px;
   background: #fff;
   padding: 4px;
-  box-shadow: 0 16px 36px rgba(36, 32, 43, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 16px 36px rgba(36,32,43,0.11), 0 2px 6px rgba(0,0,0,0.03);
   overflow: hidden;
 }
 
@@ -149,13 +142,13 @@ html, body {
   display: block;
 }
 
-/* Legenda e barra de progresso no rodapé */
+/* Legendas e Progresso */
 .fs-footer {
   position: relative;
   z-index: 3;
-  margin-top: 10px;
   text-align: center;
   min-height: 75px;
+  margin-bottom: clamp(4px, 1vh, 12px);
 }
 
 .fs-caption-item {
@@ -168,17 +161,17 @@ html, body {
 }
 
 .fs-caption-item h3 {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   font-family: Georgia, serif;
-  font-size: clamp(20px, 3vw, 24px);
+  font-size: clamp(20px, 2.5vw, 25px);
   font-weight: 400;
 }
 
 .fs-caption-item p {
   margin: 0 auto;
-  max-width: 320px;
+  max-width: 290px;
   color: var(--festeva-muted);
-  font-size: clamp(12px, 1.8vw, 13px);
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -201,17 +194,16 @@ html, body {
   height: 100%;
   width: 20%;
   background: linear-gradient(90deg, #ff00aa, #8a82e5, #47abf9, #00d5f3);
-  transition: width 0.2s ease-out;
+  transition: width 0.15s ease-out;
 }
 
-/* Espaço invisível para possibilitar o movimento via scroll */
-.fs-scroll-steps {
-  position: relative;
-  z-index: 0;
-}
-
-.fs-scroll-steps > div {
-  height: 75vh;
+/* Espaço inferior de demonstração */
+.fs-footer-demo {
+  height: 80vh;
+  display: grid;
+  place-items: center;
+  background: #24202b;
+  color: #fff;
 }
 
 @keyframes fadeIn {
@@ -220,123 +212,110 @@ html, body {
 }
 
 @media (max-width: 600px) {
-  .fs-heading h2 {
-    font-size: 26px;
-  }
+  .fs-heading h2 { font-size: 26px; }
+  .fs-stage { height: 180px; }
+  .fs-photo { height: 170px; }
 }
 </style>
 </head>
 <body>
 
-<section class="festeva-scroll" id="festevaScroll">
-  <div class="fs-sticky" id="stickyStage">
-    <!-- Parte de Cima: Título Fixo -->
+<div class="fs-hero-demo">
+  <p>Role a página para baixo para iniciar a experiência em arco...</p>
+</div>
+
+<!-- WRAPPER DO SCROLL PIN: Mantém o efeito travado na tela enquanto rola -->
+<div class="festeva-scroll-pin-wrapper" id="scrollPinWrapper">
+  
+  <div class="fs-sticky-viewport" id="stickyViewport">
+    
+    <!-- Título Fixo no Topo -->
     <header class="fs-heading">
       <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
     </header>
 
-    <!-- Parte de Baixo: Galeria e Arco -->
-    <div class="fs-bottom-stage">
-      <div class="fs-stage">
-        <!-- Arco SVG pontilhado -->
-        <svg class="fs-arc-svg" viewBox="0 0 900 230" fill="none">
-          <path id="arcPath" d="M 50,210 A 420,190 0 0,1 850,210" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
-        </svg>
+    <!-- Galeria em Arco na Parte Inferior -->
+    <div class="fs-stage">
+      <svg class="fs-arc-svg" viewBox="0 0 900 230" fill="none">
+        <path d="M 40,215 A 410,190 0 0,1 860,215" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
+      </svg>
 
-        <!-- Container dos cards da galeria -->
-        <div class="fs-cards-container" id="cardsContainer">
-          
-          <article class="fs-card" data-index="0">
-            <div class="fs-photo">
-              <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Passo 01">
-            </div>
-          </article>
+      <div class="fs-cards-container">
+        <article class="fs-card">
+          <div class="fs-photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Passo 01"></div>
+        </article>
+        <article class="fs-card">
+          <div class="fs-photo"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Passo 02"></div>
+        </article>
+        <article class="fs-card">
+          <div class="fs-photo"><img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Passo 03"></div>
+        </article>
+        <article class="fs-card">
+          <div class="fs-photo"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Passo 04"></div>
+        </article>
+        <article class="fs-card">
+          <div class="fs-photo"><img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Passo 05"></div>
+        </article>
+      </div>
+    </div>
 
-          <article class="fs-card" data-index="1">
-            <div class="fs-photo">
-              <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Passo 02">
-            </div>
-          </article>
-
-          <article class="fs-card" data-index="2">
-            <div class="fs-photo">
-              <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Passo 03">
-            </div>
-          </article>
-
-          <article class="fs-card" data-index="3">
-            <div class="fs-photo">
-              <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Passo 04">
-            </div>
-          </article>
-
-          <article class="fs-card" data-index="4">
-            <div class="fs-photo">
-              <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Passo 05">
-            </div>
-          </article>
-
-        </div>
+    <!-- Textos e Barra de Progresso -->
+    <div class="fs-footer">
+      <div class="fs-caption-item active">
+        <h3>Imagine</h3>
+        <p>Comece com uma ideia especial e transforme-a em algo único.</p>
+      </div>
+      <div class="fs-caption-item">
+        <h3>Personalize</h3>
+        <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
+      </div>
+      <div class="fs-caption-item">
+        <h3>Organize</h3>
+        <p>Reúna as informações importantes em um só lugar.</p>
+      </div>
+      <div class="fs-caption-item">
+        <h3>Compartilhe</h3>
+        <p>Envie os convites e acompanhe os seus convidados.</p>
+      </div>
+      <div class="fs-caption-item">
+        <h3>Celebre</h3>
+        <p>Viva cada momento inesquecível sabendo que tudo foi planeado com carinho.</p>
       </div>
 
-      <!-- Descrições e Controlo de Progresso -->
-      <div class="fs-footer">
-        <div class="fs-caption-item active" data-caption="0">
-          <h3>Imagine</h3>
-          <p>Comece com uma ideia especial e transforme-a em algo único.</p>
-        </div>
-        <div class="fs-caption-item" data-caption="1">
-          <h3>Personalize</h3>
-          <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
-        </div>
-        <div class="fs-caption-item" data-caption="2">
-          <h3>Organize</h3>
-          <p>Reúna as informações importantes em um só lugar.</p>
-        </div>
-        <div class="fs-caption-item" data-caption="3">
-          <h3>Compartilhe</h3>
-          <p>Envie os convites e acompanhe os seus convidados.</p>
-        </div>
-        <div class="fs-caption-item" data-caption="4">
-          <h3>Celebre</h3>
-          <p>Viva cada momento inesquecível sabendo que tudo foi planeado com carinho.</p>
-        </div>
-
-        <div class="fs-progress">
-          <div class="fs-progress-track">
-            <div class="fs-progress-bar" id="progressBar"></div>
-          </div>
+      <div class="fs-progress">
+        <div class="fs-progress-track">
+          <div class="fs-progress-bar" id="progressBar"></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Passos transparentes para permitir a animação no scroll -->
-  <div class="fs-scroll-steps" id="scrollSteps">
-    <div></div><div></div><div></div><div></div><div></div>
   </div>
-</section>
+</div>
+
+<div class="fs-footer-demo">
+  <p>Fim da secção em arco. A página continua normalmente.</p>
+</div>
 
 <script>
 (() => {
+  const pinWrapper = document.querySelector('#scrollPinWrapper');
+  const stickyViewport = document.querySelector('#stickyViewport');
   const cards = [...document.querySelectorAll('.fs-card')];
   const captions = [...document.querySelectorAll('.fs-caption-item')];
-  const scrollSteps = document.querySelector('#scrollSteps');
   const progressBar = document.querySelector('#progressBar');
-  const stickyStage = document.querySelector('#stickyStage');
 
   const total = cards.length;
-
   let currentProgress = 0;
   let targetProgress = 0;
   let isDragging = false;
   let startX = 0;
   let dragStartProgress = 0;
 
+  // Função trigonométrica do Arco
   function getArcPoint(progressOffset) {
     const angle = (progressOffset * 0.38) * Math.PI;
-    const rx = Math.min(window.innerWidth * 0.42, 370);
-    const ry = 180;
+    const rx = 360;
+    const ry = 175;
 
     const x = rx * Math.sin(angle);
     const y = ry * (1 - Math.cos(angle));
@@ -345,6 +324,7 @@ html, body {
     return { x, y, rotate };
   }
 
+  // Atualizador do Frame
   function updatePositions() {
     currentProgress += (targetProgress - currentProgress) * 0.12;
     const activeIndex = Math.round(currentProgress);
@@ -362,7 +342,6 @@ html, body {
       card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`;
       card.style.opacity = opacity.toFixed(3);
       card.style.zIndex = Math.round((1 - absOffset) * 100);
-      card.style.pointerEvents = absOffset < 0.3 ? 'auto' : 'none';
     });
 
     const clampedIndex = Math.max(0, Math.min(total - 1, activeIndex));
@@ -375,23 +354,27 @@ html, body {
     requestAnimationFrame(updatePositions);
   }
 
+  // Cálculo da Trava de Rolagem (Scroll Pin)
   function handleScroll() {
     if (isDragging) return;
-    const rect = scrollSteps.getBoundingClientRect();
-    const totalHeight = rect.height - window.innerHeight;
-    
-    if (totalHeight <= 0) return;
+    const rect = pinWrapper.getBoundingClientRect();
+    const totalScrollableHeight = rect.height - window.innerHeight;
 
+    if (totalScrollableHeight <= 0) return;
+
+    // Distância percorrida dentro da secção fixada
     const scrolled = -rect.top;
-    const progressFraction = Math.max(0, Math.min(1, scrolled / totalHeight));
+    const progressFraction = Math.max(0, Math.min(1, scrolled / totalScrollableHeight));
+    
     targetProgress = progressFraction * (total - 1);
   }
 
+  // Suporte a Arrasto com Cursor / Touch
   function onPointerDown(e) {
     isDragging = true;
     startX = e.clientX || (e.touches && e.touches[0].clientX);
     dragStartProgress = targetProgress;
-    stickyStage.style.cursor = 'grabbing';
+    stickyViewport.style.cursor = 'grabbing';
   }
 
   function onPointerMove(e) {
@@ -406,20 +389,21 @@ html, body {
   function onPointerUp() {
     if (!isDragging) return;
     isDragging = false;
-    stickyStage.style.cursor = 'grab';
+    stickyViewport.style.cursor = 'grab';
     targetProgress = Math.round(targetProgress);
   }
 
+  // Listeners de Eventos
   window.addEventListener('scroll', handleScroll, { passive: true });
-  stickyStage.addEventListener('mousedown', onPointerDown);
+  stickyViewport.addEventListener('mousedown', onPointerDown);
   window.addEventListener('mousemove', onPointerMove);
   window.addEventListener('mouseup', onPointerUp);
 
-  stickyStage.addEventListener('touchstart', onPointerDown, { passive: true });
+  stickyViewport.addEventListener('touchstart', onPointerDown, { passive: true });
   window.addEventListener('touchmove', onPointerMove, { passive: true });
   window.addEventListener('touchend', onPointerUp);
 
-  stickyStage.style.cursor = 'grab';
+  stickyViewport.style.cursor = 'grab';
 
   requestAnimationFrame(updatePositions);
 })();
