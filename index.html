@@ -31,17 +31,17 @@ body {
 .fs-heading {
   position: relative;
   z-index: 2;
-  padding: 20px 15px 0;
+  padding: 35px 15px 5px;
   text-align: center;
 }
 
 .fs-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(30px, 4.2vw, 50px);
   font-weight: 400;
   letter-spacing: -.03em;
-  line-height: 1.05;
+  line-height: 1.08;
 }
 
 .fs-gradient-text {
@@ -51,7 +51,7 @@ body {
   color: transparent;
 }
 
-/* Palco Fixo ajustado para caber em 100vh sem rolagem excessiva */
+/* Palco Fixo centralizado com equilíbrio visual */
 .fs-sticky {
   position: sticky;
   top: 0;
@@ -59,20 +59,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   height: 100vh;
   max-height: 100vh;
-  padding-bottom: 15px;
+  padding-bottom: 20px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco: Compacto e colado ao título */
+/* Palco do Arco: Espaçamento ajustado ao título */
 .fs-stage {
   position: relative;
   width: min(900px, 96vw);
-  height: 220px;
+  height: 230px;
   margin-top: 5px;
   display: flex;
   justify-content: center;
@@ -86,7 +86,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: min(860px, 94vw);
-  height: 220px;
+  height: 230px;
   pointer-events: none;
   z-index: 1;
 }
@@ -106,7 +106,7 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 190px;
+  width: 195px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +117,7 @@ body {
 
 .fs-photo {
   width: 100%;
-  height: 210px;
+  height: 215px;
   border-radius: 18px;
   background: #fff;
   padding: 4px;
@@ -137,7 +137,7 @@ body {
 .fs-footer {
   position: relative;
   z-index: 3;
-  margin-top: 5px;
+  margin-top: 8px;
   text-align: center;
   min-height: 80px;
 }
@@ -152,7 +152,7 @@ body {
 }
 
 .fs-caption-item h3 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
   font-family: Georgia, serif;
   font-size: 22px;
   font-weight: 400;
@@ -170,7 +170,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .fs-progress-track {
@@ -208,7 +208,7 @@ body {
   .fs-photo { height: 175px; }
   .fs-stage { height: 185px; }
   .fs-arc-svg { height: 185px; }
-  .fs-heading { padding-top: 15px; }
+  .fs-heading { padding-top: 20px; }
   .fs-heading h2 { font-size: 26px; }
 }
 </style>
