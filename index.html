@@ -270,16 +270,17 @@
     .process-orbit{position:absolute;width:min(82vw,1320px);aspect-ratio:1;border:1px dashed rgba(30,30,30,.35);border-radius:50%;top:17%;left:50%;transform:translateX(-50%);pointer-events:none}
     .process-content{position:relative;z-index:1;width:min(560px,90vw);display:flex;align-items:center;flex-direction:column;text-align:center;padding-top:32px}
     .process-step-label{font-size:.67rem;font-weight:800;letter-spacing:.08em;color:white;background:#111;border-radius:4px;padding:5px 9px;margin-bottom:24px}
-    .process-image-window{width:224px;height:280px;border-radius:17px;overflow:hidden;position:relative;background:#dedbd5}
-    .process-image-window img{width:100%;height:100%;object-fit:cover;transform:translateX(0) scale(1.03);opacity:1;transition:transform .62s cubic-bezier(.2,.7,.2,1),opacity .62s cubic-bezier(.2,.7,.2,1)}
-    .process-image-window.is-revealing img{opacity:0;transform:translateX(115%) scale(.96)}
+    .process-image-window{width:224px;height:280px;border-radius:17px;overflow:hidden;position:relative;background:#dedbd5;margin-inline:auto;flex:0 0 auto;align-self:center}
+    .process-image-window img{width:100%;height:100%;object-fit:cover;display:block;clip-path:circle(72% at 50% 50%);transform:scale(1.02);opacity:1;transition:clip-path .72s cubic-bezier(.76,0,.24,1),opacity .42s ease,transform .72s cubic-bezier(.76,0,.24,1)}
+    .process-image-window.is-revealing img{clip-path:circle(0% at 50% 50%);opacity:.9;transform:scale(.98)}
+    .process-image-window.is-entering img{clip-path:circle(0% at 50% 50%);opacity:1;transform:scale(1.02)}
     .process-description{margin-top:16px;background:rgba(255,255,255,.94);border-radius:17px;padding:16px 28px 18px;width:100%;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 35px rgba(0,0,0,.025);transition:opacity .3s,transform .3s}
     .process-description.is-changing{opacity:0;transform:translateY(12px)}
     .process-kicker{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8a837a;margin:0 0 5px}
     .process-description h2{font-family:var(--sans);font-size:1.65rem;letter-spacing:-.05em;font-weight:500;margin:0 0 10px;color:#111}
     .process-description>p:last-child{font-size:.93rem;line-height:1.55;margin:0;color:#716b64;max-width:440px}
-    @media(max-width:680px){.process-scroll{height:400svh}.process-sticky{min-height:560px}process-orbit{width:135vw;top:23%}.process-content{padding-top:42px;width:min(460px,calc(100% - 34px))}.process-step-label{margin-bottom:17px}.process-image-window{width:clamp(155px,47vw,210px);height:clamp(195px,59vw,260px)}.process-description{padding:16px 18px;min-height:145px}.process-description h2{font-size:1.45rem}.process-description>p:last-child{font-size:.85rem}}
-    @media(prefers-reduced-motion:reduce){.process-image-window img,.process-description{transition:none}}
+    @media(max-width:680px){.process-scroll{height:400svh}.process-sticky{min-height:560px}.process-orbit{width:135vw;top:23%}.process-content{padding-top:42px;width:min(460px,calc(100% - 34px))}.process-step-label{margin-bottom:17px}.process-image-window{width:clamp(155px,47vw,210px);height:clamp(195px,59vw,260px)}.process-description{padding:16px 18px;min-height:145px}.process-description h2{font-size:1.45rem}.process-description>p:last-child{font-size:.85rem}}
+    @media(prefers-reduced-motion:reduce){.process-image-window img,.process-description{transition:none}.process-image-window.is-revealing img,.process-image-window.is-entering img{clip-path:circle(72% at 50% 50%)}}
 
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
   </style>
@@ -584,7 +585,8 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Atualiza a imagem e a descriÃ§Ã£o conforme a posiÃ§Ã£o de rolagem na seÃ§Ã£o de processo.
+    // Processo em quatro etapas: a imagem fecha em cÃ­rculo e a prÃ³xima se revela circularmente.
+    // Ao terminar a quarta etapa, a seÃ§Ã£o sticky libera a rolagem para a prÃ³xima tela.
     (() => {
       const section = document.querySelector('.process-scroll');
       if (!section) return;
@@ -601,26 +603,41 @@
         {kicker:'Tudo em harmonia',title:'Organize',text:'ReÃºna as informaÃ§Ãµes importantes, os detalhes da festa e a lista de presentes em um sÃ³ lugar, fÃ¡cil de compartilhar.',alt:'Mesa de celebraÃ§Ã£o cuidadosamente decorada',src:'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=85'},
         {kicker:'Pronto para compartilhar',title:'Celebre',text:'Publique seu site e envie o convite para quem faz parte da sua histÃ³ria. O prÃ³ximo capÃ­tulo comeÃ§a com vocÃª.',alt:'Amigos reunidos para celebrar',src:'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=900&q=85'}
       ];
-      let current = -1, ticking = false, changeTimer;
+      let current = 0, ticking = false, changeTimer = null;
       const clamp = (n,min=0,max=1)=>Math.min(max,Math.max(min,n));
       function update(){
-        const rect=section.getBoundingClientRect(), vh=window.innerHeight;
-        const progress=clamp((-rect.top)/(Math.max(1,rect.height-vh)));
-        const index=Math.min(3,Math.floor(progress*4));
-        if(index!==current){
-          current=index; const step=steps[index];
-          windowEl.classList.add('is-revealing'); description.classList.add('is-changing');
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = clamp((-rect.top) / Math.max(1, rect.height - vh));
+        const index = Math.min(3, Math.floor(progress * 4));
+        if (index !== current) {
+          current = index;
+          const step = steps[index];
           clearTimeout(changeTimer);
-          changeTimer=setTimeout(()=>{
-            image.src=step.src; image.alt=step.alt; label.textContent=`[ ETAPA 0${index+1} ]`;
-            kicker.textContent=step.kicker; title.textContent=step.title; copy.textContent=step.text;
-            windowEl.classList.remove('is-revealing'); description.classList.remove('is-changing');
-          },240);
+          windowEl.classList.remove('is-entering','is-revealing');
+          windowEl.classList.add('is-revealing');
+          description.classList.add('is-changing');
+          changeTimer = setTimeout(() => {
+            image.src = step.src;
+            image.alt = step.alt;
+            label.textContent = `[ ETAPA 0${index+1} ]`;
+            kicker.textContent = step.kicker;
+            title.textContent = step.title;
+            copy.textContent = step.text;
+            windowEl.classList.remove('is-revealing');
+            windowEl.classList.add('is-entering');
+            // ForÃ§a o estado circular fechado antes de abrir a nova imagem.
+            void image.offsetWidth;
+            requestAnimationFrame(() => requestAnimationFrame(() => windowEl.classList.remove('is-entering')));
+            description.classList.remove('is-changing');
+          }, 700);
         }
-        ticking=false;
+        ticking = false;
       }
-      function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(update)}}
-      window.addEventListener('scroll',onScroll,{passive:true}); window.addEventListener('resize',onScroll); update();
+      function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      window.addEventListener('resize', onScroll);
+      update();
     })();
 
   </script>
