@@ -28,14 +28,6 @@
       background: #374151;
     }
 
-    /* Container com Trava de Scroll Snap no Efeito */
-    .snap-container {
-      scroll-snap-type: y mandatory;
-    }
-    .snap-section {
-      scroll-snap-align: start;
-    }
-
     /* Animação do Card Central */
     .central-card-box {
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -97,7 +89,7 @@
     </div>
   </header>
 
-  <!-- ESPAÇO SUPERIOR PARE O HEADER -->
+  <!-- ESPAÇO SUPERIOR PARA O HEADER -->
   <div class="h-20"></div>
 
   <!-- SEÇÃO DE INTRODUÇÃO / HERO -->
@@ -117,103 +109,99 @@
     </div>
   </section>
 
-  <!-- ÁREA DO EFEITO INTERATIVO COM ROLAGEM -->
-  <!-- Container de Rolagem Controlada -->
+  <!-- ÁREA DO EFEITO INTERATIVO COM ROLAGEM E SCROLL-PINNING -->
   <div id="efeito" class="relative h-[250vh] w-full bg-[#070a11]">
     
     <!-- ELEMENTO FIXO DA TELA (STICKY VIEWPORT) -->
     <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
 
-      <!-- BOTÃO RETRÔ DE NAVEGAÇÃO SUPERIOR DIREITO (FIEL À FOTO) -->
+      <!-- BOTÃO RETRÔ DE NAVEGAÇÃO SUPERIOR DIREITO -->
       <div class="absolute top-6 right-6 z-40">
         <button class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700/60 backdrop-blur-md flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-700/80 transition-all shadow-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
       </div>
 
-      <!-- DETALHE ROXO NO TOPO ESQUERDO (FIEL À FOTO) -->
+      <!-- DETALHE ROXO NO TOPO ESQUERDO -->
       <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-purple-600 to-indigo-500 z-40"></div>
 
       <!-- OVERLAY DE DESFOQUE NO FUNDO (ATIVADO NO FINAL) -->
       <div id="bg-overlay" class="absolute inset-0 z-10 bg-[#070a11]/40 backdrop-blur-[0px] opacity-0 transition-all duration-500 pointer-events-none"></div>
 
-      <!-- GRID DE CARDS DO PLANO DE FUNDO (FIEL AO LAYOUT FIXO) -->
+      <!-- GRID DE CARDS DO PLANO DE FUNDO -->
       <div id="grid-bg" class="absolute inset-0 p-4 md:p-6 grid grid-cols-4 md:grid-cols-6 grid-rows-3 gap-3 md:gap-4 z-0 w-full h-full max-w-[1600px] mx-auto pointer-events-auto">
         
-        <!-- CARD 1 (Esq Sup) -->
+        <!-- CARD 1 -->
         <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.1">
           <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 2 (Topo Meio Esq) -->
+        <!-- CARD 2 -->
         <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.15">
           <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 3 (Topo Bloco Escuro) -->
+        <!-- CARD 3 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.2">
           <div class="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/60"></div>
         </div>
 
-        <!-- CARD 4 (Topo Meio Dir) -->
+        <!-- CARD 4 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.25">
           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 5 (Topo Dir Sup) -->
+        <!-- CARD 5 -->
         <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.3">
           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 6 (Esquerda Meio) -->
+        <!-- CARD 6 -->
         <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.35">
           <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- ESPAÇO RESERVADO CENTRAL (O Oito Ocupado pelo Card Central) -->
-        <!-- O Card Central de fato fica em camada z-20 por cima dessa área -->
-
-        <!-- CARD 7 (Direita Meio Superior) -->
+        <!-- CARD 7 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.4">
           <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 8 (Direita Meio Inferior) -->
+        <!-- CARD 8 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.45">
           <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 9 (Esq Inf) -->
+        <!-- CARD 9 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.5">
           <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 10 (Base Meio Esq) -->
+        <!-- CARD 10 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.55">
           <div class="absolute inset-0 bg-gradient-to-tr from-slate-900/80 to-slate-800/40"></div>
         </div>
 
-        <!-- CARD 11 (Base Meio) -->
+        <!-- CARD 11 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.6">
           <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 12 (Base Meio Dir) -->
+        <!-- CARD 12 -->
         <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.65">
           <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 13 (Base Dir Grande) -->
+        <!-- CARD 13 -->
         <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.7">
           <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
@@ -221,16 +209,16 @@
 
       </div>
 
-      <!-- CARD CENTRAL DE DESTAQUE (MOLDURA SURGE JUNTO NO SCROLL) -->
+      <!-- CARD CENTRAL DE DESTAQUE (COMEÇA TRANSPARENTE E APENAS COM TEXTO BRANCO NO CENTRO) -->
       <div class="relative z-20 w-[90%] max-w-2xl px-4 pointer-events-auto">
-        <div id="main-card" class="central-card-box w-full rounded-[28px] p-8 md:p-14 text-center border border-white/20 shadow-2xl relative overflow-hidden opacity-0 scale-75 backdrop-blur-none bg-transparent">
+        <div id="main-card" class="central-card-box w-full rounded-[28px] p-8 md:p-14 text-center border border-transparent shadow-none relative overflow-hidden backdrop-blur-none bg-transparent transition-all duration-300">
           
-          <!-- GRADIENTE DE FUNDO DO CARD (ANIMA DE TRANSPARENTE PARA O OFF-WHITE) -->
+          <!-- GRADIENTE DE FUNDO DO CARD CENTRAL (ANIMA AO ROLAR) -->
           <div id="card-bg-gradient" class="absolute inset-0 bg-gradient-to-br from-[#f8f9ff] via-[#f1f3fd] to-[#e8edfb] opacity-0 transition-opacity duration-500 -z-10"></div>
           
           <!-- CONTEÚDO E FRASE CENTRAL -->
           <div class="relative z-10 flex flex-col items-center justify-center min-h-[160px]">
-            <h2 id="main-phrase" class="phrase-transition text-2xl md:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 id="main-phrase" class="phrase-transition text-2xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight transition-colors duration-500">
               Criar sites personalizados.
             </h2>
 
@@ -238,7 +226,7 @@
               Desenvolvemos a sua presença digital com alta performance, design moderno e animações fluidas.
             </p>
 
-            <!-- BOTAO DE AÇÃO (SURGE NO FOCO FINAL) -->
+            <!-- BOTÃO DE AÇÃO -->
             <div id="card-action" class="phrase-transition opacity-0 max-h-0 overflow-hidden mt-6">
               <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg hover:shadow-xl active:scale-95">
                 Solicitar Projeto
@@ -253,7 +241,7 @@
 
   </div>
 
-  <!-- SEÇÃO DE CONTEÚDO ADICIONAL (SOBRE/SERVIÇOS) -->
+  <!-- SEÇÃO SOBRE -->
   <section id="sobre" class="py-24 px-6 max-w-6xl mx-auto border-t border-slate-800/80 bg-[#090d16]">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
@@ -304,7 +292,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT DE INTERAÇÃO E ROLAGEM -->
+  <!-- SCRIPT DE INTERAÇÃO -->
   <script>
     const efeitoContainer = document.getElementById('efeito');
     const mainCard = document.getElementById('main-card');
@@ -317,32 +305,33 @@
 
     let phraseChanged = false;
 
-    // Função de Rolagem até a área da Animação
     function scrollToEffect() {
       efeitoContainer.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Monitoramento do Scroll para controlar o Surgimento
     window.addEventListener('scroll', () => {
       const rect = efeitoContainer.getBoundingClientRect();
       const containerHeight = efeitoContainer.offsetHeight - window.innerHeight;
       
-      // Progresso de 0.0 (Início da seção) até 1.0 (Fim da seção)
       let progress = -rect.top / containerHeight;
       progress = Math.max(0, Math.min(1, progress));
 
-      // 1. ANIMAÇÃO DE SURGIMENTO DOS CARDS E MOLDURA DO CARD CENTRAL
-      // Todos os elementos surgem mais rápido (entre progress 0.05 e 0.65)
+      // 1. SURGIMENTO SINCRONIZADO DO CARD CENTRAL E DOS CARDS DO FUNDO
       const revealProgress = Math.min(1, Math.max(0, (progress - 0.05) / 0.6));
 
-      // Surgimento da Moldura do Card Central junto com os cards
-      mainCard.style.opacity = revealProgress;
-      mainCard.style.transform = `scale(${0.75 + (revealProgress * 0.25)})`;
-
+      // Ao rolar, a moldura e fundo do Card Central aparecem
+      cardBgGradient.style.opacity = revealProgress;
+      
       if (revealProgress > 0.1) {
-        cardBgGradient.style.opacity = revealProgress;
+        mainCard.classList.remove('border-transparent', 'shadow-none');
+        mainCard.classList.add('border-white/20', 'shadow-2xl');
+        mainPhrase.classList.remove('text-white');
+        mainPhrase.classList.add('text-slate-800');
       } else {
-        cardBgGradient.style.opacity = 0;
+        mainCard.classList.add('border-transparent', 'shadow-none');
+        mainCard.classList.remove('border-white/20', 'shadow-2xl');
+        mainPhrase.classList.add('text-white');
+        mainPhrase.classList.remove('text-slate-800');
       }
 
       // Surgimento em cascata dos cards do fundo
@@ -350,20 +339,16 @@
         const delay = parseFloat(card.getAttribute('data-delay')) || 0;
         const cardProgress = Math.min(1, Math.max(0, (revealProgress - delay * 0.3) / 0.7));
 
-        card.style.opacity = cardProgress * 0.85; // Opacidade max no fundo
+        card.style.opacity = cardProgress * 0.85;
         card.style.transform = `scale(${0.9 + (cardProgress * 0.1)}) translateY(${(1 - cardProgress) * 20}px)`;
       });
 
-      // 2. CONCLUINDO A REVELAÇÃO: FOCO NO CARD E ALTERAÇÃO DA FRASE (a partir de progress > 0.7)
+      // 2. FOCO FINAL E TROCA DE FRASE
       if (progress > 0.75) {
-        // Desfoca e suaviza o fundo
         bgOverlay.style.opacity = '1';
         bgOverlay.style.backdropFilter = 'blur(3px)';
-        
-        // Destaca o Card Central
         mainCard.classList.add('card-focused');
 
-        // Troca a frase caso ainda não tenha trocado
         if (!phraseChanged) {
           phraseChanged = true;
           mainPhrase.classList.add('phrase-hidden');
@@ -372,7 +357,6 @@
             mainPhrase.innerText = 'Sua presença digital levada ao próximo nível.';
             mainPhrase.classList.remove('phrase-hidden');
             
-            // Revela a subfrase e o botão
             subPhrase.style.maxHeight = '100px';
             subPhrase.style.opacity = '1';
             cardAction.style.maxHeight = '100px';
@@ -380,7 +364,6 @@
           }, 300);
         }
       } else {
-        // Retorna ao estado normal se subir o scroll
         bgOverlay.style.opacity = '0';
         bgOverlay.style.backdropFilter = 'blur(0px)';
         mainCard.classList.remove('card-focused');
