@@ -1,208 +1,331 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criação de Sites Personalizados - Grid Animado</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Criação de Sites Personalizados — WebCraft</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0d111d;
+            background-color: #0b0f19;
             overflow-x: hidden;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d111d;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
+        /* Background grid setup */
+        .grid-bg {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            width: 100%;
+            min-height: 100vh;
         }
 
-        /* Smooth CSS Transitions & Animations */
+        /* Staggered card initial state */
         .template-card {
             opacity: 0;
-            transform: scale(0.85) translateY(20px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.8) translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s ease,
+                        filter 0.3s ease;
             will-change: opacity, transform;
         }
 
+        /* Active card state (dimmed in background) */
         .template-card.show {
-            opacity: 0.35; /* Similar à opacidade escurecida do layout original */
+            opacity: 0.28;
             transform: scale(1) translateY(0);
         }
 
+        /* Hover card state (brightens and elevates) */
         .template-card.show:hover {
-            opacity: 0.85;
-            transform: scale(1.03) translateY(-4px);
-            z-index: 10;
-            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+            opacity: 0.95;
+            transform: scale(1.05) translateY(-6px);
+            z-index: 25;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7),
+                        0 0 25px rgba(99, 102, 241, 0.3);
         }
 
-        /* Glassmorphism Card Central */
-        .main-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
-                        0 0 80px rgba(99, 102, 241, 0.15);
+        /* Glassmorphism Central Hero Card */
+        .hero-glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(99, 102, 241, 0.2);
             opacity: 0;
-            transform: scale(0.9) translateY(10px);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.92) translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .main-card.show {
+        .hero-glass-card.show {
             opacity: 1;
             transform: scale(1) translateY(0);
         }
 
-        /* Pulsing Accent Glow */
-        .glow-effect {
+        /* Pulsing background ambient lights */
+        .ambient-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(139, 92, 246, 0.08) 45%, transparent 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 1;
+            animation: pulseGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* Modal Overlay */
+        .modal-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body class="min-h-screen text-slate-100 relative flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-    <!-- Efeito de Luz de Fundo -->
-    <div class="glow-effect"></div>
+    <!-- Ambient Glow Background -->
+    <div class="ambient-glow"></div>
 
-    <!-- Cabeçalho Flutuante Minimalista -->
+    <!-- Header Navigation -->
     <header class="relative z-30 px-6 py-5 flex justify-between items-center max-w-7xl mx-auto w-full">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                <i class="fa-solid fa-wand-magic-sparkles text-white text-lg"></i>
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-layer-group text-white text-lg"></i>
             </div>
-            <span class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+            <span class="font-extrabold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
                 WebCraft<span class="text-indigo-400">.io</span>
             </span>
         </div>
 
+        <!-- Action Bar -->
         <div class="flex items-center gap-3">
-            <button onclick="triggerAnimateSequence()" class="px-4 py-2 text-xs md:text-sm font-medium bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-full text-slate-300 hover:text-white transition-all flex items-center gap-2 backdrop-blur-md">
-                <i class="fa-solid fa-rotate-right text-xs"></i>
-                Reanimar
+            <button onclick="triggerStaggerAnimation()" class="px-4 py-2 text-xs md:text-sm font-semibold bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-full text-slate-200 hover:text-white transition-all flex items-center gap-2 backdrop-blur-md shadow-md active:scale-95">
+                <i class="fa-solid fa-rotate-right text-xs text-indigo-400"></i>
+                <span>Reiniciar Animação</span>
             </button>
-            <button class="w-10 h-10 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white transition-all backdrop-blur-md">
-                <i class="fa-solid fa-bars"></i>
+            <button onclick="toggleInfoModal()" class="w-10 h-10 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 flex items-center justify-center text-slate-200 hover:text-white transition-all backdrop-blur-md active:scale-95">
+                <i class="fa-solid fa-circle-info"></i>
             </button>
         </div>
     </header>
 
-    <!-- Container Principal do Grid e Card Central -->
-    <main class="relative z-20 flex-1 flex items-center justify-center p-4 md:p-8 min-h-[85vh]">
+    <!-- Main Container containing Background Cards Grid & Hero Glass Card -->
+    <main class="relative z-20 flex-1 flex items-center justify-center p-4 md:p-8 min-h-[80vh]">
 
-        <!-- BACKGROUND MASONRY/GRID DE TEMPLATES (Aparecem em sequência) -->
-        <div id="grid-container" class="absolute inset-0 p-4 md:p-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 overflow-hidden pointer-events-auto">
-            <!-- Os cards serão injetados dinamicamente via JS -->
+        <!-- BACKGROUND GRID (Populated dynamically) -->
+        <div id="grid-container" class="grid-bg absolute inset-0 p-4 md:p-6 overflow-hidden pointer-events-auto">
+            <!-- Cards will be injected via JS -->
         </div>
 
-        <!-- CARD DE DESTAQUE CENTRAL (Frente) -->
-        <div id="main-hero-card" class="main-card relative z-30 max-w-2xl w-full p-8 md:p-14 rounded-3xl text-center border border-white/60 mx-auto">
+        <!-- HERO GLASS CARD (Centerpiece) -->
+        <div id="hero-card" class="hero-glass-card relative z-30 max-w-2xl w-full p-8 md:p-12 rounded-3xl text-center mx-auto">
             
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold tracking-wide uppercase mb-6 shadow-sm">
+            <!-- Badge Tag -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-100/90 border border-indigo-200 text-indigo-800 text-xs font-bold tracking-wide uppercase mb-6 shadow-sm">
                 <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-                Soluções Exclusivas
+                Websites Sob Medida
             </div>
 
-            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight md:leading-tight mb-6 tracking-tight">
+            <!-- Main Heading -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6 tracking-tight">
                 Criação de Sites Personalizados
             </h1>
 
-            <p class="text-slate-600 text-base md:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
-                Transforme sua presença digital com designs sob medida, alta performance e layouts projetados especificamente para acelerar o seu negócio.
+            <!-- Subtitle -->
+            <p class="text-slate-600 text-base md:text-lg mb-8 max-w-xl mx-auto leading-relaxed font-normal">
+                Elevamos a sua marca com plataformas digitais exclusivas, alta velocidade de carregamento e estratégias visuais focadas em converter visitantes em clientes.
             </p>
 
+            <!-- Call To Actions (CTAs) -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 group">
+                <button onclick="openBudgetModal()" class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-3 group">
                     <span>Solicitar Orçamento</span>
                     <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                 </button>
-                <button class="w-full sm:w-auto px-8 py-4 bg-slate-100 hover:bg-slate-200/80 text-slate-800 font-semibold rounded-2xl transition-all border border-slate-200/80">
-                    Ver Portfólio
+                <button onclick="scrollToExplore()" class="w-full sm:w-auto px-8 py-4 bg-slate-100/80 hover:bg-slate-200 text-slate-800 font-semibold rounded-2xl transition-all border border-slate-300/80 hover:border-slate-400">
+                    Ver Templates
                 </button>
             </div>
 
-            <!-- Indicadores sutis na base do card -->
-            <div class="mt-8 pt-6 border-t border-slate-200/60 flex items-center justify-center gap-6 text-xs font-medium text-slate-500">
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Alta Velocidade</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-mobile-screen text-indigo-500"></i> 100% Responsivo</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass text-emerald-500"></i> Otimizado para SEO</span>
+            <!-- Feature Pills Base -->
+            <div class="mt-8 pt-6 border-t border-slate-200/80 flex flex-wrap items-center justify-center gap-4 md:gap-6 text-xs font-semibold text-slate-600">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Ultraveloce</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-mobile-screen text-indigo-600"></i> 100% Responsivo</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass text-emerald-600"></i> Otimizado para SEO</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-blue-600"></i> Seguro & Escalável</span>
             </div>
         </div>
     </main>
 
-    <!-- Rodapé Discreto -->
-    <footer class="relative z-30 px-6 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 WebCraft. Todos os direitos reservados. Clique em "Reanimar" no topo para ver o efeito novamente.</p>
+    <!-- Footer -->
+    <footer class="relative z-30 px-6 py-4 text-center text-xs text-slate-400/80">
+        <p>© 2026 WebCraft Studio. Todos os direitos reservados. Passe o cursor sobre os templates ao fundo para inspecioná-los.</p>
     </footer>
 
-    <!-- Script de Lógica do Grid e Animações -->
+    <!-- MODAL: Solicitar Orçamento -->
+    <div id="budget-modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl relative">
+            <button onclick="closeBudgetModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Solicitar Projeto</h3>
+                    <p class="text-xs text-slate-400">Preencha os dados abaixo e entraremos em contato.</p>
+                </div>
+            </div>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Seu Nome</label>
+                    <input type="text" required placeholder="Ex: Maria Silva" class="w-full px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">E-mail Profissional</label>
+                    <input type="email" required placeholder="maria@empresa.com" class="w-full px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1.5">Tipo de Projeto</label>
+                    <select class="w-full px-4 py-3 bg-slate-800/80 border border-slate-700 rounded-xl text-slate-100 focus:outline-none focus:border-indigo-500 text-sm transition-colors">
+                        <option>Site Institucional / Empresa</option>
+                        <option>E-Commerce / Loja Virtual</option>
+                        <option>Landing Page de Alta Conversão</option>
+                        <option>Portal / Plataforma Customizada</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-600/30 text-sm mt-2">
+                    Enviar Solicitação
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Info / Sobre a Animação -->
+    <div id="info-modal" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl relative text-slate-200">
+            <button onclick="toggleInfoModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="text-xl font-bold text-white mb-3">Sobre o Efeito Visual</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-4">
+                Este layout utiliza uma técnica moderna de **Staggered CSS Animations** com acionamento JavaScript. 
+            </p>
+            <ul class="text-xs space-y-2 text-slate-400 mb-6">
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> Cards dinâmicos carregados com fotos em alta definição.</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> Sequenciamento de delays randômicos para visual orgânico.</li>
+                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-indigo-400"></i> Vidro fosco real (*backdrop-filter*) no card central.</li>
+            </ul>
+
+            <button onclick="toggleInfoModal()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl text-xs transition-colors">
+                Entendido
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
     <script>
-        // Lista de imagens do Unsplash simulando mockups de sites e empresas
+        // Collection of mock website templates to show in the grid
         const templates = [
-            { img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop", title: "SaaS Dashboard" },
-            { img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop", title: "Corporativo" },
-            { img: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=600&auto=format&fit=crop", title: "Agência Criativa" },
-            { img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=600&auto=format&fit=crop", title: "Consultoria" },
-            { img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop", title: "Portfólio Pessoal" },
-            { img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", title: "Startup Tech" },
-            { img: "https://images.unsplash.com/photo-1542744094-3a31b272c490?q=80&w=600&auto=format&fit=crop", title: "E-Commerce" },
-            { img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=600&auto=format&fit=crop", title: "UI/UX System" },
-            { img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=600&auto=format&fit=crop", title: "Software Landing" },
-            { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop", title: "Equipe Criativa" },
-            { img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop", title: "Plataforma de Ensino" },
-            { img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop", title: "Arquitetura & Design" },
-            { img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=600&auto=format&fit=crop", title: "Marketing Digital" },
-            { img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop", title: "Fintech App" },
-            { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop", title: "Desenvolvimento Web" }
+            { img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop", title: "SaaS & App Platform", tag: "Tech" },
+            { img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop", title: "Corporativo Premium", tag: "Business" },
+            { img: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=600&auto=format&fit=crop", title: "Agência Criativa", tag: "Design" },
+            { img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=600&auto=format&fit=crop", title: "Consultoria Financeira", tag: "Fintech" },
+            { img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop", title: "Portfólio Pessoal", tag: "Minimal" },
+            { img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", title: "Startup Innovation", tag: "Tech" },
+            { img: "https://images.unsplash.com/photo-1542744094-3a31b272c490?q=80&w=600&auto=format&fit=crop", title: "Loja Virtual E-Commerce", tag: "Store" },
+            { img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=600&auto=format&fit=crop", title: "Sistema UI/UX", tag: "SaaS" },
+            { img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=600&auto=format&fit=crop", title: "Software Landing Page", tag: "Software" },
+            { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop", title: "Co-Working Hub", tag: "Space" },
+            { img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop", title: "Plataforma de Cursos", tag: "Educação" },
+            { img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop", title: "Arquitetura & Decor", tag: "Design" },
+            { img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=600&auto=format&fit=crop", title: "Marketing de Performance", tag: "Agency" },
+            { img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop", title: "Fintech Mobile Bank", tag: "Finance" },
+            { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop", title: "Desenvolvimento Web", tag: "Code" },
+            { img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop", title: "Gestão de Projetos", tag: "Productivity" },
+            { img: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=600&auto=format&fit=crop", title: "E-Commerce de Moda", tag: "Retail" },
+            { img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=600&auto=format&fit=crop", title: "Recrutamento & RH", tag: "Services" }
         ];
 
         const gridContainer = document.getElementById('grid-container');
-        const mainCard = document.getElementById('main-hero-card');
+        const heroCard = document.getElementById('hero-card');
 
-        // Função para construir os cartões do grid
-        function generateGridItems() {
+        // Dynamically build grid elements based on viewport size
+        function renderGrid() {
             gridContainer.innerHTML = '';
             
-            // Duplica ligeiramente a lista para garantir que preencha telas maiores de desktop
-            const fullList = [...templates, ...templates.slice(0, 5)];
+            // Calculate how many items are needed to fill the background screen comfortably
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const columns = Math.ceil(screenWidth / 220);
+            const rows = Math.ceil(screenHeight / 180);
+            const totalNeeded = Math.max(columns * rows + 6, 20);
 
-            fullList.forEach((item, index) => {
+            // Repeat template items to fill screen
+            let displayList = [];
+            while (displayList.length < totalNeeded) {
+                displayList = displayList.concat(templates);
+            }
+            displayList = displayList.slice(0, totalNeeded);
+
+            displayList.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'template-card relative rounded-2xl overflow-hidden bg-slate-800/80 border border-slate-700/40 shadow-xl cursor-pointer group h-48 md:h-64';
+                card.className = 'template-card relative rounded-2xl overflow-hidden bg-slate-800/90 border border-slate-700/50 shadow-lg cursor-pointer group h-44 md:h-52';
                 
-                // Fallback para caso alguma imagem falhe
                 card.innerHTML = `
                     <img 
                         src="${item.img}" 
                         alt="${item.title}" 
-                        class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                        class="w-full h-full object-cover filter saturate-75 group-hover:saturate-100 group-hover:scale-110 transition-all duration-500"
                         onerror="this.src='https://placehold.co/600x400/1e293b/ffffff?text=Template+Website'"
                     />
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
                     <div class="absolute bottom-3 left-3 right-3 text-left">
-                        <span class="text-[11px] font-medium text-indigo-300 bg-indigo-950/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-indigo-800/50 inline-block mb-1">
-                            ${item.title}
+                        <span class="text-[10px] font-semibold text-indigo-300 bg-indigo-950/80 backdrop-blur-md px-2 py-0.5 rounded border border-indigo-800/50 inline-block mb-1">
+                            ${item.tag}
                         </span>
+                        <h4 class="text-xs font-bold text-white tracking-tight truncate">${item.title}</h4>
                     </div>
                 `;
 
@@ -210,50 +333,94 @@
             });
         }
 
-        // Função para disparar a animação em cascata (Staggering)
-        function triggerAnimateSequence() {
+        // Trigger staggered reveal animation for grid cards & centerpiece
+        function triggerStaggerAnimation() {
             const cards = document.querySelectorAll('.template-card');
             
-            // Esconde o card principal e os templates
-            mainCard.classList.remove('show');
+            // Reset states
+            heroCard.classList.remove('show');
             cards.forEach(card => card.classList.remove('show'));
 
-            // Embaralha levemente as ordens de aparição para um visual mais orgânico
+            // Create array of indices and shuffle for pseudo-random organic reveal
             const cardIndices = Array.from(Array(cards.length).keys());
-            // Animação dos cards de fundo em ordem pseudo-aleatória ou espiral
-            cardIndices.sort(() => Math.random() - 0.5);
+            
+            // Sort by distance from center for a ripple/wave effect
+            const cols = Math.floor(window.innerWidth / 230) || 1;
+            cardIndices.sort((a, b) => {
+                const rowA = Math.floor(a / cols);
+                const colA = a % cols;
+                const rowB = Math.floor(b / cols);
+                const colB = b % cols;
+                
+                const centerRow = Math.floor(cards.length / cols / 2);
+                const centerCol = Math.floor(cols / 2);
 
-            cardIndices.forEach((cardIndex, i) => {
+                const distA = Math.hypot(rowA - centerRow, colA - centerCol);
+                const distB = Math.hypot(rowB - centerRow, colB - centerCol);
+
+                return (distA - distB) + (Math.random() * 1.5 - 0.75); // Add minor random variation
+            });
+
+            // Reveal cards sequentially
+            cardIndices.forEach((cardIndex, step) => {
                 setTimeout(() => {
                     if (cards[cardIndex]) {
                         cards[cardIndex].classList.add('show');
                     }
-                }, i * 45); // Atraso cascata de 45ms por card
+                }, step * 35); // 35ms stagger interval
             });
 
-            // Surge o Card Principal Central após grande parte dos cards do fundo estarem visíveis
+            // Reveal central hero card when background is mostly filled
             setTimeout(() => {
-                mainCard.classList.add('show');
-            }, cards.length * 20);
+                heroCard.classList.add('show');
+            }, Math.min(cards.length * 18, 600));
         }
 
-        // Inicialização na carga da página
-        window.addEventListener('DOMContentLoaded', () => {
-            generateGridItems();
+        // Modal Helpers
+        function openBudgetModal() {
+            document.getElementById('budget-modal').classList.add('open');
+        }
+
+        function closeBudgetModal() {
+            document.getElementById('budget-modal').classList.remove('open');
+        }
+
+        function toggleInfoModal() {
+            document.getElementById('info-modal').classList.toggle('open');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            closeBudgetModal();
             
-            // Pequeno delay para garantir fluidez no carregamento
-            setTimeout(() => {
-                triggerAnimateSequence();
-            }, 100);
+            // Temporary Toast Feedback
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 z-50 bg-emerald-600 text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 text-sm font-medium animate-bounce';
+            toast.innerHTML = '<i class="fa-solid fa-circle-check text-lg"></i> Mensagem enviada com sucesso!';
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        function scrollToExplore() {
+            // Re-trigger animation with high focus
+            triggerStaggerAnimation();
+        }
+
+        // Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderGrid();
+            setTimeout(triggerStaggerAnimation, 100);
         });
 
-        // Suporte para re-ajustar em caso de resize da tela
-        let resizeTimer;
+        // Re-render layout smoothly on screen resize
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                // Manter suavidade sem reinstanciar caso não necessário
-            }, 250);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                renderGrid();
+                triggerStaggerAnimation();
+            }, 300);
         });
     </script>
 </body>
