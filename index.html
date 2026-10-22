@@ -31,7 +31,7 @@ body {
 .fs-heading {
   position: relative;
   z-index: 2;
-  padding: 40px 20px 0px;
+  padding: 30px 20px 0px;
   text-align: center;
 }
 
@@ -51,7 +51,7 @@ body {
   color: transparent;
 }
 
-/* Palco Fixo com aproximação do arco ao título */
+/* Palco Fixo com aproximação adicional ao título */
 .fs-sticky {
   position: sticky;
   top: 0;
@@ -61,19 +61,19 @@ body {
   align-items: center;
   justify-content: flex-end;
   height: 100vh;
-  min-height: 600px;
+  min-height: 560px;
   padding-bottom: 25px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco: Espaçamento reduzido em relação ao título */
+/* Palco do Arco aproximado do título */
 .fs-stage {
   position: relative;
   width: min(980px, 96vw);
-  height: 330px;
-  margin-top: 0px;
+  height: 290px;
+  margin-top: -15px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -86,7 +86,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: min(940px, 94vw);
-  height: 310px;
+  height: 290px;
   pointer-events: none;
   z-index: 1;
 }
@@ -115,18 +115,6 @@ body {
   transition: opacity 0.1s linear;
 }
 
-.fs-step {
-  padding: 6px 12px;
-  border-radius: 6px;
-  background: rgba(36, 32, 43, 0.9);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  margin-bottom: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
 .fs-photo {
   width: 100%;
   height: 260px;
@@ -151,7 +139,7 @@ body {
   z-index: 3;
   margin-top: 10px;
   text-align: center;
-  min-height: 95px;
+  min-height: 90px;
 }
 
 .fs-caption-item {
@@ -182,17 +170,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   margin-top: 16px;
-  color: var(--festeva-muted);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
 }
 
-.fs-current { color: var(--festeva-ink); font-weight: 700; }
-
 .fs-progress-track {
-  width: 100px;
+  width: 120px;
   height: 2px;
   background: #e6e1e9;
   border-radius: 2px;
@@ -224,9 +206,9 @@ body {
 @media (max-width: 600px) {
   .fs-card { width: 180px; }
   .fs-photo { height: 200px; }
-  .fs-stage { height: 270px; }
-  .fs-arc-svg { height: 250px; }
-  .fs-heading { padding-top: 25px; }
+  .fs-stage { height: 230px; margin-top: -10px; }
+  .fs-arc-svg { height: 230px; }
+  .fs-heading { padding-top: 20px; }
 }
 </style>
 </head>
@@ -240,52 +222,47 @@ body {
   <div class="fs-sticky" id="stickyStage">
     <div class="fs-stage">
       <!-- Arco SVG -->
-      <svg class="fs-arc-svg" viewBox="0 0 900 300" fill="none">
-        <path id="arcPath" d="M 50,280 A 420,250 0 0,1 850,280" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
+      <svg class="fs-arc-svg" viewBox="0 0 900 280" fill="none">
+        <path id="arcPath" d="M 50,260 A 420,240 0 0,1 850,260" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
       </svg>
 
-      <!-- Container dos cards -->
+      <!-- Container dos cards sem as etiquetas STEP -->
       <div class="fs-cards-container" id="cardsContainer">
         
         <article class="fs-card" data-index="0">
-          <span class="fs-step">STEP 01</span>
           <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Step 01">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Passo 01">
           </div>
         </article>
 
         <article class="fs-card" data-index="1">
-          <span class="fs-step">STEP 02</span>
           <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Step 02">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Passo 02">
           </div>
         </article>
 
         <article class="fs-card" data-index="2">
-          <span class="fs-step">STEP 03</span>
           <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Step 03">
+            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Passo 03">
           </div>
         </article>
 
         <article class="fs-card" data-index="3">
-          <span class="fs-step">STEP 04</span>
           <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Step 04">
+            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Passo 04">
           </div>
         </article>
 
         <article class="fs-card" data-index="4">
-          <span class="fs-step">STEP 05</span>
           <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Step 05">
+            <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Passo 05">
           </div>
         </article>
 
       </div>
     </div>
 
-    <!-- Descrições e Controlo de Progresso -->
+    <!-- Descrições e Controlo de Progresso sem numeração -->
     <div class="fs-footer">
       <div class="fs-caption-item active" data-caption="0">
         <h3>Imagine</h3>
@@ -309,11 +286,9 @@ body {
       </div>
 
       <div class="fs-progress">
-        <span class="fs-current" id="currentStepText">01</span>
         <div class="fs-progress-track">
           <div class="fs-progress-bar" id="progressBar"></div>
         </div>
-        <span class="fs-total" id="totalStepText">05</span>
       </div>
     </div>
   </div>
@@ -330,13 +305,10 @@ body {
   const cards = [...document.querySelectorAll('.fs-card')];
   const captions = [...document.querySelectorAll('.fs-caption-item')];
   const scrollSteps = document.querySelector('#scrollSteps');
-  const currentStepText = document.querySelector('#currentStepText');
-  const totalStepText = document.querySelector('#totalStepText');
   const progressBar = document.querySelector('#progressBar');
   const stickyStage = document.querySelector('#stickyStage');
 
   const total = cards.length;
-  totalStepText.textContent = String(total).padStart(2, '0');
 
   let currentProgress = 0;
   let targetProgress = 0;
@@ -377,7 +349,6 @@ body {
     });
 
     const clampedIndex = Math.max(0, Math.min(total - 1, activeIndex));
-    currentStepText.textContent = String(clampedIndex + 1).padStart(2, '0');
     progressBar.style.width = `${((clampedIndex + 1) / total) * 100}%`;
 
     captions.forEach((cap, i) => {
