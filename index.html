@@ -3,10 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#fbfaf8">
 <title>Festeva — Carrossel em Arco</title>
-<!-- Tailwind CSS for utility styling -->
-<script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root {
   --festeva-bg: #fbfaf8;
@@ -15,434 +12,460 @@
   --festeva-lilac: #8a82e5;
 }
 
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
 body {
   margin: 0;
   background: var(--festeva-bg);
   color: var(--festeva-ink);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
-  user-select: none;
 }
 
-.fs-serif {
-  font-family: Georgia, 'Times New Roman', serif;
+.festeva-scroll {
+  position: relative;
+  background: var(--festeva-bg);
+}
+
+.fs-heading {
+  position: relative;
+  z-index: 2;
+  padding: 60px 20px 10px;
+  text-align: center;
+}
+
+.fs-eyebrow {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid rgba(138,130,229,.28);
+  border-radius: 999px;
+  color: #777087;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.fs-heading h2 {
+  margin: 18px 0 10px;
+  font-family: Georgia, serif;
+  font-size: clamp(34px, 5vw, 62px);
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1.1;
 }
 
 .fs-gradient-text {
-  background: linear-gradient(105deg, #d90091 0%, #8a82e5 28%, #47abf9 52%, #00d5f3 73%, #00cfa9 100%);
+  background: linear-gradient(105deg,#d90091 0%,#8a82e5 28%,#47abf9 52%,#00d5f3 73%,#00cfa9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* Scroll Section Sticky setup */
-.fs-scroll-container {
-  position: relative;
-  height: 400vh; /* Scroll runway duration */
+.fs-heading p {
+  max-width: 480px;
+  margin: 0 auto;
+  color: var(--festeva-muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.fs-sticky-viewport {
+/* Palco Fixo */
+.fs-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
-  width: 100%;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
+  min-height: 600px;
   overflow: hidden;
-  padding: 2rem 1rem 3rem 1rem;
-}
-
-/* Stage containing the SVG arc and floating card items */
-.fs-stage {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  height: 520px;
-  margin: 0 auto;
-  cursor: grab;
+  user-select: none;
   touch-action: pan-y;
 }
 
-.fs-stage:active {
-  cursor: grabbing;
-}
-
-/* Cards positioned along the arc trajectory */
-.fs-card-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 260px;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  transition: box-shadow 0.3s ease;
-  pointer-events: auto;
-}
-
-.fs-card-inner {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 8px;
-  box-shadow: 0 20px 50px rgba(36, 32, 43, 0.08), 0 4px 12px rgba(36, 32, 43, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.fs-card-wrapper:hover .fs-card-inner {
-  transform: translateY(-6px);
-  box-shadow: 0 28px 65px rgba(36, 32, 43, 0.14), 0 6px 16px rgba(36, 32, 43, 0.05);
-}
-
-.fs-photo-container {
-  width: 100%;
-  height: 250px;
-  border-radius: 18px;
-  overflow: hidden;
+.fs-stage {
   position: relative;
+  width: min(850px, 94vw);
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
-.fs-photo-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.fs-badge {
+/* Arco pontilhado em SVG */
+.fs-arc-svg {
   position: absolute;
-  top: -16px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(36, 32, 43, 0.92);
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 5px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  z-index: 10;
+  width: min(820px, 92vw);
+  height: 280px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Arc SVG styling */
-.fs-arc-svg {
+/* Contentor dos Cards */
+.fs-cards-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
   pointer-events: none;
+}
+
+.fs-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  transition: opacity 0.1s linear;
+}
+
+.fs-step {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(36, 32, 43, 0.9);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.fs-photo {
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  background: #fff;
+  padding: 5px;
+  box-shadow: 0 20px 40px rgba(36,32,43,0.12), 0 2px 8px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.fs-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+/* Informações e Progresso no Footer */
+.fs-footer {
+  position: relative;
+  z-index: 3;
+  margin-top: 15px;
+  text-align: center;
+  min-height: 100px;
+}
+
+.fs-caption-item {
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.fs-caption-item.active {
+  display: block;
+}
+
+.fs-caption-item h3 {
+  margin: 0 0 6px;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.fs-caption-item p {
+  margin: 0 auto;
+  max-width: 320px;
+  color: var(--festeva-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fs-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  color: var(--festeva-muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fs-current { color: var(--festeva-ink); font-weight: 700; }
+
+.fs-progress-track {
+  width: 100px;
+  height: 2px;
+  background: #e6e1e9;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fs-progress-bar {
+  height: 100%;
+  width: 20%;
+  background: linear-gradient(90deg, #ff00aa, #8a82e5, #47abf9, #00d5f3);
+  transition: width 0.2s ease-out;
+}
+
+/* Blocos que geram a altura de scroll */
+.fs-scroll-steps {
+  position: relative;
   z-index: 0;
 }
 
-@media (max-width: 640px) {
-  .fs-card-wrapper {
-    width: 210px;
-  }
-  .fs-photo-container {
-    height: 200px;
-  }
-  .fs-stage {
-    height: 420px;
-  }
+.fs-scroll-steps > div {
+  height: 80vh;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .fs-card { width: 180px; }
+  .fs-photo { height: 210px; }
+  .fs-stage { height: 320px; }
+  .fs-arc-svg { height: 220px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Main Wrapper with Sticky Scroll Area -->
-<div class="fs-scroll-container" id="scrollContainer">
-  <div class="fs-sticky-viewport">
-    
-    <!-- Heading Section -->
-    <header class="text-center z-10 max-w-xl mx-auto pt-2">
-      <span class="inline-block px-3.5 py-1.5 rounded-full border border-[rgba(138,130,229,0.3)] text-[#777087] text-[10px] font-bold uppercase tracking-[0.14em] bg-white/50 backdrop-blur-sm">
-        Uma experiência Festeva
-      </span>
-      <h2 class="fs-serif text-3xl sm:text-5xl font-normal tracking-tight leading-tight mt-3 mb-2 text-[#24202b]">
-        Do primeiro detalhe<br>à <span class="fs-gradient-text font-serif">grande celebração.</span>
-      </h2>
-      <p class="text-xs sm:text-sm text-[#817b89] leading-relaxed max-w-md mx-auto">
-        Arraste lateralmente ou rola para percorrer o caminho das etapas.
-      </p>
-    </header>
+<section class="festeva-scroll" id="festevaScroll">
+  <header class="fs-heading">
+    <span class="fs-eyebrow">Uma experiência Festeva</span>
+    <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
+    <p>Arraste lateralmente ou role para percorrer o caminho das etapas.</p>
+  </header>
 
-    <!-- Interactive Arc Stage -->
-    <div class="fs-stage my-auto" id="arcStage">
-      
-      <!-- Dynamic SVG Curved Line -->
-      <svg class="fs-arc-svg" id="arcSvg" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid meet">
-        <path id="arcPath" d="M 50 350 Q 500 50 950 350" fill="none" stroke="rgba(138,130,229,0.32)" stroke-width="2" stroke-dasharray="6 6" />
-        <path id="arcPathInner" d="M 80 340 Q 500 70 920 340" fill="none" stroke="rgba(138,130,229,0.12)" stroke-width="1" stroke-dasharray="4 4" />
+  <div class="fs-sticky" id="stickyStage">
+    <div class="fs-stage">
+      <!-- Arco pontilhado em fundo -->
+      <svg class="fs-arc-svg" viewBox="0 0 800 260" fill="none">
+        <path id="arcPath" d="M 50,250 A 350,220 0 0,1 750,250" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
       </svg>
 
-      <!-- Carousel Cards (Rendered dynamically in JS for crisp path alignment) -->
-      <div id="cardsContainer" class="relative w-full h-full flex items-center justify-center"></div>
+      <!-- Container dos cards -->
+      <div class="fs-cards-container" id="cardsContainer">
+        
+        <article class="fs-card" data-index="0">
+          <span class="fs-step">STEP 01</span>
+          <div class="fs-photo">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Step 01">
+          </div>
+        </article>
+
+        <article class="fs-card" data-index="1">
+          <span class="fs-step">STEP 02</span>
+          <div class="fs-photo">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Step 02">
+          </div>
+        </article>
+
+        <article class="fs-card" data-index="2">
+          <span class="fs-step">STEP 03</span>
+          <div class="fs-photo">
+            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Step 03">
+          </div>
+        </article>
+
+        <article class="fs-card" data-index="3">
+          <span class="fs-step">STEP 04</span>
+          <div class="fs-photo">
+            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Step 04">
+          </div>
+        </article>
+
+        <article class="fs-card" data-index="4">
+          <span class="fs-step">STEP 05</span>
+          <div class="fs-photo">
+            <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Step 05">
+          </div>
+        </article>
+
+      </div>
     </div>
 
-    <!-- Active Caption & Progress Bar -->
-    <footer class="w-full max-w-md mx-auto text-center z-10 flex flex-col items-center justify-center gap-3 pb-2">
-      <div id="activeCaption" class="transition-all duration-300 ease-out min-h-[64px] flex flex-col items-center justify-center text-center">
-        <h3 id="captionTitle" class="fs-serif text-2xl text-[#24202b] font-normal tracking-tight mb-1 text-center">Imagine</h3>
-        <p id="captionDesc" class="text-xs text-[#817b89] max-w-xs mx-auto leading-relaxed text-center">Comece com uma ideia especial e transforme-a em algo único.</p>
+    <!-- Descrições e Controlo de Progresso -->
+    <div class="fs-footer">
+      <div class="fs-caption-item active" data-caption="0">
+        <h3>Imagine</h3>
+        <p>Comece com uma ideia especial e transforme-a em algo único.</p>
+      </div>
+      <div class="fs-caption-item" data-caption="1">
+        <h3>Personalize</h3>
+        <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
+      </div>
+      <div class="fs-caption-item" data-caption="2">
+        <h3>Organize</h3>
+        <p>Reúna as informações importantes em um só lugar.</p>
+      </div>
+      <div class="fs-caption-item" data-caption="3">
+        <h3>Compartilhe</h3>
+        <p>Envie os convites e acompanhe os seus convidados.</p>
+      </div>
+      <div class="fs-caption-item" data-caption="4">
+        <h3>Celebre</h3>
+        <p>Viva cada momento inesquecível sabendo que tudo foi planeado com carinho.</p>
       </div>
 
-      <!-- Bottom Progress Bar -->
-      <div class="flex items-center justify-center gap-3 text-xs text-[#9b95a3] font-mono mt-1">
-        <span id="currentStepText" class="font-bold text-[#24202b]">01</span>
-        <div class="w-28 h-[2px] bg-[#e6e1e9] rounded-full overflow-hidden">
-          <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-[#d90091] via-[#8a82e5] to-[#00d5f3] transition-all duration-150"></div>
+      <div class="fs-progress">
+        <span class="fs-current" id="currentStepText">01</span>
+        <div class="fs-progress-track">
+          <div class="fs-progress-bar" id="progressBar"></div>
         </div>
-        <span id="totalStepText">05</span>
+        <span class="fs-total" id="totalStepText">05</span>
       </div>
-    </footer>
-
+    </div>
   </div>
-</div>
+
+  <!-- Blocos transparentes para dar espaço de scroll -->
+  <div class="fs-scroll-steps" id="scrollSteps">
+    <div></div><div></div><div></div><div></div><div></div>
+  </div>
+</section>
 
 <script>
-// Slide Items Data
-const SLIDES = [
-  {
-    step: "STEP 01",
-    title: "Imagine",
-    desc: "Comece com uma ideia especial e transforme-a em algo verdadeiramente único.",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    step: "STEP 02",
-    title: "Personalize",
-    desc: "Escolha cores, fontes, imagens e detalhes com a sua identidade visual.",
-    image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    step: "STEP 03",
-    title: "Organize",
-    desc: "Reúna as informações e horários mais importantes em um só lugar elegante.",
-    image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    step: "STEP 04",
-    title: "Convide",
-    desc: "Compartilhe o link interativo com seus convidados de forma rápida e charmosa.",
-    image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    step: "STEP 05",
-    title: "Celebre",
-    desc: "Viva cada momento inesquecível sabendo que tudo foi planejado com carinho.",
-    image: "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80"
-  }
-];
+(() => {
+  const section = document.querySelector('#festevaScroll');
+  const cards = [...document.querySelectorAll('.fs-card')];
+  const captions = [...document.querySelectorAll('.fs-caption-item')];
+  const scrollSteps = document.querySelector('#scrollSteps');
+  const currentStepText = document.querySelector('#currentStepText');
+  const totalStepText = document.querySelector('#totalStepText');
+  const progressBar = document.querySelector('#progressBar');
+  const stickyStage = document.querySelector('#stickyStage');
 
-// App State Variables
-let currentProgress = 0; // 0 (start) to 1 (end)
-let targetProgress = 0;
-let isDragging = false;
-let dragStartX = 0;
-let dragStartProgress = 0;
+  const total = cards.length;
+  totalStepText.textContent = String(total).padStart(2, '0');
 
-// DOM Elements
-const container = document.getElementById('cardsContainer');
-const scrollContainer = document.getElementById('scrollContainer');
-const stage = document.getElementById('arcStage');
-const captionTitle = document.getElementById('captionTitle');
-const captionDesc = document.getElementById('captionDesc');
-const currentStepText = document.getElementById('currentStepText');
-const totalStepText = document.getElementById('totalStepText');
-const progressBar = document.getElementById('progressBar');
+  let currentProgress = 0; // Varia de 0 a (total - 1)
+  let targetProgress = 0;
+  let isDragging = false;
+  let startX = 0;
+  let dragStartProgress = 0;
 
-totalStepText.textContent = String(SLIDES.length).padStart(2, '0');
+  // Parâmetros da curva elíptica
+  function getArcPoint(progressOffset) {
+    // progressOffset: 0 é o topo exato do arco.
+    // -1 é à esquerda do arco, +1 é à direita do arco.
+    const angle = (progressOffset * 0.42) * Math.PI; // Amplitude da curva
+    const rx = 320; // Raio horizontal
+    const ry = 190; // Raio vertical
 
-// Create DOM Card Elements (Centered Inner Structures)
-const cardElements = SLIDES.map((slide, index) => {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'fs-card-wrapper flex flex-col items-center justify-center';
-  
-  wrapper.innerHTML = `
-    <div class="fs-badge flex items-center justify-center text-center">${slide.step}</div>
-    <div class="fs-card-inner w-full flex flex-col items-center justify-center text-center">
-      <div class="fs-photo-container flex items-center justify-center overflow-hidden">
-        <img src="${slide.image}" alt="${slide.title}" class="w-full h-full object-cover text-center" loading="lazy" />
-      </div>
-    </div>
-  `;
-  
-  container.appendChild(wrapper);
-  return wrapper;
-});
+    const x = rx * Math.sin(angle);
+    const y = ry * (1 - Math.cos(angle));
+    const rotate = (angle * 180 / Math.PI) * 0.7; // Rotação tangente à curva
 
-/**
- * Calculates Quadratic Bezier position and angle along the arc
- * P(t) = (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
- */
-function getArcPointAndAngle(t) {
-  // Define normalized control points for quadratic curve in stage space
-  const stageWidth = stage.clientWidth || 1000;
-  const stageHeight = stage.clientHeight || 500;
-
-  // Arc curve anchor parameters
-  const P0 = { x: stageWidth * 0.05, y: stageHeight * 0.82 };
-  const P1 = { x: stageWidth * 0.50, y: stageHeight * 0.05 }; // Peak of arc
-  const P2 = { x: stageWidth * 0.95, y: stageHeight * 0.82 };
-
-  const oneMinusT = 1 - t;
-
-  // Point coordinates
-  const x = oneMinusT * oneMinusT * P0.x + 2 * oneMinusT * t * P1.x + t * t * P2.x;
-  const y = oneMinusT * oneMinusT * P0.y + 2 * oneMinusT * t * P1.y + t * t * P2.y;
-
-  // Tangent Derivative dx/dt and dy/dt for rotation angle
-  const dx = 2 * oneMinusT * (P1.x - P0.x) + 2 * t * (P2.x - P1.x);
-  const dy = 2 * oneMinusT * (P1.y - P0.y) + 2 * t * (P2.y - P1.y);
-
-  // Angle in degrees
-  const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-  return { x, y, angle };
-}
-
-/**
- * Update positions, scales, opacities and captions based on animation state
- */
-function updateArcLayout() {
-  const total = SLIDES.length;
-  // Distance between adjacent cards in parametric space 't'
-  const stepSpacing = 0.28; 
-  
-  // Center of path parameter space (0.5 is top vertex)
-  const centerT = 0.5;
-
-  let activeIndex = 0;
-  let minDistanceToCenter = Infinity;
-
-  cardElements.forEach((card, index) => {
-    // Relative shift from scroll/drag progress
-    const offset = index - currentProgress * (total - 1);
-    
-    // Parametric position 't' on the arc
-    const t = centerT + offset * stepSpacing;
-
-    // Out of bounds handling (hide gracefully)
-    if (t < -0.15 || t > 1.15) {
-      card.style.opacity = '0';
-      card.style.pointerEvents = 'none';
-      return;
-    }
-
-    const { x, y, angle } = getArcPointAndAngle(t);
-
-    // Calculate proximity to the peak center (t = 0.5)
-    const distFromCenter = Math.abs(t - 0.5);
-    
-    if (distFromCenter < minDistanceToCenter) {
-      minDistanceToCenter = distFromCenter;
-      activeIndex = index;
-    }
-
-    // Scale & Depth effects based on center proximity
-    const centerFactor = Math.max(0, 1 - distFromCenter * 2.5);
-    const scale = 0.82 + centerFactor * 0.26; // Scales up at top center
-    const opacity = Math.max(0, Math.min(1, 1 - Math.pow(distFromCenter * 2, 2.2)));
-    const zIndex = Math.round(100 - distFromCenter * 100);
-
-    // Center offset calculation: translate exact middle point of the element
-    const halfWidth = card.offsetWidth / 2;
-    const halfHeight = card.offsetHeight / 2;
-
-    // Apply 3D matrix transform centering the card on coordinates
-    card.style.transform = `translate3d(${x - halfWidth}px, ${y - halfHeight}px, 0px) rotate(${angle * 0.75}deg) scale(${scale})`;
-    card.style.opacity = opacity;
-    card.style.zIndex = zIndex;
-    card.style.pointerEvents = opacity > 0.4 ? 'auto' : 'none';
-  });
-
-  // Update Footer UI
-  const activeSlide = SLIDES[activeIndex];
-  if (captionTitle.textContent !== activeSlide.title) {
-    captionTitle.textContent = activeSlide.title;
-    captionDesc.textContent = activeSlide.desc;
+    return { x, y, rotate };
   }
 
-  currentStepText.textContent = String(activeIndex + 1).padStart(2, '0');
-  progressBar.style.width = `${((currentProgress) * 100)}%`;
-}
+  function updatePositions() {
+    // Suavização do progresso (Lerp)
+    currentProgress += (targetProgress - currentProgress) * 0.12;
 
-// Smooth Animation Loop
-function render() {
-  // Smooth lerp movement towards target progress
-  currentProgress += (targetProgress - currentProgress) * 0.1;
-  
-  updateArcLayout();
-  requestAnimationFrame(render);
-}
+    const activeIndex = Math.round(currentProgress);
 
-// Update Target from Page Scroll
-function handleScroll() {
-  if (isDragging) return;
-  const rect = scrollContainer.getBoundingClientRect();
-  const maxScroll = rect.height - window.innerHeight;
-  if (maxScroll <= 0) return;
+    cards.forEach((card, index) => {
+      const offset = index - currentProgress;
+      const { x, y, rotate } = getArcPoint(offset);
 
-  const currentScroll = -rect.top;
-  const rawProgress = currentScroll / maxScroll;
-  
-  targetProgress = Math.max(0, Math.min(1, rawProgress));
-}
+      // Cálculo de opacidade e escala para destacar o card ativo no topo do arco
+      const absOffset = Math.abs(offset);
+      let opacity = 1 - Math.pow(absOffset / 1.35, 2);
+      opacity = Math.max(0, Math.min(1, opacity));
 
-// Mouse & Touch Dragging Handlers
-function onDragStart(clientX) {
-  isDragging = true;
-  dragStartX = clientX;
-  dragStartProgress = targetProgress;
-  stage.style.cursor = 'grabbing';
-}
+      const scale = Math.max(0.75, 1 - absOffset * 0.12);
 
-function onDragMove(clientX) {
-  if (!isDragging) return;
-  const deltaX = clientX - dragStartX;
-  const sensitivity = 0.0018; // Adjust drag responsiveness
-  
-  targetProgress = Math.max(0, Math.min(1, dragStartProgress - deltaX * sensitivity));
-}
+      // Posicionamento centralizado com transformações
+      card.style.transform = `translate3d(calc(-50% + ${x}px), ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+      card.style.opacity = opacity.toFixed(3);
+      card.style.zIndex = Math.round((1 - absOffset) * 100);
+      card.style.pointerEvents = absOffset < 0.3 ? 'auto' : 'none';
+    });
 
-function onDragEnd() {
-  if (!isDragging) return;
-  isDragging = false;
-  stage.style.cursor = 'grab';
-  
-  // Snap to nearest step on release
-  const total = SLIDES.length;
-  targetProgress = Math.round(targetProgress * (total - 1)) / (total - 1);
-}
+    // Atualiza Textos e Barra de Progresso
+    const clampedIndex = Math.max(0, Math.min(total - 1, activeIndex));
+    currentStepText.textContent = String(clampedIndex + 1).padStart(2, '0');
+    progressBar.style.width = `${((clampedIndex + 1) / total) * 100}%`;
 
-// Event Listeners
-window.addEventListener('scroll', handleScroll, { passive: true });
-window.addEventListener('resize', updateArcLayout);
+    captions.forEach((cap, i) => {
+      cap.classList.toggle('active', i === clampedIndex);
+    });
 
-stage.addEventListener('mousedown', (e) => onDragStart(e.clientX));
-window.addEventListener('mousemove', (e) => onDragMove(e.clientX));
-window.addEventListener('mouseup', onDragEnd);
+    requestAnimationFrame(updatePositions);
+  }
 
-stage.addEventListener('touchstart', (e) => onDragStart(e.touches[0].clientX), { passive: true });
-window.addEventListener('touchmove', (e) => onDragMove(e.touches[0].clientX), { passive: true });
-window.addEventListener('touchend', onDragEnd);
+  // Sincronização com o Scroll
+  function handleScroll() {
+    if (isDragging) return;
+    const rect = scrollSteps.getBoundingClientRect();
+    const totalHeight = rect.height - window.innerHeight;
+    
+    if (totalHeight <= 0) return;
 
-// Direct Card Click Navigation
-cardElements.forEach((card, index) => {
-  card.addEventListener('click', () => {
-    targetProgress = index / (SLIDES.length - 1);
-  });
-});
+    const scrolled = -rect.top;
+    const progressFraction = Math.max(0, Math.min(1, scrolled / totalHeight));
+    targetProgress = progressFraction * (total - 1);
+  }
 
-// Initialization
-updateArcLayout();
-render();
+  // Eventos de Arrasto (Drag com Rato/Touch)
+  function onPointerDown(e) {
+    isDragging = true;
+    startX = e.clientX || (e.touches && e.touches[0].clientX);
+    dragStartProgress = targetProgress;
+    stickyStage.style.cursor = 'grabbing';
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const currentX = e.clientX || (e.touches && e.touches[0].clientX);
+    const diffX = startX - currentX;
+    
+    // Sensibilidade do arrasto
+    const sensitivity = 0.0035;
+    targetProgress = Math.max(0, Math.min(total - 1, dragStartProgress + diffX * sensitivity));
+  }
+
+  function onPointerUp() {
+    if (!isDragging) return;
+    isDragging = false;
+    stickyStage.style.cursor = 'grab';
+    targetProgress = Math.round(targetProgress); // Encaixa na etapa mais próxima ao soltar
+  }
+
+  // Event Listeners
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  stickyStage.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  stickyStage.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+
+  stickyStage.style.cursor = 'grab';
+
+  // Iniciar Animação
+  requestAnimationFrame(updatePositions);
+})();
 </script>
 </body>
 </html>
