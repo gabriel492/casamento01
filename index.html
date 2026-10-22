@@ -31,14 +31,14 @@ body {
 .fs-heading {
   position: relative;
   z-index: 2;
-  padding: 40px 20px 10px;
+  padding: 20px 15px 0;
   text-align: center;
 }
 
 .fs-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
-  font-size: clamp(32px, 4.8vw, 58px);
+  font-size: clamp(28px, 4vw, 48px);
   font-weight: 400;
   letter-spacing: -.03em;
   line-height: 1.05;
@@ -51,7 +51,7 @@ body {
   color: transparent;
 }
 
-/* Palco Fixo fixado na parte inferior da tela */
+/* Palco Fixo ajustado para caber em 100vh sem rolagem excessiva */
 .fs-sticky {
   position: sticky;
   top: 0;
@@ -59,21 +59,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   height: 100vh;
-  min-height: 580px;
-  padding-bottom: clamp(15px, 3vh, 35px);
+  max-height: 100vh;
+  padding-bottom: 15px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco posicionado na área inferior */
+/* Palco do Arco: Compacto e colado ao título */
 .fs-stage {
   position: relative;
-  width: min(980px, 96vw);
-  height: 270px;
-  margin-bottom: 5px;
+  width: min(900px, 96vw);
+  height: 220px;
+  margin-top: 5px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -85,8 +85,8 @@ body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(940px, 94vw);
-  height: 270px;
+  width: min(860px, 94vw);
+  height: 220px;
   pointer-events: none;
   z-index: 1;
 }
@@ -106,7 +106,7 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 220px;
+  width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,11 +117,11 @@ body {
 
 .fs-photo {
   width: 100%;
-  height: 245px;
-  border-radius: 20px;
+  height: 210px;
+  border-radius: 18px;
   background: #fff;
-  padding: 5px;
-  box-shadow: 0 20px 40px rgba(36,32,43,0.12), 0 2px 8px rgba(0,0,0,0.04);
+  padding: 4px;
+  box-shadow: 0 16px 32px rgba(36,32,43,0.12), 0 2px 6px rgba(0,0,0,0.04);
   overflow: hidden;
 }
 
@@ -129,22 +129,22 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 14px;
   display: block;
 }
 
-/* Informações e Progresso no Rodapé Inferior */
+/* Informações e Progresso no Rodapé */
 .fs-footer {
   position: relative;
   z-index: 3;
-  margin-top: 8px;
+  margin-top: 5px;
   text-align: center;
-  min-height: 85px;
+  min-height: 80px;
 }
 
 .fs-caption-item {
   display: none;
-  animation: fadeIn 0.4s ease forwards;
+  animation: fadeIn 0.3s ease forwards;
 }
 
 .fs-caption-item.active {
@@ -152,29 +152,29 @@ body {
 }
 
 .fs-caption-item h3 {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   font-family: Georgia, serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 400;
 }
 
 .fs-caption-item p {
   margin: 0 auto;
-  max-width: 320px;
+  max-width: 300px;
   color: var(--festeva-muted);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .fs-progress {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
 .fs-progress-track {
-  width: 120px;
+  width: 110px;
   height: 2px;
   background: #e6e1e9;
   border-radius: 2px;
@@ -188,42 +188,43 @@ body {
   transition: width 0.2s ease-out;
 }
 
-/* Espaço de scroll */
+/* Espaço para o scroll fluir */
 .fs-scroll-steps {
   position: relative;
   z-index: 0;
 }
 
 .fs-scroll-steps > div {
-  height: 80vh;
+  height: 70vh;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
-  .fs-card { width: 175px; }
-  .fs-photo { height: 195px; }
-  .fs-stage { height: 220px; }
-  .fs-arc-svg { height: 220px; }
-  .fs-heading { padding-top: 25px; }
+  .fs-card { width: 160px; }
+  .fs-photo { height: 175px; }
+  .fs-stage { height: 185px; }
+  .fs-arc-svg { height: 185px; }
+  .fs-heading { padding-top: 15px; }
+  .fs-heading h2 { font-size: 26px; }
 }
 </style>
 </head>
 <body>
 
 <section class="festeva-scroll" id="festevaScroll">
-  <header class="fs-heading">
-    <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
-  </header>
-
   <div class="fs-sticky" id="stickyStage">
+    <header class="fs-heading">
+      <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
+    </header>
+
     <div class="fs-stage">
       <!-- Arco SVG -->
-      <svg class="fs-arc-svg" viewBox="0 0 900 270" fill="none">
-        <path id="arcPath" d="M 50,250 A 420,230 0 0,1 850,250" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
+      <svg class="fs-arc-svg" viewBox="0 0 900 230" fill="none">
+        <path id="arcPath" d="M 50,210 A 420,190 0 0,1 850,210" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
       </svg>
 
       <!-- Container dos cards -->
@@ -293,7 +294,7 @@ body {
     </div>
   </div>
 
-  <!-- Blocos transparentes para o scroll -->
+  <!-- Blocos transparentes para permitir o movimento durante o scroll -->
   <div class="fs-scroll-steps" id="scrollSteps">
     <div></div><div></div><div></div><div></div><div></div>
   </div>
@@ -318,8 +319,8 @@ body {
 
   function getArcPoint(progressOffset) {
     const angle = (progressOffset * 0.38) * Math.PI;
-    const rx = 400;
-    const ry = 220;
+    const rx = 370;
+    const ry = 180;
 
     const x = rx * Math.sin(angle);
     const y = ry * (1 - Math.cos(angle));
