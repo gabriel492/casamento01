@@ -31,7 +31,7 @@ body {
 .fs-heading {
   position: relative;
   z-index: 2;
-  padding: 30px 20px 0px;
+  padding: 15px 20px 0px;
   text-align: center;
 }
 
@@ -41,7 +41,7 @@ body {
   font-size: clamp(32px, 4.8vw, 58px);
   font-weight: 400;
   letter-spacing: -.03em;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
 .fs-gradient-text {
@@ -51,7 +51,7 @@ body {
   color: transparent;
 }
 
-/* Palco Fixo com aproximação adicional ao título */
+/* Palco Fixo aproximado do título */
 .fs-sticky {
   position: sticky;
   top: 0;
@@ -59,21 +59,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   height: 100vh;
-  min-height: 560px;
-  padding-bottom: 25px;
+  min-height: 520px;
+  padding-bottom: 10px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco aproximado do título */
+/* Palco do Arco: Espaçamento drasticamente reduzido */
 .fs-stage {
   position: relative;
   width: min(980px, 96vw);
   height: 290px;
-  margin-top: -15px;
+  margin-top: -35px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -206,9 +206,9 @@ body {
 @media (max-width: 600px) {
   .fs-card { width: 180px; }
   .fs-photo { height: 200px; }
-  .fs-stage { height: 230px; margin-top: -10px; }
+  .fs-stage { height: 230px; margin-top: -20px; }
   .fs-arc-svg { height: 230px; }
-  .fs-heading { padding-top: 20px; }
+  .fs-heading { padding-top: 10px; }
 }
 </style>
 </head>
@@ -262,7 +262,7 @@ body {
       </div>
     </div>
 
-    <!-- Descrições e Controlo de Progresso sem numeração -->
+    <!-- Descrições e Controlo de Progresso -->
     <div class="fs-footer">
       <div class="fs-caption-item active" data-caption="0">
         <h3>Imagine</h3>
