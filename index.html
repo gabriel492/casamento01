@@ -1,422 +1,406 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criação de Sites Personalizados — Grid Exato</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criação de Sites Personalizados</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Estilo da barra de rolagem */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f293d;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    /* Container com Trava de Scroll Snap no Efeito */
+    .snap-container {
+      scroll-snap-type: y mandatory;
+    }
+    .snap-section {
+      scroll-snap-align: start;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0b0e17;
-            overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-        }
+    /* Animação do Card Central */
+    .central-card-box {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        /* Top Left Accent Gradient Bar from original photo */
-        .top-gradient-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 140px;
-            height: 6px;
-            background: linear-gradient(90deg, #ec4899, #8b5cf6);
-            border-bottom-right-radius: 4px;
-            z-index: 50;
-        }
+    /* Brilho de Foco do Card Central */
+    .card-focused {
+      box-shadow: 0 0 50px rgba(120, 119, 198, 0.4), 0 20px 40px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 255, 255, 0.9) !important;
+      transform: scale(1.02);
+    }
 
-        /* Main Fixed Canvas/Viewport Grid Layout matching the reference photo exactly */
-        .exact-grid-container {
-            display: grid;
-            grid-template-columns: 1.1fr 1.3fr 1.8fr 0.9fr 1fr 1.5fr 0.8fr;
-            grid-template-rows: 1.1fr 1.4fr 1.1fr;
-            gap: 14px;
-            width: 100vw;
-            height: 100vh;
-            padding: 16px;
-            position: relative;
-        }
+    /* Efeito nos cards de fundo */
+    .bg-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
+      will-change: transform, opacity;
+    }
+    .bg-card:hover {
+      transform: scale(1.03) translateY(-4px) !important;
+      opacity: 1 !important;
+      z-index: 20;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+    }
 
-        /* Individual Card Container Base */
-        .exact-card {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            background-color: #1a2236;
-            opacity: 0;
-            transform: scale(0.92) translateY(15px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .exact-card.show {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-
-        /* Dark tint layer matching image color tone */
-        .card-tint {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(18, 25, 45, 0.72);
-            backdrop-filter: saturate(70%) contrast(105%);
-            transition: opacity 0.4s ease;
-            z-index: 2;
-        }
-
-        .exact-card:hover .card-tint {
-            opacity: 0.2;
-        }
-
-        .exact-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .exact-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Specific Exact Grid Positions mapped directly to screenshot slots */
-        
-        /* Left Column */
-        .slot-top-left-tall { grid-column: 1; grid-row: 1 / span 2; }
-        .slot-bottom-left-tall { grid-column: 1; grid-row: 3; }
-
-        /* Mid-Left Column */
-        .slot-top-mid-wide { grid-column: 2 / span 2; grid-row: 1; }
-        .slot-mid-left-portrait { grid-column: 2; grid-row: 2; }
-        .slot-bottom-mid-solid { grid-column: 2; grid-row: 3; }
-
-        /* Center Column (Top & Bottom fillers) */
-        .slot-top-center-solid { grid-column: 4; grid-row: 1; }
-        .slot-bottom-center-person { grid-column: 3 / span 2; grid-row: 3; }
-
-        /* Center Main Hero Card Area (Spans Column 3-5, Row 2) */
-        .slot-center-hero {
-            grid-column: 3 / span 3;
-            grid-row: 2;
-            z-index: 10;
-        }
-
-        /* Mid-Right / Top-Right Column */
-        .slot-top-mid-right-person { grid-column: 5; grid-row: 1; }
-        .slot-top-right-wide { grid-column: 6; grid-row: 1; }
-        .slot-top-far-right-strip { grid-column: 7; grid-row: 1; }
-
-        .slot-mid-right-card1 { grid-column: 6; grid-row: 2; }
-        .slot-mid-right-card2 { grid-column: 7; grid-row: 2; }
-
-        /* Bottom Right Column */
-        .slot-bottom-mid-right-box { grid-column: 5; grid-row: 3; }
-        .slot-bottom-right-wide { grid-column: 6; grid-row: 3; }
-        .slot-bottom-far-right-strip { grid-column: 7; grid-row: 3; }
-
-        /* Exact Central Hero Card Style from Screenshot */
-        .hero-exact-card {
-            background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
-            border-radius: 28px;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5),
-                        0 0 40px rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-
-        /* Solid Color Placeholder Cards (matches grey/tinted cards in original photo) */
-        .solid-placeholder-card {
-            background: #252e42;
-        }
-
-        /* Menu Icon Top Right Over the Grid */
-        .floating-menu-btn {
-            position: absolute;
-            top: 28px;
-            right: 28px;
-            z-index: 40;
-            width: 44 h-44;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-
-        .floating-menu-btn:hover {
-            transform: scale(1.08);
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        /* Re-trigger Animation Button Top Left Floating */
-        .floating-replay-btn {
-            position: absolute;
-            bottom: 24px;
-            left: 24px;
-            z-index: 40;
-            padding: 8px 16px;
-            border-radius: 9999px;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #e2e8f0;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .floating-replay-btn:hover {
-            background: rgba(30, 41, 59, 0.95);
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        /* Mobile Responsive Adjustments */
-        @media (max-width: 1024px) {
-            body {
-                overflow-y: auto;
-                height: auto;
-            }
-            .exact-grid-container {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                padding: 16px;
-                gap: 16px;
-            }
-            .exact-card {
-                height: 220px;
-            }
-            .slot-center-hero {
-                height: 320px;
-            }
-            .top-gradient-bar {
-                width: 100%;
-            }
-        }
-    </style>
+    /* Transição suave para troca da frase */
+    .phrase-transition {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .phrase-hidden {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  </style>
 </head>
-<body>
+<body class="bg-[#090d16] text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
 
-    <!-- Top Left Accent Line -->
-    <div class="top-gradient-bar"></div>
+  <!-- HEADER -->
+  <header class="fixed top-0 left-0 w-full z-50 bg-[#090d16]/80 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+          S
+        </div>
+        <span class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">Estúdio LZ</span>
+      </div>
 
-    <!-- Floating Top-Right Hamburger Menu (Exact to photo) -->
-    <button onclick="openModal()" class="floating-menu-btn" title="Menu">
-        <i class="fa-solid fa-bars text-sm"></i>
-    </button>
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#hero" class="hover:text-white transition-colors">Início</a>
+        <a href="#efeito" class="hover:text-white transition-colors">Showcase</a>
+        <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
+        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+      </nav>
 
-    <!-- Floating Replay Animation Control -->
-    <button onclick="animateGrid()" class="floating-replay-btn">
-        <i class="fa-solid fa-rotate-right text-indigo-400"></i>
-        <span>Reanimar Cards</span>
-    </button>
+      <div class="flex items-center gap-4">
+        <button onclick="scrollToEffect()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs md:text-sm font-semibold px-4 py-2 rounded-full transition-all shadow-md shadow-indigo-600/30 active:scale-95">
+          Ver Animação
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Exact Screen Grid Layout -->
-    <main class="exact-grid-container">
+  <!-- ESPAÇO SUPERIOR PARE O HEADER -->
+  <div class="h-20"></div>
 
-        <!-- 1. Top Left Tall Vertical Card -->
-        <div class="exact-card slot-top-left-tall">
-            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" alt="Office Executive">
-            <div class="card-tint"></div>
+  <!-- SEÇÃO DE INTRODUÇÃO / HERO -->
+  <section id="hero" class="py-16 text-center px-4 max-w-4xl mx-auto">
+    <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-4">
+      Design & Desenvolvimento Web
+    </span>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
+      Experiências Digitais Sob Medida
+    </h1>
+    <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
+      Role a página abaixo para testar o efeito interativo de surgimento gradual dos templates e transição do cartão central.
+    </p>
+    <div class="flex items-center justify-center gap-2 text-slate-500 text-xs animate-bounce">
+      <span>Role para baixo</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+  </section>
+
+  <!-- ÁREA DO EFEITO INTERATIVO COM ROLAGEM -->
+  <!-- Container de Rolagem Controlada -->
+  <div id="efeito" class="relative h-[250vh] w-full bg-[#070a11]">
+    
+    <!-- ELEMENTO FIXO DA TELA (STICKY VIEWPORT) -->
+    <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+
+      <!-- BOTÃO RETRÔ DE NAVEGAÇÃO SUPERIOR DIREITO (FIEL À FOTO) -->
+      <div class="absolute top-6 right-6 z-40">
+        <button class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700/60 backdrop-blur-md flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-700/80 transition-all shadow-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+
+      <!-- DETALHE ROXO NO TOPO ESQUERDO (FIEL À FOTO) -->
+      <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-purple-600 to-indigo-500 z-40"></div>
+
+      <!-- OVERLAY DE DESFOQUE NO FUNDO (ATIVADO NO FINAL) -->
+      <div id="bg-overlay" class="absolute inset-0 z-10 bg-[#070a11]/40 backdrop-blur-[0px] opacity-0 transition-all duration-500 pointer-events-none"></div>
+
+      <!-- GRID DE CARDS DO PLANO DE FUNDO (FIEL AO LAYOUT FIXO) -->
+      <div id="grid-bg" class="absolute inset-0 p-4 md:p-6 grid grid-cols-4 md:grid-cols-6 grid-rows-3 gap-3 md:gap-4 z-0 w-full h-full max-w-[1600px] mx-auto pointer-events-auto">
+        
+        <!-- CARD 1 (Esq Sup) -->
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.1">
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 2. Bottom Left Vertical Card -->
-        <div class="exact-card slot-bottom-left-tall">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Professional Portrait">
-            <div class="card-tint"></div>
+        <!-- CARD 2 (Topo Meio Esq) -->
+        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.15">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 3. Top Center-Left Wide Meeting Card -->
-        <div class="exact-card slot-top-mid-wide">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" alt="Team Meeting">
-            <div class="card-tint"></div>
+        <!-- CARD 3 (Topo Bloco Escuro) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.2">
+          <div class="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/60"></div>
         </div>
 
-        <!-- 4. Mid Left Portrait Card -->
-        <div class="exact-card slot-mid-left-portrait">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Woman Working">
-            <div class="card-tint"></div>
+        <!-- CARD 4 (Topo Meio Dir) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.25">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 5. Bottom Mid Solid Tinted Card (Matching bottom grey block) -->
-        <div class="exact-card slot-bottom-mid-solid solid-placeholder-card">
-            <div class="card-tint" style="opacity: 0.4;"></div>
+        <!-- CARD 5 (Topo Dir Sup) -->
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.3">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 6. Top Center Solid Placeholder Slot -->
-        <div class="exact-card slot-top-center-solid solid-placeholder-card">
-            <div class="card-tint" style="opacity: 0.4;"></div>
+        <!-- CARD 6 (Esquerda Meio) -->
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.35">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 7. Bottom Center Person Card -->
-        <div class="exact-card slot-bottom-center-person">
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800&auto=format&fit=crop" alt="Woman laptop">
-            <div class="card-tint"></div>
+        <!-- ESPAÇO RESERVADO CENTRAL (O Oito Ocupado pelo Card Central) -->
+        <!-- O Card Central de fato fica em camada z-20 por cima dessa área -->
+
+        <!-- CARD 7 (Direita Meio Superior) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.4">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- 8. CENTRAL HERO CARD (Exact text & aesthetic) -->
-        <div class="exact-card slot-center-hero hero-exact-card">
-            <h1 class="text-3xl md:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight select-none">
-                Criar sites personalizados.
-            </h1>
-            <p class="text-slate-500 text-sm mt-3 max-w-sm hidden md:block">
-                Design exclusivo, alta velocidade e otimizado para gerar resultados reais.
+        <!-- CARD 8 (Direita Meio Inferior) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.45">
+          <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
+        </div>
+
+        <!-- CARD 9 (Esq Inf) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.5">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
+        </div>
+
+        <!-- CARD 10 (Base Meio Esq) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.55">
+          <div class="absolute inset-0 bg-gradient-to-tr from-slate-900/80 to-slate-800/40"></div>
+        </div>
+
+        <!-- CARD 11 (Base Meio) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.6">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
+        </div>
+
+        <!-- CARD 12 (Base Meio Dir) -->
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.65">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
+        </div>
+
+        <!-- CARD 13 (Base Dir Grande) -->
+        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.7">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
+          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
+        </div>
+
+      </div>
+
+      <!-- CARD CENTRAL DE DESTAQUE (MOLDURA SURGE JUNTO NO SCROLL) -->
+      <div class="relative z-20 w-[90%] max-w-2xl px-4 pointer-events-auto">
+        <div id="main-card" class="central-card-box w-full rounded-[28px] p-8 md:p-14 text-center border border-white/20 shadow-2xl relative overflow-hidden opacity-0 scale-75 backdrop-blur-none bg-transparent">
+          
+          <!-- GRADIENTE DE FUNDO DO CARD (ANIMA DE TRANSPARENTE PARA O OFF-WHITE) -->
+          <div id="card-bg-gradient" class="absolute inset-0 bg-gradient-to-br from-[#f8f9ff] via-[#f1f3fd] to-[#e8edfb] opacity-0 transition-opacity duration-500 -z-10"></div>
+          
+          <!-- CONTEÚDO E FRASE CENTRAL -->
+          <div class="relative z-10 flex flex-col items-center justify-center min-h-[160px]">
+            <h2 id="main-phrase" class="phrase-transition text-2xl md:text-4xl lg:text-5xl font-extrabold text-slate-800 tracking-tight leading-tight">
+              Criar sites personalizados.
+            </h2>
+
+            <p id="sub-phrase" class="phrase-transition opacity-0 max-h-0 overflow-hidden text-slate-600 text-sm md:text-base mt-4 max-w-md">
+              Desenvolvemos a sua presença digital com alta performance, design moderno e animações fluidas.
             </p>
-            <button onclick="openModal()" class="mt-6 px-6 py-2.5 bg-[#111827] hover:bg-slate-800 text-white font-medium text-xs md:text-sm rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg">
-                Fazer Orçamento
-            </button>
-        </div>
 
-        <!-- 9. Top Mid-Right Coffee Person -->
-        <div class="exact-card slot-top-mid-right-person">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="Man with coffee">
-            <div class="card-tint"></div>
-        </div>
+            <!-- BOTAO DE AÇÃO (SURGE NO FOCO FINAL) -->
+            <div id="card-action" class="phrase-transition opacity-0 max-h-0 overflow-hidden mt-6">
+              <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg hover:shadow-xl active:scale-95">
+                Solicitar Projeto
+              </button>
+            </div>
+          </div>
 
-        <!-- 10. Top Right Wide Card -->
-        <div class="exact-card slot-top-right-wide">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" alt="Senior Professional">
-            <div class="card-tint"></div>
         </div>
+      </div>
 
-        <!-- 11. Top Far Right Strip Card -->
-        <div class="exact-card slot-top-far-right-strip">
-            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop" alt="Woman Portrait">
-            <div class="card-tint"></div>
-        </div>
-
-        <!-- 12. Mid Right Card 1 -->
-        <div class="exact-card slot-mid-right-card1">
-            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=800&auto=format&fit=crop" alt="Woman Laptop">
-            <div class="card-tint"></div>
-        </div>
-
-        <!-- 13. Mid Right Card 2 -->
-        <div class="exact-card slot-mid-right-card2">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" alt="Executive Woman">
-            <div class="card-tint"></div>
-        </div>
-
-        <!-- 14. Bottom Mid-Right Box -->
-        <div class="exact-card slot-bottom-mid-right-box">
-            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop" alt="Office desk">
-            <div class="card-tint"></div>
-        </div>
-
-        <!-- 15. Bottom Right Wide Card -->
-        <div class="exact-card slot-bottom-right-wide">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop" alt="Man thinking">
-            <div class="card-tint"></div>
-        </div>
-
-        <!-- 16. Bottom Far Right Strip -->
-        <div class="exact-card slot-bottom-far-right-strip">
-            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" alt="Person phone">
-            <div class="card-tint"></div>
-        </div>
-
-    </main>
-
-    <!-- Modal Form -->
-    <div id="modal-form" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <h3 class="text-2xl font-bold mb-2">Criar Seu Site</h3>
-            <p class="text-slate-400 text-sm mb-6">Envie seus dados e entraremos em contato rapidamente.</p>
-            <form onsubmit="handleSend(event)" class="space-y-4">
-                <input type="text" placeholder="Seu Nome" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <input type="email" placeholder="Seu E-mail" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <textarea placeholder="Detalhes do projeto (opcional)" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
-                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30">
-                    Enviar Mensagem
-                </button>
-            </form>
-        </div>
     </div>
 
-    <!-- JavaScript Sequence Controller -->
-    <script>
-        function animateGrid() {
-            const cards = document.querySelectorAll('.exact-card');
+  </div>
+
+  <!-- SEÇÃO DE CONTEÚDO ADICIONAL (SOBRE/SERVIÇOS) -->
+  <section id="sobre" class="py-24 px-6 max-w-6xl mx-auto border-t border-slate-800/80 bg-[#090d16]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
+        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Alta Performance</h3>
+        <p class="text-slate-400 text-sm">Sites otimizados para carregamento instantâneo, SEO aprimorado e taxa de conversão elevada.</p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Layouts Exclusivos</h3>
+        <p class="text-slate-400 text-sm">Design 100% sob medida para a sua marca, sem depender de temas prontos genéricos.</p>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
+        <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Totalmente Responsivo</h3>
+        <p class="text-slate-400 text-sm">Navegação perfeita e adaptada em computadores, tablets e smartphones de qualquer resolução.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contato" class="bg-[#05070d] border-t border-slate-800/80 py-12 px-6 text-slate-400 text-sm">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
+          S
+        </div>
+        <span class="font-semibold text-white">Estúdio LZ &copy; 2026</span>
+      </div>
+
+      <p class="text-slate-500 text-xs text-center">
+        Desenvolvimento de Sites, Web Apps e Interfaces Interativas.
+      </p>
+
+      <div class="flex items-center gap-6 text-slate-400">
+        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+        <a href="#" class="hover:text-white transition-colors">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT DE INTERAÇÃO E ROLAGEM -->
+  <script>
+    const efeitoContainer = document.getElementById('efeito');
+    const mainCard = document.getElementById('main-card');
+    const cardBgGradient = document.getElementById('card-bg-gradient');
+    const bgOverlay = document.getElementById('bg-overlay');
+    const bgCards = document.querySelectorAll('.bg-card');
+    const mainPhrase = document.getElementById('main-phrase');
+    const subPhrase = document.getElementById('sub-phrase');
+    const cardAction = document.getElementById('card-action');
+
+    let phraseChanged = false;
+
+    // Função de Rolagem até a área da Animação
+    function scrollToEffect() {
+      efeitoContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Monitoramento do Scroll para controlar o Surgimento
+    window.addEventListener('scroll', () => {
+      const rect = efeitoContainer.getBoundingClientRect();
+      const containerHeight = efeitoContainer.offsetHeight - window.innerHeight;
+      
+      // Progresso de 0.0 (Início da seção) até 1.0 (Fim da seção)
+      let progress = -rect.top / containerHeight;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // 1. ANIMAÇÃO DE SURGIMENTO DOS CARDS E MOLDURA DO CARD CENTRAL
+      // Todos os elementos surgem mais rápido (entre progress 0.05 e 0.65)
+      const revealProgress = Math.min(1, Math.max(0, (progress - 0.05) / 0.6));
+
+      // Surgimento da Moldura do Card Central junto com os cards
+      mainCard.style.opacity = revealProgress;
+      mainCard.style.transform = `scale(${0.75 + (revealProgress * 0.25)})`;
+
+      if (revealProgress > 0.1) {
+        cardBgGradient.style.opacity = revealProgress;
+      } else {
+        cardBgGradient.style.opacity = 0;
+      }
+
+      // Surgimento em cascata dos cards do fundo
+      bgCards.forEach((card) => {
+        const delay = parseFloat(card.getAttribute('data-delay')) || 0;
+        const cardProgress = Math.min(1, Math.max(0, (revealProgress - delay * 0.3) / 0.7));
+
+        card.style.opacity = cardProgress * 0.85; // Opacidade max no fundo
+        card.style.transform = `scale(${0.9 + (cardProgress * 0.1)}) translateY(${(1 - cardProgress) * 20}px)`;
+      });
+
+      // 2. CONCLUINDO A REVELAÇÃO: FOCO NO CARD E ALTERAÇÃO DA FRASE (a partir de progress > 0.7)
+      if (progress > 0.75) {
+        // Desfoca e suaviza o fundo
+        bgOverlay.style.opacity = '1';
+        bgOverlay.style.backdropFilter = 'blur(3px)';
+        
+        // Destaca o Card Central
+        mainCard.classList.add('card-focused');
+
+        // Troca a frase caso ainda não tenha trocado
+        if (!phraseChanged) {
+          phraseChanged = true;
+          mainPhrase.classList.add('phrase-hidden');
+          
+          setTimeout(() => {
+            mainPhrase.innerText = 'Sua presença digital levada ao próximo nível.';
+            mainPhrase.classList.remove('phrase-hidden');
             
-            // Hide all cards first
-            cards.forEach(card => card.classList.remove('show'));
-
-            // Order array for Stagger Animation from center outward
-            cards.forEach((card, i) => {
-                setTimeout(() => {
-                    card.classList.add('show');
-                }, i * 45);
-            });
+            // Revela a subfrase e o botão
+            subPhrase.style.maxHeight = '100px';
+            subPhrase.style.opacity = '1';
+            cardAction.style.maxHeight = '100px';
+            cardAction.style.opacity = '1';
+          }, 300);
         }
+      } else {
+        // Retorna ao estado normal se subir o scroll
+        bgOverlay.style.opacity = '0';
+        bgOverlay.style.backdropFilter = 'blur(0px)';
+        mainCard.classList.remove('card-focused');
 
-        function openModal() {
-            const modal = document.getElementById('modal-form');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
+        if (phraseChanged && progress < 0.6) {
+          phraseChanged = false;
+          mainPhrase.classList.add('phrase-hidden');
+
+          setTimeout(() => {
+            mainPhrase.innerText = 'Criar sites personalizados.';
+            mainPhrase.classList.remove('phrase-hidden');
+            
+            subPhrase.style.maxHeight = '0px';
+            subPhrase.style.opacity = '0';
+            cardAction.style.maxHeight = '0px';
+            cardAction.style.opacity = '0';
+          }, 300);
         }
-
-        function closeModal() {
-            const modal = document.getElementById('modal-form');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function handleSend(e) {
-            e.preventDefault();
-            closeModal();
-            alert('Obrigado! Recebemos sua solicitação.');
-        }
-
-        // Start grid sequence on load
-        window.addEventListener('load', () => {
-            setTimeout(animateGrid, 150);
-        });
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>
