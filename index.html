@@ -1,825 +1,402 @@
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Festeva — Nosso processo</title>
-
-<style>
-/* =========================================
-   FESTEVA — ARC CAROUSEL
-   CSS isolado pela classe .festeva-arc
-========================================= */
-
-.festeva-arc {
-  --fa-bg: #fbfaf8;
-  --fa-text: #24202b;
-  --fa-muted: #817b89;
-  --fa-line: rgba(87, 76, 105, .23);
-  --fa-radius: 22px;
-
-  position: relative;
-  width: 100%;
-  padding: 100px 0 90px;
-  overflow: hidden;
-  background: var(--fa-bg);
-  color: var(--fa-text);
-  font-family: Inter, -apple-system, BlinkMacSystemFont,
-               "Segoe UI", sans-serif;
-  isolation: isolate;
-}
-
-.festeva-arc *,
-.festeva-arc *::before,
-.festeva-arc *::after {
-  box-sizing: border-box;
-}
-
-.festeva-arc .fa-container {
-  width: min(1280px, calc(100% - 40px));
-  margin-inline: auto;
-}
-
-.festeva-arc .fa-heading {
-  max-width: 700px;
-  margin: 0 auto 24px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
-
-.festeva-arc .fa-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 8px 13px;
-  border: 1px solid rgba(138, 130, 229, .25);
-  border-radius: 999px;
-  color: #777087;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
-
-.festeva-arc .fa-eyebrow::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #8a82e5;
-  box-shadow: 0 0 12px rgba(138, 130, 229, .5);
-}
-
-.festeva-arc .fa-heading h2 {
-  margin: 22px 0 14px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(38px, 5.2vw, 66px);
-  font-weight: 400;
-  letter-spacing: -.055em;
-  line-height: 1.06;
-}
-
-.festeva-arc .fa-gradient-text {
-  background: linear-gradient(
-    105deg,
-    #d90091 0%,
-    #8a82e5 30%,
-    #47abf9 56%,
-    #00d5f3 75%,
-    #00cfa9 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.festeva-arc .fa-subtitle {
-  max-width: 470px;
-  margin: 0 auto;
-  color: var(--fa-muted);
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-/* Palco do arco */
-
-.festeva-arc .fa-stage {
-  position: relative;
-  height: clamp(410px, 43vw, 535px);
-  margin-top: 12px;
-  overflow: hidden;
-  cursor: grab;
-  touch-action: pan-y;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.festeva-arc .fa-stage.is-dragging {
-  cursor: grabbing;
-}
-
-/* Trajetória pontilhada */
-
-.festeva-arc .fa-trajectory {
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 55%;
-  width: min(1120px, 115%);
-  height: 570px;
-  border: 1px dashed var(--fa-line);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.festeva-arc .fa-trajectory::before {
-  content: "";
-  position: absolute;
-  inset: 23px;
-  border: 1px dashed rgba(138, 130, 229, .10);
-  border-radius: 50%;
-}
-
-/* Cards posicionados pelo JavaScript */
-
-.festeva-arc .fa-card {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  width: clamp(190px, 22vw, 258px);
-  transform: translate(-50%, -50%);
-  transform-origin: center center;
-  will-change: transform, opacity, filter;
-  transition:
-    transform 420ms cubic-bezier(.2, .75, .25, 1),
-    opacity 350ms ease,
-    filter 350ms ease;
-  cursor: pointer;
-  outline: none;
-}
-
-.festeva-arc .fa-card:focus-visible .fa-image {
-  outline: 3px solid #8a82e5;
-  outline-offset: 5px;
-}
-
-.festeva-arc .fa-step {
-  display: table;
-  margin: 0 auto 13px;
-  padding: 8px 11px;
-  border: 1px solid rgba(255, 255, 255, .14);
-  border-radius: 8px;
-  background: rgba(35, 30, 43, .91);
-  color: #fff;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  white-space: nowrap;
-  box-shadow: 0 5px 20px rgba(36, 32, 43, .10);
-}
-
-.festeva-arc .fa-image {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border: 4px solid rgba(255, 255, 255, .96);
-  border-radius: var(--fa-radius);
-  background: #eee8f0;
-  box-shadow:
-    0 16px 40px rgba(36, 32, 43, .10),
-    0 2px 7px rgba(36, 32, 43, .04);
-}
-
-.festeva-arc .fa-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  -webkit-user-drag: none;
-  transition: transform 700ms cubic-bezier(.2, .7, .2, 1);
-}
-
-.festeva-arc .fa-card.is-active .fa-image img {
-  transform: scale(1.035);
-}
-
-.festeva-arc .fa-image::after {
-  content: "";
-  position: absolute;
-  inset: 45% 0 0;
-  background: linear-gradient(transparent, rgba(28, 20, 36, .35));
-  pointer-events: none;
-}
-
-.festeva-arc .fa-card-content {
-  padding: 17px 4px 0;
-  text-align: center;
-}
-
-.festeva-arc .fa-card-content h3 {
-  margin: 0 0 8px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(21px, 2.1vw, 27px);
-  font-weight: 400;
-  letter-spacing: -.035em;
-}
-
-.festeva-arc .fa-card-content p {
-  max-width: 240px;
-  margin: 0 auto;
-  color: var(--fa-muted);
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-/* Navegação */
-
-.festeva-arc .fa-controls {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-  margin-top: 8px;
-}
-
-.festeva-arc .fa-arrow {
-  display: grid;
-  place-items: center;
-  width: 43px;
-  height: 43px;
-  padding: 0;
-  border: 1px solid rgba(36, 32, 43, .13);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, .85);
-  color: var(--fa-text);
-  font-size: 20px;
-  cursor: pointer;
-  transition:
-    background 200ms ease,
-    color 200ms ease,
-    border-color 200ms ease,
-    transform 200ms ease;
-}
-
-.festeva-arc .fa-arrow:hover {
-  background: #24202b;
-  color: #fff;
-  border-color: #24202b;
-  transform: scale(1.05);
-}
-
-.festeva-arc .fa-arrow:focus-visible {
-  outline: 2px solid #8a82e5;
-  outline-offset: 4px;
-}
-
-.festeva-arc .fa-counter {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  min-width: 60px;
-  justify-content: center;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-}
-
-.festeva-arc .fa-counter-current {
-  font-size: 19px;
-  font-weight: 600;
-}
-
-.festeva-arc .fa-counter-total {
-  color: #9a94a0;
-}
-
-/* Entrada progressiva */
-
-@keyframes faFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.festeva-arc .fa-heading > * {
-  animation: faFadeUp .7s both;
-}
-
-.festeva-arc .fa-heading h2 {
-  animation-delay: .08s;
-}
-
-.festeva-arc .fa-subtitle {
-  animation-delay: .16s;
-}
-
-/* Responsivo */
-
-@media (min-width: 1500px) {
-  .festeva-arc .fa-stage {
-    height: 560px;
-  }
-}
-
-@media (max-width: 700px) {
-  .festeva-arc {
-    padding: 72px 0 65px;
-  }
-
-  .festeva-arc .fa-container {
-    width: calc(100% - 24px);
-  }
-
-  .festeva-arc .fa-heading {
-    margin-bottom: 15px;
-    padding-inline: 8px;
-  }
-
-  .festeva-arc .fa-heading h2 {
-    font-size: clamp(37px, 10vw, 52px);
-  }
-
-  .festeva-arc .fa-subtitle {
-    max-width: 330px;
-    font-size: 13px;
-  }
-
-  .festeva-arc .fa-stage {
-    height: 425px;
-    margin-top: 4px;
-  }
-
-  .festeva-arc .fa-trajectory {
-    top: 43%;
-    width: 900px;
-    height: 460px;
-  }
-
-  .festeva-arc .fa-card {
-    width: clamp(168px, 47vw, 218px);
-  }
-
-  .festeva-arc .fa-step {
-    margin-bottom: 10px;
-    padding: 7px 9px;
-    font-size: 8px;
-  }
-
-  .festeva-arc .fa-image {
-    border-width: 3px;
-    border-radius: 19px;
-  }
-
-  .festeva-arc .fa-card-content {
-    padding-top: 13px;
-  }
-
-  .festeva-arc .fa-card-content h3 {
-    font-size: 23px;
-  }
-
-  .festeva-arc .fa-card-content p {
-    max-width: 190px;
-    font-size: 11px;
-  }
-
-  .festeva-arc .fa-controls {
-    margin-top: 3px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .festeva-arc *,
-  .festeva-arc *::before,
-  .festeva-arc *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
-}
-</style>
-</head>
-
-<body style="margin:0">
-
-<section class="festeva-arc" id="festevaArc">
-  <div class="fa-container">
-
-    <header class="fa-heading">
-      <span class="fa-eyebrow">Uma experiência Festeva</span>
-
-      <h2>
-        Do primeiro detalhe<br>
-        à <span class="fa-gradient-text">grande celebração.</span>
-      </h2>
-
-      <p class="fa-subtitle">
-        Cada momento merece ser especial. Crie, personalize e
-        compartilhe uma experiência que tenha tudo a ver com você.
-      </p>
-    </header>
-
-    <div
-      class="fa-stage"
-      aria-label="Carrossel de etapas. Arraste para navegar."
-      tabindex="0"
-    >
-      <div class="fa-trajectory" aria-hidden="true"></div>
-
-      <!-- Personalize os cards abaixo.
-           Mantenha data-step para a numeração automática. -->
-
-      <article class="fa-card" data-step="01" tabindex="0">
-        <span class="fa-step">STEP 01</span>
-        <div class="fa-image">
-          <img
-            src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=85"
-            alt="Cerimônia de casamento ao ar livre"
-            draggable="false"
-          >
+<section class="festeva-scroll" id="festevaScroll">
+  <header class="fs-heading">
+    <span class="fs-eyebrow">A experiência Festeva</span>
+    <h2>Uma ideia.<br><span>Mil possibilidades.</span></h2>
+    <p>Deslize pela experiência e descubra cada detalhe.</p>
+  </header>
+
+  <div class="fs-sticky">
+    <div class="fs-arc" aria-hidden="true"></div>
+
+    <div class="fs-visual" aria-live="polite">
+      <article class="fs-slide is-active">
+        <span class="fs-step">STEP 01</span>
+        <div class="fs-photo">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85"
+               alt="Cerimônia de casamento">
         </div>
-        <div class="fa-card-content">
+        <div class="fs-caption">
           <h3>Imagine</h3>
-          <p>Comece com a sua ideia e transforme-a em algo único.</p>
+          <p>Tudo começa com uma ideia especial.</p>
         </div>
       </article>
 
-      <article class="fa-card" data-step="02" tabindex="0">
-        <span class="fa-step">STEP 02</span>
-        <div class="fa-image">
-          <img
-            src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=85"
-            alt="Detalhes delicados de uma celebração"
-            draggable="false"
-          >
+      <article class="fs-slide">
+        <span class="fs-step">STEP 02</span>
+        <div class="fs-photo">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=85"
+               alt="Detalhes de uma celebração">
         </div>
-        <div class="fa-card-content">
+        <div class="fs-caption">
           <h3>Personalize</h3>
-          <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
+          <p>Escolha os detalhes que representam você.</p>
         </div>
       </article>
 
-      <article class="fa-card" data-step="03" tabindex="0">
-        <span class="fa-step">STEP 03</span>
-        <div class="fa-image">
-          <img
-            src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=85"
-            alt="Mesa decorada para uma festa"
-            draggable="false"
-          >
+      <article class="fs-slide">
+        <span class="fs-step">STEP 03</span>
+        <div class="fs-photo">
+          <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=85"
+               alt="Mesa decorada para uma festa">
         </div>
-        <div class="fa-card-content">
+        <div class="fs-caption">
           <h3>Organize</h3>
-          <p>Reúna as informações importantes em um só lugar.</p>
+          <p>Reúna tudo o que importa em um só lugar.</p>
         </div>
       </article>
 
-      <article class="fa-card" data-step="04" tabindex="0">
-        <span class="fa-step">STEP 04</span>
-        <div class="fa-image">
-          <img
-            src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=700&q=85"
-            alt="Celebração com pessoas reunidas"
-            draggable="false"
-          >
+      <article class="fs-slide">
+        <span class="fs-step">STEP 04</span>
+        <div class="fs-photo">
+          <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=900&q=85"
+               alt="Celebração especial">
         </div>
-        <div class="fa-card-content">
+        <div class="fs-caption">
           <h3>Celebre</h3>
-          <p>Compartilhe o seu espaço e viva cada momento.</p>
-        </div>
-      </article>
-
-      <article class="fa-card" data-step="05" tabindex="0">
-        <span class="fa-step">STEP 05</span>
-        <div class="fa-image">
-          <img
-            src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=85"
-            alt="Buquê e detalhes de casamento"
-            draggable="false"
-          >
-        </div>
-        <div class="fa-card-content">
-          <h3>Recorde</h3>
-          <p>Guarde os detalhes de uma história que é só sua.</p>
+          <p>Compartilhe o seu momento com quem você ama.</p>
         </div>
       </article>
     </div>
 
-    <nav class="fa-controls" aria-label="Controles do carrossel">
-      <button class="fa-arrow fa-prev" type="button"
-              aria-label="Etapa anterior">←</button>
+    <div class="fs-progress">
+      <span class="fs-current">01</span>
+      <span class="fs-progress-track"><i></i></span>
+      <span class="fs-total">04</span>
+    </div>
+  </div>
 
-      <div class="fa-counter" aria-live="polite">
-        <span class="fa-counter-current">01</span>
-        <span class="fa-counter-total">/ 05</span>
-      </div>
-
-      <button class="fa-arrow fa-next" type="button"
-              aria-label="Próxima etapa">→</button>
-    </nav>
-
+  <!-- Cada bloco ocupa uma etapa de scroll -->
+  <div class="fs-scroll-steps" aria-hidden="true">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
 </section>
 
+<style>
+.festeva-scroll {
+  --fs-ink: #24202b;
+  --fs-muted: #817b89;
+  --fs-accent: #8a82e5;
+  position: relative;
+  background: #fbfaf8;
+  color: var(--fs-ink);
+  font-family: Inter, Arial, sans-serif;
+}
+
+.festeva-scroll *,
+.festeva-scroll *::before,
+.festeva-scroll *::after {
+  box-sizing: border-box;
+}
+
+.fs-heading {
+  text-align: center;
+  padding: 90px 20px 10px;
+}
+
+.fs-eyebrow {
+  display: inline-block;
+  padding: 8px 13px;
+  border: 1px solid #e3dff6;
+  border-radius: 99px;
+  color: #777087;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.fs-heading h2 {
+  margin: 22px 0 12px;
+  font: 400 clamp(38px, 5.5vw, 68px)/1.05 Georgia, serif;
+  letter-spacing: -.045em;
+}
+
+.fs-heading h2 span {
+  background: linear-gradient(100deg,#ff00aa,#8a82e5,#47abf9,#00d5f3,#00e5e2,#00d6a8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.fs-heading p {
+  color: var(--fs-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.fs-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 600px;
+  max-height: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Arco decorativo pontilhado */
+.fs-arc {
+  position: absolute;
+  z-index: -1;
+  width: min(900px, 120vw);
+  height: min(900px, 120vw);
+  left: 50%;
+  top: 43%;
+  border: 1px dashed rgba(138,130,229,.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.fs-arc::after {
+  content: "";
+  position: absolute;
+  inset: 28px;
+  border: 1px dashed rgba(138,130,229,.1);
+  border-radius: 50%;
+}
+
+.fs-visual {
+  position: relative;
+  width: min(360px, 78vw);
+  height: min(600px, 76svh);
+  min-height: 400px;
+}
+
+.fs-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(38px) rotate(5deg) scale(.94);
+  transition:
+    opacity .5s ease,
+    transform .7s cubic-bezier(.2,.75,.25,1),
+    visibility .5s;
+}
+
+.fs-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) rotate(0) scale(1);
+  z-index: 2;
+}
+
+.fs-slide.is-leaving {
+  opacity: 0;
+  transform: translateY(-35px) rotate(-5deg) scale(.96);
+}
+
+.fs-step {
+  margin-bottom: 13px;
+  padding: 8px 12px;
+  color: white;
+  background: rgba(36,32,43,.93);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+
+.fs-photo {
+  width: 100%;
+  height: 68%;
+  min-height: 280px;
+  max-height: 450px;
+  padding: 4px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: white;
+  box-shadow: 0 22px 60px rgba(36,32,43,.13);
+}
+
+.fs-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.fs-caption {
+  width: 100%;
+  padding: 18px 8px 0;
+  text-align: center;
+}
+
+.fs-caption h3 {
+  margin: 0 0 8px;
+  font: 400 29px/1.2 Georgia, serif;
+}
+
+.fs-caption p {
+  margin: 0 auto;
+  max-width: 290px;
+  color: var(--fs-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.fs-progress {
+  position: absolute;
+  z-index: 5;
+  bottom: max(25px, env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  transform: translateX(-50%);
+  color: #9b95a3;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fs-current {
+  color: var(--fs-ink);
+  font-weight: 700;
+}
+
+.fs-progress-track {
+  display: block;
+  width: 90px;
+  height: 2px;
+  background: #e6e1e9;
+  overflow: hidden;
+}
+
+.fs-progress-track i {
+  display: block;
+  width: 25%;
+  height: 100%;
+  background: linear-gradient(90deg,#ff00aa,#8a82e5,#47abf9,#00e5e2);
+  transition: width .4s ease;
+}
+
+.fs-scroll-steps > div {
+  height: 85svh;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .fs-heading {
+    padding-top: 65px;
+  }
+
+  .fs-sticky {
+    min-height: 540px;
+    height: 100svh;
+  }
+
+  .fs-visual {
+    width: min(300px, 76vw);
+    height: min(510px, 70svh);
+    min-height: 380px;
+  }
+
+  .fs-photo {
+    height: 65%;
+    min-height: 250px;
+    border-radius: 20px;
+  }
+
+  .fs-photo img {
+    border-radius: 16px;
+  }
+
+  .fs-caption h3 {
+    font-size: 25px;
+  }
+
+  .fs-scroll-steps > div {
+    height: 75svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-slide,
+  .fs-progress-track i {
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
 <script>
 (() => {
-  "use strict";
+  const section = document.querySelector("#festevaScroll");
+  if (!section || section.dataset.scrollReady) return;
+  section.dataset.scrollReady = "true";
 
-  const root = document.getElementById("festevaArc");
-  if (!root || root.dataset.initialized === "true") return;
-  root.dataset.initialized = "true";
+  const slides = [...section.querySelectorAll(".fs-slide")];
+  const steps = [...section.querySelectorAll(".fs-scroll-steps > div")];
+  const current = section.querySelector(".fs-current");
+  const total = section.querySelector(".fs-total");
+  const progress = section.querySelector(".fs-progress-track i");
 
-  const stage = root.querySelector(".fa-stage");
-  const cards = [...root.querySelectorAll(".fa-card")];
-  const prev = root.querySelector(".fa-prev");
-  const next = root.querySelector(".fa-next");
-  const currentLabel = root.querySelector(".fa-counter-current");
-  const totalLabel = root.querySelector(".fa-counter-total");
+  let activeIndex = -1;
+  let ticking = false;
 
-  const total = cards.length;
-  if (!total) return;
+  total.textContent = String(slides.length).padStart(2, "0");
 
-  let position = 0;
-  let targetPosition = 0;
-  let animationFrame = 0;
-  let dragging = false;
-  let startX = 0;
-  let lastX = 0;
-  let dragDistance = 0;
-  let lastTime = 0;
-  let velocity = 0;
-  let wheelLocked = false;
-  let wheelTimer = 0;
+  function update() {
+    ticking = false;
 
-  const clamp = (value, min, max) =>
-    Math.max(min, Math.min(max, value));
+    const sectionRect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+    const scrolled = -sectionRect.top;
+    const ratio = Math.max(0, Math.min(0.9999, scrolled / scrollable));
 
-  // Menor espaçamento em telas pequenas.
-  function getSpacing() {
-    if (window.innerWidth <= 430) return 0.82;
-    if (window.innerWidth <= 700) return 0.92;
-    return 1;
-  }
-
-  // Quantas etapas de distância o carrossel percorre
-  // ao longo da curva.
-  function getVisibleRange() {
-    return window.innerWidth <= 700 ? 2.3 : 2.7;
-  }
-
-  function wrapPosition(value) {
-    return ((value % total) + total) % total;
-  }
-
-  function getOffset(index) {
-    let offset = index - position;
-
-    // Faz o carrossel continuar em loop.
-    if (offset > total / 2) offset -= total;
-    if (offset < -total / 2) offset += total;
-
-    return offset;
-  }
-
-  function render() {
-    const width = stage.clientWidth;
-    const mobile = window.innerWidth <= 700;
-    const spacing = getSpacing();
-    const visibleRange = getVisibleRange();
-
-    // Controla a largura da curva e a distância entre os cards.
-    const horizontalRadius = Math.min(
-      width * (mobile ? 0.43 : 0.36),
-      mobile ? 350 : 490
+    // A seção inicial possui um trecho de introdução.
+    // O sticky percorre as etapas em sequência.
+    const index = Math.min(
+      slides.length - 1,
+      Math.floor(ratio * slides.length)
     );
 
-    const verticalRadius = mobile ? 125 : 175;
-    const centerY = mobile ? 157 : 178;
+    if (index !== activeIndex) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === index);
+        slide.classList.remove("is-leaving");
+      });
 
-    cards.forEach((card, index) => {
-      const offset = getOffset(index);
-      const absOffset = Math.abs(offset);
+      activeIndex = index;
+      current.textContent = String(index + 1).padStart(2, "0");
+      progress.style.width =
+        `${((index + 1) / slides.length) * 100}%`;
+    }
+  }
 
-      // Coordenadas paramétricas de uma curva em arco.
-      // O card central fica no ponto mais baixo do arco superior.
-      const angle = clamp(offset / visibleRange, -1.3, 1.3);
-      const x = Math.sin(angle) * horizontalRadius * spacing;
-      const y = centerY + (1 - Math.cos(angle)) * verticalRadius;
+  function requestUpdate() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
 
-      const rotation = angle * (mobile ? 17 : 19);
-      const scale = 1 - Math.min(absOffset, 4) * 0.115;
-      const opacity = clamp(1 - absOffset * 0.29, 0.08, 1);
-      const blur = Math.min(absOffset * 0.45, 1.4);
-      const isActive = absOffset < 0.45;
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
 
-      card.style.transform =
-        `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) ` +
-        `rotate(${rotation}deg) scale(${Math.max(scale, 0.58)})`;
-
-      card.style.opacity = opacity;
-      card.style.filter = `blur(${blur}px)`;
-      card.style.zIndex = String(100 - Math.round(absOffset * 10));
-      card.style.pointerEvents = absOffset < 1.65 ? "auto" : "none";
-      card.classList.toggle("is-active", isActive);
-      card.setAttribute("aria-current", isActive ? "step" : "false");
-
-      // Atualiza a etiqueta de etapa conforme o card.
-      const tag = card.querySelector(".fa-step");
-      if (tag) {
-        const step = String(index + 1).padStart(2, "0");
-        tag.textContent = `STEP ${step}`;
-      }
+  // Observa quando a seção se aproxima da tela.
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(requestUpdate, {
+      threshold: [0, .1, .5, 1]
     });
-
-    currentLabel.textContent =
-      String(Math.round(wrapPosition(Math.round(targetPosition))) + 1)
-        .padStart(2, "0");
-
-    totalLabel.textContent = `/ ${String(total).padStart(2, "0")}`;
+    observer.observe(section);
   }
 
-  // Animação suave entre a posição atual e a posição desejada.
-  function animate() {
-    const delta = targetPosition - position;
-
-    if (Math.abs(delta) > 0.001) {
-      position += delta * 0.105;
-    } else {
-      position = targetPosition;
-    }
-
-    render();
-
-    if (Math.abs(targetPosition - position) > 0.001) {
-      animationFrame = requestAnimationFrame(animate);
-    } else {
-      animationFrame = 0;
-    }
-  }
-
-  function goTo(value) {
-    targetPosition = value;
-
-    if (!animationFrame) {
-      animationFrame = requestAnimationFrame(animate);
-    }
-  }
-
-  function goNext() {
-    goTo(targetPosition + 1);
-  }
-
-  function goPrev() {
-    goTo(targetPosition - 1);
-  }
-
-  prev.addEventListener("click", goPrev);
-  next.addEventListener("click", goNext);
-
-  // Clicar num card coloca-o no centro.
-  cards.forEach((card, index) => {
-    card.addEventListener("click", () => {
-      if (Math.abs(dragDistance) > 6) return;
-
-      const offset = getOffset(index);
-      goTo(targetPosition + offset);
-    });
-
-    card.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        const offset = getOffset(index);
-        goTo(targetPosition + offset);
-      }
-    });
-  });
-
-  // Arrastar com rato, caneta ou toque.
-  stage.addEventListener("pointerdown", event => {
-    if (event.target.closest("button")) return;
-
-    dragging = true;
-    startX = event.clientX;
-    lastX = event.clientX;
-    dragDistance = 0;
-    velocity = 0;
-    lastTime = performance.now();
-
-    stage.classList.add("is-dragging");
-    stage.setPointerCapture?.(event.pointerId);
-
-    if (animationFrame) {
-      cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
-    }
-
-    position = targetPosition;
-  });
-
-  stage.addEventListener("pointermove", event => {
-    if (!dragging) return;
-
-    const now = performance.now();
-    const dx = event.clientX - lastX;
-    const elapsed = Math.max(1, now - lastTime);
-
-    dragDistance = event.clientX - startX;
-    velocity = dx / elapsed;
-    lastX = event.clientX;
-    lastTime = now;
-
-    // O movimento horizontal desloca o conjunto pelo arco.
-    const sensitivity = window.innerWidth <= 700 ? 185 : 245;
-    targetPosition -= dx / sensitivity;
-    position = targetPosition;
-
-    render();
-  });
-
-  function endDrag() {
-    if (!dragging) return;
-
-    dragging = false;
-    stage.classList.remove("is-dragging");
-
-    // Um pequeno impulso deixa o gesto mais natural.
-    if (Math.abs(velocity) > 0.12) {
-      targetPosition -= clamp(velocity * 5, -0.7, 0.7);
-    }
-
-    // Assenta no card mais próximo.
-    targetPosition = Math.round(targetPosition);
-    goTo(targetPosition);
-  }
-
-  stage.addEventListener("pointerup", endDrag);
-  stage.addEventListener("pointercancel", endDrag);
-  stage.addEventListener("lostpointercapture", endDrag);
-
-  // Roda do mouse: só captura gestos predominantemente verticais
-  // quando o ponteiro está sobre a seção.
-  stage.addEventListener("wheel", event => {
-    const dominantDelta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
-      ? event.deltaY
-      : event.deltaX;
-
-    if (Math.abs(dominantDelta) < 12 || wheelLocked) return;
-
-    event.preventDefault();
-    wheelLocked = true;
-
-    goTo(targetPosition + (dominantDelta > 0 ? 1 : -1));
-
-    clearTimeout(wheelTimer);
-    wheelTimer = setTimeout(() => {
-      wheelLocked = false;
-    }, 450);
-  }, { passive: false });
-
-  // Teclado para acessibilidade.
-  stage.addEventListener("keydown", event => {
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      goNext();
-    }
-
-    if (event.key === "ArrowLeft") {
-      event.preventDefault();
-      goPrev();
-    }
-  });
-
-  // Recalcula a geometria após mudança de tamanho.
-  let resizeFrame = 0;
-
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(render);
-  }, { passive: true });
-
-  // Suporte a preferência por movimento reduzido.
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  );
-
-  if (reducedMotion.matches) {
-    position = 0;
-    targetPosition = 0;
-  }
-
-  render();
+  update();
 })();
 </script>
-
 </body>
 </html>
