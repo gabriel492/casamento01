@@ -13,7 +13,6 @@
     html {
       scroll-behavior: smooth;
     }
-    /* Estilo da barra de rolagem */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -24,26 +23,21 @@
       background: #1f293d;
       border-radius: 4px;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #374151;
-    }
 
-    /* Animação do Card Central */
     .central-card-box {
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Brilho de Foco do Card Central */
     .card-focused {
       box-shadow: 0 0 50px rgba(120, 119, 198, 0.4), 0 20px 40px rgba(0, 0, 0, 0.5);
       border-color: rgba(255, 255, 255, 0.9) !important;
       transform: scale(1.02);
     }
 
-    /* Efeito nos cards de fundo */
+    /* Cards de fundo com transição estável para não quebrar o layout */
     .bg-card {
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
-      will-change: transform, opacity;
+      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
+      will-change: opacity, transform;
     }
     .bg-card:hover {
       transform: scale(1.03) translateY(-4px) !important;
@@ -52,7 +46,6 @@
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
     }
 
-    /* Transição suave para troca da frase */
     .phrase-transition {
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
@@ -89,10 +82,9 @@
     </div>
   </header>
 
-  <!-- ESPAÇO SUPERIOR PARA O HEADER -->
   <div class="h-20"></div>
 
-  <!-- SEÇÃO DE INTRODUÇÃO / HERO -->
+  <!-- SEÇÃO DE INTRODUÇÃO -->
   <section id="hero" class="py-16 text-center px-4 max-w-4xl mx-auto">
     <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-4">
       Design & Desenvolvimento Web
@@ -101,7 +93,7 @@
       Experiências Digitais Sob Medida
     </h1>
     <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
-      Role a página abaixo para testar o efeito interativo de surgimento gradual dos templates e transição do cartão central.
+      Role a página abaixo para testar o efeito interativo de surgimento gradual dos templates.
     </p>
     <div class="flex items-center justify-center gap-2 text-slate-500 text-xs animate-bounce">
       <span>Role para baixo</span>
@@ -109,114 +101,98 @@
     </div>
   </section>
 
-  <!-- ÁREA DO EFEITO INTERATIVO COM ROLAGEM E SCROLL-PINNING -->
+  <!-- ÁREA DO EFEITO INTERATIVO -->
   <div id="efeito" class="relative h-[250vh] w-full bg-[#070a11]">
     
-    <!-- ELEMENTO FIXO DA TELA (STICKY VIEWPORT) -->
     <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
 
-      <!-- BOTÃO RETRÔ DE NAVEGAÇÃO SUPERIOR DIREITO -->
+      <!-- BOTÃO DIREITO -->
       <div class="absolute top-6 right-6 z-40">
-        <button class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700/60 backdrop-blur-md flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-700/80 transition-all shadow-lg">
+        <button class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700/60 backdrop-blur-md flex items-center justify-center text-slate-300 hover:text-white transition-all shadow-lg">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
       </div>
 
-      <!-- DETALHE ROXO NO TOPO ESQUERDO -->
+      <!-- DETALHE ROXO TOPO ESQUERDO -->
       <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-purple-600 to-indigo-500 z-40"></div>
 
-      <!-- OVERLAY DE DESFOQUE NO FUNDO (ATIVADO NO FINAL) -->
+      <!-- OVERLAY DE DESFOQUE DO FUNDO -->
       <div id="bg-overlay" class="absolute inset-0 z-10 bg-[#070a11]/40 backdrop-blur-[0px] opacity-0 transition-all duration-500 pointer-events-none"></div>
 
-      <!-- GRID DE CARDS DO PLANO DE FUNDO -->
+      <!-- GRID DE CARDS FIXO E ALINHADO -->
       <div id="grid-bg" class="absolute inset-0 p-4 md:p-6 grid grid-cols-4 md:grid-cols-6 grid-rows-3 gap-3 md:gap-4 z-0 w-full h-full max-w-[1600px] mx-auto pointer-events-auto">
         
-        <!-- CARD 1 -->
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.1">
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.1">
           <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 2 -->
-        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.15">
+        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.15">
           <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 3 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.2">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-95" data-delay="0.2">
           <div class="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/60"></div>
         </div>
 
-        <!-- CARD 4 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.25">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.25">
           <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 5 -->
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.3">
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.3">
           <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 6 -->
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.35">
+        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.35">
           <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 7 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.4">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.4">
           <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 8 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.45">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.45">
           <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 9 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.5">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.5">
           <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 10 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-90" data-delay="0.55">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-95" data-delay="0.55">
           <div class="absolute inset-0 bg-gradient-to-tr from-slate-900/80 to-slate-800/40"></div>
         </div>
 
-        <!-- CARD 11 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.6">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.6">
           <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 12 -->
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.65">
+        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.65">
           <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
-        <!-- CARD 13 -->
-        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-90" data-delay="0.7">
+        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.7">
           <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
           <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
         </div>
 
       </div>
 
-      <!-- CARD CENTRAL DE DESTAQUE (COMEÇA TRANSPARENTE E APENAS COM TEXTO BRANCO NO CENTRO) -->
+      <!-- CARD CENTRAL -->
       <div class="relative z-20 w-[90%] max-w-2xl px-4 pointer-events-auto">
         <div id="main-card" class="central-card-box w-full rounded-[28px] p-8 md:p-14 text-center border border-transparent shadow-none relative overflow-hidden backdrop-blur-none bg-transparent transition-all duration-300">
           
-          <!-- GRADIENTE DE FUNDO DO CARD CENTRAL (ANIMA AO ROLAR) -->
           <div id="card-bg-gradient" class="absolute inset-0 bg-gradient-to-br from-[#f8f9ff] via-[#f1f3fd] to-[#e8edfb] opacity-0 transition-opacity duration-500 -z-10"></div>
           
-          <!-- CONTEÚDO E FRASE CENTRAL -->
           <div class="relative z-10 flex flex-col items-center justify-center min-h-[160px]">
             <h2 id="main-phrase" class="phrase-transition text-2xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight transition-colors duration-500">
               Criar sites personalizados.
@@ -226,9 +202,8 @@
               Desenvolvemos a sua presença digital com alta performance, design moderno e animações fluidas.
             </p>
 
-            <!-- BOTÃO DE AÇÃO -->
             <div id="card-action" class="phrase-transition opacity-0 max-h-0 overflow-hidden mt-6">
-              <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg hover:shadow-xl active:scale-95">
+              <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
                 Solicitar Projeto
               </button>
             </div>
@@ -245,27 +220,16 @@
   <section id="sobre" class="py-24 px-6 max-w-6xl mx-auto border-t border-slate-800/80 bg-[#090d16]">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        </div>
         <h3 class="text-lg font-bold text-white mb-2">Alta Performance</h3>
-        <p class="text-slate-400 text-sm">Sites otimizados para carregamento instantâneo, SEO aprimorado e taxa de conversão elevada.</p>
+        <p class="text-slate-400 text-sm">Sites otimizados para carregamento instantâneo, SEO aprimorado e conversão elevada.</p>
       </div>
-
       <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
-        </div>
         <h3 class="text-lg font-bold text-white mb-2">Layouts Exclusivos</h3>
-        <p class="text-slate-400 text-sm">Design 100% sob medida para a sua marca, sem depender de temas prontos genéricos.</p>
+        <p class="text-slate-400 text-sm">Design 100% sob medida para a sua marca, sem temas genéricos.</p>
       </div>
-
       <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <div class="w-10 h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-        </div>
         <h3 class="text-lg font-bold text-white mb-2">Totalmente Responsivo</h3>
-        <p class="text-slate-400 text-sm">Navegação perfeita e adaptada em computadores, tablets e smartphones de qualquer resolução.</p>
+        <p class="text-slate-400 text-sm">Navegação perfeita em computadores, tablets e smartphones.</p>
       </div>
     </div>
   </section>
@@ -274,25 +238,18 @@
   <footer id="contato" class="bg-[#05070d] border-t border-slate-800/80 py-12 px-6 text-slate-400 text-sm">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
       <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">
-          S
-        </div>
+        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">S</div>
         <span class="font-semibold text-white">Estúdio LZ &copy; 2026</span>
       </div>
-
-      <p class="text-slate-500 text-xs text-center">
-        Desenvolvimento de Sites, Web Apps e Interfaces Interativas.
-      </p>
-
+      <p class="text-slate-500 text-xs text-center">Desenvolvimento de Sites, Web Apps e Interfaces Interativas.</p>
       <div class="flex items-center gap-6 text-slate-400">
         <a href="#" class="hover:text-white transition-colors">Instagram</a>
         <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-        <a href="#" class="hover:text-white transition-colors">GitHub</a>
       </div>
     </div>
   </footer>
 
-  <!-- SCRIPT DE INTERAÇÃO -->
+  <!-- SCRIPT DE CONTROLE DO SCROLL -->
   <script>
     const efeitoContainer = document.getElementById('efeito');
     const mainCard = document.getElementById('main-card');
@@ -316,10 +273,8 @@
       let progress = -rect.top / containerHeight;
       progress = Math.max(0, Math.min(1, progress));
 
-      // 1. SURGIMENTO SINCRONIZADO DO CARD CENTRAL E DOS CARDS DO FUNDO
       const revealProgress = Math.min(1, Math.max(0, (progress - 0.05) / 0.6));
 
-      // Ao rolar, a moldura e fundo do Card Central aparecem
       cardBgGradient.style.opacity = revealProgress;
       
       if (revealProgress > 0.1) {
@@ -334,16 +289,15 @@
         mainPhrase.classList.remove('text-slate-800');
       }
 
-      // Surgimento em cascata dos cards do fundo
+      // Surgimento fluido e alinhado dos cards de fundo
       bgCards.forEach((card) => {
         const delay = parseFloat(card.getAttribute('data-delay')) || 0;
-        const cardProgress = Math.min(1, Math.max(0, (revealProgress - delay * 0.3) / 0.7));
+        const cardProgress = Math.min(1, Math.max(0, (revealProgress - delay * 0.25) / 0.75));
 
         card.style.opacity = cardProgress * 0.85;
-        card.style.transform = `scale(${0.9 + (cardProgress * 0.1)}) translateY(${(1 - cardProgress) * 20}px)`;
+        card.style.transform = `scale(${0.95 + (cardProgress * 0.05)})`;
       });
 
-      // 2. FOCO FINAL E TROCA DE FRASE
       if (progress > 0.75) {
         bgOverlay.style.opacity = '1';
         bgOverlay.style.backdropFilter = 'blur(3px)';
