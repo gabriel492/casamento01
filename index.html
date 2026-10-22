@@ -31,24 +31,12 @@ body {
 .fs-heading {
   position: relative;
   z-index: 2;
-  padding: 50px 20px 10px;
+  padding: 40px 20px 0px;
   text-align: center;
 }
 
-.fs-eyebrow {
-  display: inline-block;
-  padding: 6px 14px;
-  border: 1px solid rgba(138,130,229,.28);
-  border-radius: 999px;
-  color: #777087;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
 .fs-heading h2 {
-  margin: 16px 0 10px;
+  margin: 0;
   font-family: Georgia, serif;
   font-size: clamp(32px, 4.8vw, 58px);
   font-weight: 400;
@@ -63,15 +51,7 @@ body {
   color: transparent;
 }
 
-.fs-heading p {
-  max-width: 480px;
-  margin: 0 auto;
-  color: var(--festeva-muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-/* Palco Fixo com espaço superior reservado */
+/* Palco Fixo com aproximação do arco ao título */
 .fs-sticky {
   position: sticky;
   top: 0;
@@ -81,37 +61,37 @@ body {
   align-items: center;
   justify-content: flex-end;
   height: 100vh;
-  min-height: 650px;
-  padding-bottom: 30px;
+  min-height: 600px;
+  padding-bottom: 25px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco: Redimensionado e deslocado para baixo */
+/* Palco do Arco: Espaçamento reduzido em relação ao título */
 .fs-stage {
   position: relative;
   width: min(980px, 96vw);
-  height: 340px;
-  margin-top: 20px;
+  height: 330px;
+  margin-top: 0px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-/* Arco pontilhado SVG mais redondo e amplo */
+/* Arco pontilhado SVG */
 .fs-arc-svg {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: min(940px, 94vw);
-  height: 320px;
+  height: 310px;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Contentor dos Cards */
+/* Container dos Cards */
 .fs-cards-container {
   position: absolute;
   top: 0;
@@ -169,7 +149,7 @@ body {
 .fs-footer {
   position: relative;
   z-index: 3;
-  margin-top: 15px;
+  margin-top: 10px;
   text-align: center;
   min-height: 95px;
 }
@@ -203,7 +183,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 18px;
+  margin-top: 16px;
   color: var(--festeva-muted);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
@@ -244,9 +224,9 @@ body {
 @media (max-width: 600px) {
   .fs-card { width: 180px; }
   .fs-photo { height: 200px; }
-  .fs-stage { height: 280px; }
-  .fs-arc-svg { height: 260px; }
-  .fs-heading { padding-top: 35px; }
+  .fs-stage { height: 270px; }
+  .fs-arc-svg { height: 250px; }
+  .fs-heading { padding-top: 25px; }
 }
 </style>
 </head>
@@ -254,14 +234,12 @@ body {
 
 <section class="festeva-scroll" id="festevaScroll">
   <header class="fs-heading">
-    <span class="fs-eyebrow">Uma experiência Festeva</span>
     <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
-    <p>Arraste lateralmente ou role para percorrer o caminho das etapas.</p>
   </header>
 
   <div class="fs-sticky" id="stickyStage">
     <div class="fs-stage">
-      <!-- Arco SVG mais redondo (raios ajustados para curva suave) -->
+      <!-- Arco SVG -->
       <svg class="fs-arc-svg" viewBox="0 0 900 300" fill="none">
         <path id="arcPath" d="M 50,280 A 420,250 0 0,1 850,280" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
       </svg>
@@ -366,15 +344,14 @@ body {
   let startX = 0;
   let dragStartProgress = 0;
 
-  // Raio e proporções do arco aumentados para ficar mais redondo e maior
   function getArcPoint(progressOffset) {
-    const angle = (progressOffset * 0.38) * Math.PI; // Ângulo de abertura
-    const rx = 400; // Raio horizontal expandido
-    const ry = 220; // Raio vertical expandido (mais redondo)
+    const angle = (progressOffset * 0.38) * Math.PI;
+    const rx = 400;
+    const ry = 220;
 
     const x = rx * Math.sin(angle);
     const y = ry * (1 - Math.cos(angle));
-    const rotate = (angle * 180 / Math.PI) * 0.65; // Rotação acompanhando a curva
+    const rotate = (angle * 180 / Math.PI) * 0.65;
 
     return { x, y, rotate };
   }
