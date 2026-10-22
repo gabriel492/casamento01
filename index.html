@@ -12,81 +12,97 @@
   --festeva-lilac: #8a82e5;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+* {
+  box-sizing: border-box;
+}
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
   background: var(--festeva-bg);
   color: var(--festeva-ink);
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }
 
+/* Container do Scroll */
 .festeva-scroll {
   position: relative;
   background: var(--festeva-bg);
 }
 
-.fs-heading {
-  position: relative;
-  z-index: 2;
-  padding: 35px 15px 5px;
-  text-align: center;
-}
-
-.fs-heading h2 {
-  margin: 0;
-  font-family: Georgia, serif;
-  font-size: clamp(30px, 4.2vw, 50px);
-  font-weight: 400;
-  letter-spacing: -.03em;
-  line-height: 1.08;
-}
-
-.fs-gradient-text {
-  background: linear-gradient(105deg,#d90091 0%,#8a82e5 28%,#47abf9 52%,#00d5f3 73%,#00cfa9 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Palco Fixo centralizado com equilíbrio visual */
+/* Palco Fixo que utiliza exatamente a altura total do viewport (100svh) */
 .fs-sticky {
   position: sticky;
   top: 0;
   z-index: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  width: 100vw;
   height: 100vh;
-  max-height: 100vh;
-  padding-bottom: 20px;
+  height: 100svh;
+  padding: clamp(20px, 4vh, 40px) 16px clamp(16px, 3vh, 32px);
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
 }
 
-/* Palco do Arco: Espaçamento ajustado ao título */
+/* Título travado na parte superior */
+.fs-heading {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+.fs-heading h2 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(30px, 5.2vw, 56px);
+  font-weight: 400;
+  letter-spacing: -.03em;
+  line-height: 1.08;
+}
+
+.fs-gradient-text {
+  background: linear-gradient(105deg, #d90091 0%, #8a82e5 28%, #47abf9 52%, #00d5f3 73%, #00cfa9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Área inferior contendo o arco e a galeria */
+.fs-bottom-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+/* Palco do Arco e Fotos */
 .fs-stage {
   position: relative;
-  width: min(900px, 96vw);
-  height: 230px;
-  margin-top: 5px;
+  width: min(920px, 96vw);
+  height: clamp(190px, 28vh, 260px);
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-/* Arco pontilhado SVG */
+/* Arco SVG pontilhado */
 .fs-arc-svg {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(860px, 94vw);
-  height: 230px;
+  width: min(880px, 94vw);
+  height: 100%;
   pointer-events: none;
   z-index: 1;
 }
@@ -106,7 +122,7 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 195px;
+  width: clamp(150px, 20vw, 210px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,11 +133,11 @@ body {
 
 .fs-photo {
   width: 100%;
-  height: 215px;
+  height: clamp(170px, 25vh, 230px);
   border-radius: 18px;
   background: #fff;
   padding: 4px;
-  box-shadow: 0 16px 32px rgba(36,32,43,0.12), 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 16px 36px rgba(36, 32, 43, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
   overflow: hidden;
 }
 
@@ -133,13 +149,13 @@ body {
   display: block;
 }
 
-/* Informações e Progresso no Rodapé */
+/* Legenda e barra de progresso no rodapé */
 .fs-footer {
   position: relative;
   z-index: 3;
-  margin-top: 8px;
+  margin-top: 10px;
   text-align: center;
-  min-height: 80px;
+  min-height: 75px;
 }
 
 .fs-caption-item {
@@ -154,15 +170,15 @@ body {
 .fs-caption-item h3 {
   margin: 0 0 4px;
   font-family: Georgia, serif;
-  font-size: 22px;
+  font-size: clamp(20px, 3vw, 24px);
   font-weight: 400;
 }
 
 .fs-caption-item p {
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 320px;
   color: var(--festeva-muted);
-  font-size: 12px;
+  font-size: clamp(12px, 1.8vw, 13px);
   line-height: 1.4;
 }
 
@@ -170,7 +186,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .fs-progress-track {
@@ -188,14 +204,14 @@ body {
   transition: width 0.2s ease-out;
 }
 
-/* Espaço para o scroll fluir */
+/* Espaço invisível para possibilitar o movimento via scroll */
 .fs-scroll-steps {
   position: relative;
   z-index: 0;
 }
 
 .fs-scroll-steps > div {
-  height: 70vh;
+  height: 75vh;
 }
 
 @keyframes fadeIn {
@@ -204,12 +220,9 @@ body {
 }
 
 @media (max-width: 600px) {
-  .fs-card { width: 160px; }
-  .fs-photo { height: 175px; }
-  .fs-stage { height: 185px; }
-  .fs-arc-svg { height: 185px; }
-  .fs-heading { padding-top: 20px; }
-  .fs-heading h2 { font-size: 26px; }
+  .fs-heading h2 {
+    font-size: 26px;
+  }
 }
 </style>
 </head>
@@ -217,84 +230,88 @@ body {
 
 <section class="festeva-scroll" id="festevaScroll">
   <div class="fs-sticky" id="stickyStage">
+    <!-- Parte de Cima: Título Fixo -->
     <header class="fs-heading">
       <h2>Do primeiro detalhe<br>à <span class="fs-gradient-text">grande celebração.</span></h2>
     </header>
 
-    <div class="fs-stage">
-      <!-- Arco SVG -->
-      <svg class="fs-arc-svg" viewBox="0 0 900 230" fill="none">
-        <path id="arcPath" d="M 50,210 A 420,190 0 0,1 850,210" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
-      </svg>
+    <!-- Parte de Baixo: Galeria e Arco -->
+    <div class="fs-bottom-stage">
+      <div class="fs-stage">
+        <!-- Arco SVG pontilhado -->
+        <svg class="fs-arc-svg" viewBox="0 0 900 230" fill="none">
+          <path id="arcPath" d="M 50,210 A 420,190 0 0,1 850,210" stroke="#8a82e5" stroke-opacity="0.35" stroke-width="1.5" stroke-dasharray="6 6"/>
+        </svg>
 
-      <!-- Container dos cards -->
-      <div class="fs-cards-container" id="cardsContainer">
-        
-        <article class="fs-card" data-index="0">
-          <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Passo 01">
+        <!-- Container dos cards da galeria -->
+        <div class="fs-cards-container" id="cardsContainer">
+          
+          <article class="fs-card" data-index="0">
+            <div class="fs-photo">
+              <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Passo 01">
+            </div>
+          </article>
+
+          <article class="fs-card" data-index="1">
+            <div class="fs-photo">
+              <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Passo 02">
+            </div>
+          </article>
+
+          <article class="fs-card" data-index="2">
+            <div class="fs-photo">
+              <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Passo 03">
+            </div>
+          </article>
+
+          <article class="fs-card" data-index="3">
+            <div class="fs-photo">
+              <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Passo 04">
+            </div>
+          </article>
+
+          <article class="fs-card" data-index="4">
+            <div class="fs-photo">
+              <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Passo 05">
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Descrições e Controlo de Progresso -->
+      <div class="fs-footer">
+        <div class="fs-caption-item active" data-caption="0">
+          <h3>Imagine</h3>
+          <p>Comece com uma ideia especial e transforme-a em algo único.</p>
+        </div>
+        <div class="fs-caption-item" data-caption="1">
+          <h3>Personalize</h3>
+          <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
+        </div>
+        <div class="fs-caption-item" data-caption="2">
+          <h3>Organize</h3>
+          <p>Reúna as informações importantes em um só lugar.</p>
+        </div>
+        <div class="fs-caption-item" data-caption="3">
+          <h3>Compartilhe</h3>
+          <p>Envie os convites e acompanhe os seus convidados.</p>
+        </div>
+        <div class="fs-caption-item" data-caption="4">
+          <h3>Celebre</h3>
+          <p>Viva cada momento inesquecível sabendo que tudo foi planeado com carinho.</p>
+        </div>
+
+        <div class="fs-progress">
+          <div class="fs-progress-track">
+            <div class="fs-progress-bar" id="progressBar"></div>
           </div>
-        </article>
-
-        <article class="fs-card" data-index="1">
-          <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Passo 02">
-          </div>
-        </article>
-
-        <article class="fs-card" data-index="2">
-          <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Passo 03">
-          </div>
-        </article>
-
-        <article class="fs-card" data-index="3">
-          <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Passo 04">
-          </div>
-        </article>
-
-        <article class="fs-card" data-index="4">
-          <div class="fs-photo">
-            <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="Passo 05">
-          </div>
-        </article>
-
-      </div>
-    </div>
-
-    <!-- Descrições e Controlo de Progresso -->
-    <div class="fs-footer">
-      <div class="fs-caption-item active" data-caption="0">
-        <h3>Imagine</h3>
-        <p>Comece com uma ideia especial e transforme-a em algo único.</p>
-      </div>
-      <div class="fs-caption-item" data-caption="1">
-        <h3>Personalize</h3>
-        <p>Escolha cores, imagens e detalhes com a sua identidade.</p>
-      </div>
-      <div class="fs-caption-item" data-caption="2">
-        <h3>Organize</h3>
-        <p>Reúna as informações importantes em um só lugar.</p>
-      </div>
-      <div class="fs-caption-item" data-caption="3">
-        <h3>Compartilhe</h3>
-        <p>Envie os convites e acompanhe os seus convidados.</p>
-      </div>
-      <div class="fs-caption-item" data-caption="4">
-        <h3>Celebre</h3>
-        <p>Viva cada momento inesquecível sabendo que tudo foi planeado com carinho.</p>
-      </div>
-
-      <div class="fs-progress">
-        <div class="fs-progress-track">
-          <div class="fs-progress-bar" id="progressBar"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Blocos transparentes para permitir o movimento durante o scroll -->
+  <!-- Passos transparentes para permitir a animação no scroll -->
   <div class="fs-scroll-steps" id="scrollSteps">
     <div></div><div></div><div></div><div></div><div></div>
   </div>
@@ -302,7 +319,6 @@ body {
 
 <script>
 (() => {
-  const section = document.querySelector('#festevaScroll');
   const cards = [...document.querySelectorAll('.fs-card')];
   const captions = [...document.querySelectorAll('.fs-caption-item')];
   const scrollSteps = document.querySelector('#scrollSteps');
@@ -319,7 +335,7 @@ body {
 
   function getArcPoint(progressOffset) {
     const angle = (progressOffset * 0.38) * Math.PI;
-    const rx = 370;
+    const rx = Math.min(window.innerWidth * 0.42, 370);
     const ry = 180;
 
     const x = rx * Math.sin(angle);
