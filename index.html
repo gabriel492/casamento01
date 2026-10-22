@@ -1,696 +1,260 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3ee">
-  <meta name="description" content="Crie um site personalizado para seu casamento, aniversÃ¡rio ou celebraÃ§Ã£o. Convites digitais, lista de presentes, fotos e confirmaÃ§Ã£o de presenÃ§a em um sÃ³ lugar.">
-  <meta property="og:title" content="Festeva â€” Seu momento, do seu jeito">
-  <meta property="og:description" content="Uma histÃ³ria para viver. Crie seu site personalizado para celebrar momentos especiais.">
-  <title>Festeva â€” Seu momento, do seu jeito</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ivory:#f7f3ee; --sand:#e5d8ca; --sage:#a9b4a0; --olive:#626b55;
-      --olive-dark:#454d3c; --cocoa:#302923; --muted:#716b64; --white:#fff;
-      --line:rgba(48,41,35,.13); --serif:"Playfair Display", Georgia, serif;
-      --sans:"DM Sans", Arial, sans-serif; --radius:18px; --ease:cubic-bezier(.2,.7,.2,1);
-      --shadow:0 18px 60px rgba(48,41,35,.10);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:90px}
-    body{margin:0;background:var(--ivory);color:var(--cocoa);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
-    img{display:block;max-width:100%}
-    a{color:inherit;text-decoration:none}
-    button{font:inherit}
-    .container{width:min(1180px,calc(100% - 48px));margin-inline:auto}
-    .eyebrow{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--olive);margin:0 0 16px}
-    h1,h2,h3,p{margin-top:0}
-    h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.035em;line-height:1.08}
-    h1{font-size:clamp(3rem,6.1vw,6rem);max-width:700px;margin-bottom:22px}
-    h2{font-size:clamp(2.3rem,4.1vw,4.1rem);margin-bottom:20px}
-    h3{font-size:1.55rem;margin-bottom:10px}
-    p{color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:13px;padding:14px 21px;border-radius:999px;border:1px solid transparent;font-size:.84rem;font-weight:600;transition:transform .25s var(--ease),background .25s,color .25s,border-color .25s;cursor:pointer}
-    .btn:hover{transform:translateY(-2px)}
-    .btn-primary{background:var(--olive);color:white}
-    .btn-primary:hover{background:var(--olive-dark)}
-    .btn-light{background:var(--ivory);color:var(--cocoa)}
-    .btn-outline{border-color:rgba(48,41,35,.28);background:transparent}
-    .btn-outline:hover{background:var(--cocoa);color:white;border-color:var(--cocoa)}
-    .arrow{font-size:1.1rem;line-height:1}
-    .site-header{height:auto;position:fixed;inset:16px 0 auto;z-index:50;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:top .3s}
-    .site-header.scrolled{top:10px}
-    .nav-wrap{width:max-content;max-width:calc(100% - 32px);display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,28px);padding:9px 18px;background:rgba(247,243,238,.88);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.48);border-radius:999px;box-shadow:0 8px 32px rgba(30,25,20,.10);pointer-events:auto}
-    .site-header:not(.scrolled) .nav-wrap{background:rgba(35,33,28,.30);border-color:rgba(255,255,255,.22);color:#fff}
-    .site-header:not(.scrolled) .nav-actions .btn{background:rgba(247,243,238,.94);color:var(--cocoa)}
-    .brand{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:1.65rem;letter-spacing:-.06em;white-space:nowrap}
-    .brand-mark{width:22px;height:28px;color:var(--olive)}
-    .site-header:not(.scrolled) .brand-mark{color:#fff}
-    .nav-links{display:flex;align-items:center;gap:clamp(12px,1.8vw,25px);font-size:.76rem;white-space:nowrap}
-    .nav-links a:not(.btn){transition:color .2s}
-    .nav-links a:not(.btn):hover{color:var(--olive)}
-    .nav-actions{display:flex;align-items:center;gap:13px;font-size:.76rem;white-space:nowrap}
-    .nav-actions .btn{padding:8px 14px;font-size:.75rem}
-    .menu-toggle{display:none;border:1px solid var(--line);background:rgba(255,255,255,.6);border-radius:50%;width:44px;height:44px;color:var(--cocoa);font-size:1.2rem}
-    .hero{min-height:100svh;height:100vh;height:100svh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#5b554a}
-    .hero-bg{position:absolute;inset:0;overflow:hidden;background:#5b554a}.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 48%;filter:saturate(.82);transform:scale(1.02)}.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(24,27,22,.72) 0%,rgba(31,32,26,.54) 42%,rgba(31,32,26,.20) 100%),linear-gradient(0deg,rgba(20,21,17,.34),transparent 42%)}
-    .hero-content{position:relative;z-index:1;width:100%;padding:100px 0 70px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .hero h1{color:#fff;max-width:900px;margin-inline:auto;text-align:center;text-shadow:0 2px 30px rgba(0,0,0,.14)}.hero h1 em{font-weight:400;color:#e6e4d7;display:block}.hero .eyebrow{color:#e4e4d9}.hero-copy{color:rgba(255,255,255,.88)}.hero .text-link{color:#fff;border-color:rgba(255,255,255,.55)}.hero .btn-primary{background:#f7f3ee;color:#302923}.hero .btn-primary:hover{background:#e5d8ca}.hero .scroll-cue{color:#fff}
-    .hero-copy{font-size:1.02rem;max-width:600px;margin:0 auto 27px;line-height:1.8;text-align:center}
-    .hero-actions{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap}
-    .text-link{display:inline-flex;align-items:center;gap:10px;font-size:.82rem;font-weight:600;border-bottom:1px solid var(--sand);padding-bottom:5px}
-    .scroll-cue{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:.7rem;letter-spacing:.1em;color:#fff;display:flex;align-items:center;gap:12px;white-space:nowrap}
-    .scroll-cue span{border:1px solid currentColor;width:23px;height:35px;border-radius:99px;display:grid;place-items:start center;padding-top:7px}
-    .scroll-cue span:after{content:"";height:5px;width:2px;background:currentColor;animation:scrollDot 1.6s infinite}
-    /* TransiÃ§Ã£o de entrada: a seÃ§Ã£o Imagine sobe sobre o hero durante a rolagem. */
-    .intro-scroll-stage{position:relative;height:400svh;isolation:isolate;background:var(--ivory)}
-    .intro-scroll-stage .hero{position:sticky;top:0;height:100svh;min-height:100svh;z-index:1}
-    .intro-scroll-stage .editor-section{position:sticky;top:0;z-index:2;margin-top:-100svh;height:100svh;min-height:100svh;padding:0;overflow:hidden;transform:translate3d(0,var(--editor-rise,100svh),0);will-change:transform;background:#f7f3ea}
-    .collage-stage{height:100%;width:100%;position:relative;overflow:hidden;isolation:isolate;background-color:#f7f3ea;background-image:radial-gradient(rgba(91,73,53,.09) .65px,transparent .65px);background-size:5px 5px}
-    .collage-title{position:absolute;z-index:1;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px 5vw;pointer-events:none}
-    .collage-title h2{font-family:var(--serif);font-size:clamp(3.5rem,10.7vw,10rem);line-height:.83;letter-spacing:-.075em;text-transform:uppercase;color:#171512;margin:0;font-weight:400}
-    .collage-title h2 span{display:block;white-space:nowrap;will-change:opacity,transform;transition:none}
-    .collage-subtitle{display:none}
-    .collage-photo{position:absolute;z-index:3;width:clamp(120px,19vw,270px);aspect-ratio:4/3;object-fit:cover;box-shadow:0 12px 35px rgba(35,28,20,.15);opacity:0;will-change:transform,opacity;transform:translate3d(var(--from-x,0),var(--from-y,0),0) rotate(var(--tilt,0deg)) scale(.88);transition:filter .3s;pointer-events:none}
-    /* As fotos se acumulam na Ã¡rea central para cobrir quase toda a frase, como cartas espalhadas na mesa. */
-    .collage-photo.p1{left:24%;top:20%;width:clamp(160px,22vw,300px);--from-x:-42vw;--from-y:-35vh;--tilt:-7deg}
-    .collage-photo.p2{left:48%;top:16%;width:clamp(160px,22vw,300px);--from-x:42vw;--from-y:-30vh;--tilt:5deg}
-    .collage-photo.p3{left:8%;top:35%;width:clamp(155px,21vw,285px);--from-x:-45vw;--from-y:0vh;--tilt:4deg}
-    .collage-photo.p4{left:64%;top:36%;width:clamp(160px,22vw,300px);--from-x:45vw;--from-y:2vh;--tilt:-5deg}
-    .collage-photo.p5{left:23%;top:54%;width:clamp(155px,20vw,280px);--from-x:-40vw;--from-y:35vh;--tilt:6deg}
-    .collage-photo.p6{left:51%;top:53%;width:clamp(160px,21vw,290px);--from-x:40vw;--from-y:35vh;--tilt:-4deg}
-    .collage-photo.p7{left:39%;top:29%;width:clamp(145px,18vw,245px);--from-x:0vw;--from-y:-40vh;--tilt:3deg}
-    .collage-photo.p8{left:37%;top:66%;width:clamp(145px,19vw,260px);--from-x:0vw;--from-y:40vh;--tilt:-6deg}
-    .collage-photo.p9{left:14%;top:48%;width:clamp(145px,18vw,245px);--from-x:-30vw;--from-y:28vh;--tilt:-3deg}
-    .collage-photo.p10{left:65%;top:52%;width:clamp(150px,19vw,265px);--from-x:30vw;--from-y:28vh;--tilt:5deg}
-    /* SequÃªncia cinematogrÃ¡fica: frase e celebraÃ§Ãµes em transiÃ§Ã£o lateral controlada pela rolagem. */
-    .celebration-story{height:540svh;position:relative;background:#fff;isolation:isolate}
-    .story-viewport{position:sticky;top:0;height:100svh;overflow:hidden;background:#fff}
-    .story-track{height:100%;width:500%;display:flex;will-change:transform;transform:translate3d(0,0,0)}
-    .story-panel{position:relative;flex:0 0 20%;height:100%;overflow:hidden;display:grid;place-items:center;background:#d9d0c3;color:#fff}
-    .story-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(15,14,12,.55),rgba(15,14,12,.08) 55%,rgba(15,14,12,.24));z-index:1}
-    .story-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);will-change:transform}
-    .story-panel-copy{position:relative;z-index:2;width:min(900px,calc(100% - 40px));text-align:center;text-shadow:0 3px 30px rgba(0,0,0,.25)}
-    .story-panel-copy .eyebrow{color:rgba(255,255,255,.78);margin-bottom:20px}
-    .story-panel-copy h2{font-size:clamp(3rem,8vw,7.8rem);line-height:.98;margin:0;color:#fff;text-wrap:balance;overflow:visible}.story-panel-copy h2 .story-word{display:inline-block;will-change:transform,opacity;margin-inline:.07em}
-    .story-panel-copy p{font-size:clamp(.95rem,1.5vw,1.15rem);color:rgba(255,255,255,.9);max-width:560px;margin:22px auto 0}
-    .story-panel--phrase{background:#fff;color:#211d19}
-    .story-panel--phrase::before{background:#fff}
-    .story-panel--phrase .story-panel-copy{text-shadow:none}
-    .story-panel--phrase .story-panel-copy .eyebrow{color:var(--olive)}
-    .story-panel--phrase .story-panel-copy h2{color:#211d19;font-size:clamp(3.4rem,9vw,9rem)}.story-panel--phrase .story-panel-copy h2 .story-word{color:#211d19}.story-panel--phrase .story-panel-copy .story-letter{display:inline-block;opacity:0;transform:translateY(.45em);will-change:opacity,transform}
-    .story-panel--phrase .story-panel-copy p{color:#716b64}
-    .story-panel-number{position:absolute;z-index:2;bottom:30px;right:36px;color:rgba(255,255,255,.78);font-size:.7rem;letter-spacing:.18em}
-    @media(prefers-reduced-motion:reduce){.celebration-story{height:auto}.story-viewport{position:relative;height:auto;overflow:visible}.story-track{width:100%;display:block;transform:none!important}.story-panel{min-height:80svh}.story-panel img{position:absolute}}
-    .share-story-section{background:#fff;padding:clamp(88px,12vw,160px) 24px;text-align:center;}
-    .share-story-inner{max-width:900px;margin:0 auto;}
-    .share-story-section .eyebrow{margin-bottom:22px;}
-    .share-story-section h2{font-size:clamp(2.8rem,7vw,6.5rem);line-height:1.02;letter-spacing:-.055em;margin:0 auto 24px;color:#211d19;text-wrap:balance;}
-    .share-story-section p{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.85;max-width:650px;margin:0 auto;color:#716b64;text-wrap:balance;}
-    .share-story-section h2 span{display:inline-block;}
-    @media(max-width:680px){.share-story-section{padding:82px 22px}.share-story-section h2{font-size:clamp(2.6rem,11vw,4.2rem)}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criação de Sites Personalizados - Grid Animado</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    /* Faixa editorial em tela cheia apÃ³s o carrossel em arco */
-    .history-fullscreen{position:relative;min-height:100svh;height:100svh;display:grid;place-items:center;overflow:hidden;background:#39352e;color:#fff;isolation:isolate}
-    .history-fullscreen::before{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2400&q=90') center 48%/cover no-repeat;transform:scale(1.025);z-index:-2}
-    .history-fullscreen::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,20,17,.48),rgba(20,20,17,.2) 50%,rgba(20,20,17,.42)),linear-gradient(0deg,rgba(20,20,17,.28),rgba(20,20,17,.12));z-index:-1}
-    .history-fullscreen-copy{width:min(1100px,calc(100% - 40px));text-align:center;padding:90px 0 50px}
-    .history-fullscreen-number{display:block;margin-bottom:24px;font-size:.75rem;letter-spacing:.28em;font-weight:600;color:rgba(255,255,255,.82)}
-    .history-fullscreen h2{margin:0;color:#fff;font-size:clamp(2.8rem,8.2vw,8rem);line-height:.98;letter-spacing:-.055em;text-transform:uppercase;text-wrap:balance;text-shadow:0 4px 35px rgba(0,0,0,.22)}
-    @media(max-width:680px){.history-fullscreen-copy{width:calc(100% - 32px)}.history-fullscreen h2{font-size:clamp(2.7rem,11vw,4.7rem)}.history-fullscreen::before{background-position:56% center}}
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d111d;
+            overflow-x: hidden;
+        }
 
-    .section{padding:105px 0}
-    .section-heading{max-width:510px}
-    .section-heading p{max-width:430px;line-height:1.85}
-    .events-section{background:#fbf9f6}
-    .events-layout{display:grid;grid-template-columns:.78fr 1.4fr;gap:70px;align-items:center}
-    .event-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .event-card{min-width:0;text-align:center;transition:transform .3s var(--ease)}
-    .event-card:hover{transform:translateY(-6px)}
-    .event-photo{height:175px;border-radius:13px;overflow:hidden;margin-bottom:14px;background:var(--sand)}
-    .event-photo img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
-    .event-card:hover img{transform:scale(1.06)}
-    .event-card span{font-size:.8rem;font-weight:600}
-    .event-icon{display:block;font-size:1.1rem;margin-bottom:5px;color:var(--olive)}
-    .editor-section{overflow:hidden}
-    .editor-layout{display:grid;grid-template-columns:1.08fr .92fr;gap:95px;align-items:center}
-    .editor-visual{position:relative;min-height:440px;display:flex;align-items:center}
-    .editor-blob{position:absolute;inset:9% 8% 5% 0;background:#dce0d4;border-radius:48% 52% 39% 61% / 48% 36% 64% 52%;transform:rotate(-5deg)}
-    .editor-window{position:relative;z-index:1;width:90%;margin-left:6%;background:white;border:1px solid #e8e2da;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transform:rotate(-2deg)}
-    .window-bar{height:42px;border-bottom:1px solid #eee8e0;display:flex;align-items:center;gap:6px;padding:0 14px}
-    .window-dot{width:7px;height:7px;border-radius:50%;background:#d8d2ca}
-    .window-label{font-size:.65rem;color:#91887f;margin-left:9px}
-    .mock-editor{display:grid;grid-template-columns:120px 1fr;min-height:295px}
-    .mock-sidebar{background:#faf8f5;padding:17px 12px;display:flex;flex-direction:column;gap:15px;font-size:.65rem;color:#726b62}
-    .mock-sidebar strong{font-size:.7rem;color:var(--cocoa);margin-bottom:4px}
-    .mock-page{margin:13px;background:#f0e8df;position:relative;min-height:260px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
-    .mock-page img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75}
-    .mock-page:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(48,41,35,.42),transparent 75%)}
-    .mock-page-content{position:relative;z-index:1;color:white;padding:20px;text-shadow:0 2px 15px #0005}
-    .mock-page-content small{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase}
-    .mock-page-content h3{font-size:2rem;margin:8px 0}
-    .mock-phone{position:absolute;z-index:2;right:0;bottom:0;width:130px;padding:7px;background:#fff;border:1px solid #dcd6cc;border-radius:20px;box-shadow:var(--shadow);transform:rotate(4deg)}
-    .phone-screen{height:235px;border-radius:14px;overflow:hidden;position:relative;background:#eee}
-    .phone-screen img{width:100%;height:100%;object-fit:cover}
-    .phone-screen span{position:absolute;bottom:13px;left:7px;right:7px;color:white;font-family:var(--serif);font-size:1rem;text-align:center;text-shadow:0 2px 10px #000}
-    .feature-list{list-style:none;margin:27px 0 30px;padding:0;display:grid;gap:13px}
-    .feature-list li{display:flex;align-items:center;gap:12px;font-size:.87rem;color:#5c574f}
-    .check{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:#e4e8df;color:var(--olive);font-size:.72rem;flex:0 0 auto}
-    .editor-copy p{line-height:1.85;max-width:450px}
-    .inspiration-section{background:#fbf9f6}
-    .inspiration-layout{display:grid;grid-template-columns:.72fr 1.55fr;gap:65px;align-items:center}
-    .inspiration-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .inspiration-card{height:330px;border-radius:13px;overflow:hidden;position:relative;background:#ddd}
-    .inspiration-card img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
-    .inspiration-card:hover img{transform:scale(1.06)}
-    .inspiration-card:after{content:"";position:absolute;inset:30% 0 0;background:linear-gradient(transparent,rgba(22,22,17,.72))}
-    .inspiration-info{position:absolute;z-index:1;bottom:19px;left:18px;right:14px;color:white}
-    .inspiration-info small{font-size:.7rem;opacity:.85}
-    .inspiration-info h3{font-size:1.6rem;margin:4px 0 12px}
-    .mini-link{display:inline-flex;align-items:center;gap:9px;border:1px solid #ffffff9c;border-radius:99px;padding:7px 12px;font-size:.7rem;color:white}
-    .gift-section{padding:0 0 100px}
-    .gift-card{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px;background:#e8e6dc;border-radius:20px;overflow:hidden;padding:48px 55px}
-    .gift-photo{height:350px;border-radius:14px;overflow:hidden}
-    .gift-photo img{width:100%;height:100%;object-fit:cover}
-    .gift-card p{line-height:1.85}
-    .gift-options{display:flex;flex-wrap:wrap;gap:9px;margin:24px 0 28px}
-    .pill{font-size:.73rem;border:1px solid #c8c9bb;padding:8px 12px;border-radius:99px;color:#5b6250;background:#f6f5ef}
-    .final-cta{position:relative;color:white;overflow:hidden;padding:83px 0;background:#4d5142}
-    .final-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(35,38,29,.82),rgba(35,38,29,.55)),url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=85') center 55%/cover}
-    .final-layout{position:relative;display:flex;align-items:center;justify-content:space-between;gap:40px}
-    .final-cta .eyebrow{color:#d6ddce}
-    .final-cta h2{font-size:clamp(2.3rem,4vw,3.8rem);max-width:600px;margin-bottom:14px}
-    .final-cta p{color:#e8e7df;max-width:510px;margin-bottom:24px}
-    .final-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 36px;min-width:250px}
-    .stat{border-left:1px solid #ffffff75;padding-left:16px}
-    .stat strong{font-family:var(--serif);font-size:1.6rem;font-weight:400;display:block}
-    .stat span{font-size:.72rem;color:#e8e7df}
-    footer{padding:35px 0;background:#f7f3ee}
-    .footer-main{display:flex;justify-content:space-between;align-items:center;gap:30px;padding-bottom:25px;border-bottom:1px solid var(--line)}
-    .footer-links{display:flex;gap:22px;flex-wrap:wrap;font-size:.75rem;color:#655f57}
-    .footer-bottom{display:flex;justify-content:space-between;gap:20px;padding-top:19px;font-size:.68rem;color:#827b72}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-    .reveal.is-visible{opacity:1;transform:translateY(0)}
-    .delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}.delay-3{transition-delay:.3s}
-    .toast{position:fixed;left:50%;bottom:25px;z-index:100;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--cocoa);color:white;padding:13px 20px;border-radius:99px;font-size:.83rem;box-shadow:var(--shadow);transition:.3s}
-    .toast.show{opacity:1;transform:translate(-50%,0)}
-    @keyframes heroDrift{from{transform:scale(1.02) translateX(0)}to{transform:scale(1.07) translateX(-.5%)}}
-    @keyframes scrollDot{0%,100%{transform:translateY(0);opacity:1}70%{transform:translateY(9px);opacity:.1}}
-    @media(max-width:900px){
-      .nav-links{gap:16px}.nav-actions{gap:10px}.events-layout,.editor-layout,.inspiration-layout{grid-template-columns:1fr;gap:42px}
-      .events-layout .section-heading,.inspiration-layout .section-heading{max-width:650px}
-      .editor-visual{max-width:680px;width:100%;margin:auto}
-      .inspiration-card{height:290px}.gift-card{gap:30px;padding:35px}
-      .final-layout{align-items:flex-start;flex-direction:column}.final-stats{grid-template-columns:repeat(4,1fr);width:100%}
-    }
-    @media(max-width:680px){
-      .intro-scroll-stage{height:400svh}
-      .intro-scroll-stage .hero{height:100svh;min-height:100svh}
-      .intro-scroll-stage .editor-section{height:100svh;min-height:100svh}
-      .collage-title{padding:24px 3vw}
-      .collage-title h2{font-size:clamp(2.65rem,11vw,5.3rem);line-height:.9;letter-spacing:-.07em}
-      .collage-subtitle{display:none}
-      .collage-photo{width:clamp(78px,25vw,125px)!important;box-shadow:0 7px 20px rgba(35,28,20,.18)}
-      .collage-photo.p1{left:17%;top:23%}.collage-photo.p2{left:48%;top:20%}
-      .collage-photo.p3{left:2%;top:37%}.collage-photo.p4{left:58%;top:39%}
-      .collage-photo.p5{left:14%;top:53%}.collage-photo.p6{left:49%;top:56%}
-      .collage-photo.p7{left:36%;top:31%;width:clamp(70px,20vw,105px)!important}
-      .collage-photo.p8{left:34%;top:66%;width:clamp(72px,21vw,110px)!important}
-      .collage-photo.p9{left:8%;top:49%;width:clamp(72px,20vw,105px)!important}
-      .collage-photo.p10{left:61%;top:53%;width:clamp(72px,20vw,105px)!important}
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d111d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
 
-      .container{width:min(100% - 34px,1180px)}.site-header{inset:10px 0 auto}.site-header.scrolled{top:7px}.nav-wrap{width:max-content;max-width:calc(100% - 20px);gap:10px;padding:7px 11px}.brand{font-size:1.35rem;gap:5px}.brand-mark{width:19px;height:24px}
-      .menu-toggle{display:block}.nav-wrap{position:relative}.nav-links{display:none;position:absolute;top:calc(100% + 10px);left:0;right:0;width:calc(100vw - 24px);padding:16px;background:var(--ivory);color:var(--cocoa);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);align-items:stretch;flex-direction:column;gap:0}
-      .nav-links.open{display:flex}.nav-links a:not(.btn){padding:12px 3px}.nav-links .btn{margin-top:9px}
-      .nav-actions{gap:7px;margin-left:0}.nav-actions .login-link{display:none}.nav-actions .btn{padding:8px 10px;font-size:.65rem}.menu-toggle{width:32px;height:32px;font-size:1rem;background:transparent;border-color:rgba(255,255,255,.4);color:inherit}.site-header.scrolled .menu-toggle{border-color:var(--line);color:var(--cocoa)}
-      .hero{height:100vh;height:100svh;min-height:560px;align-items:center;justify-content:center}.hero-video{object-position:58% center}.hero-overlay{background:linear-gradient(180deg,rgba(24,27,22,.48),rgba(31,32,26,.38) 55%,rgba(20,21,17,.48))}
-      .hero-content{padding:100px 0 80px;text-align:center}.hero h1{font-size:clamp(2.7rem,11vw,4.6rem);max-width:100%;text-align:center}.hero-copy{font-size:.92rem;max-width:390px;margin-left:auto;margin-right:auto}.hero-actions{justify-content:center}
-      .scroll-cue{bottom:20px;font-size:.62rem}
-      .celebration-story{height:650svh}.story-panel-copy{width:calc(100% - 34px)}.story-panel-copy h2{font-size:clamp(2.8rem,12vw,5.4rem)}.story-panel--phrase .story-panel-copy h2{font-size:clamp(3.2rem,12vw,5.6rem)}.story-panel-number{right:18px;bottom:20px}
-      .section{padding:76px 0}.event-grid{gap:10px}.event-photo{height:125px;border-radius:10px}.event-card span{font-size:.7rem}.event-icon{font-size:1rem}
-      .editor-layout{gap:25px}.editor-visual{min-height:330px}.mock-editor{grid-template-columns:82px 1fr;min-height:240px}.mock-sidebar{font-size:.53rem;padding:12px 8px;gap:11px}.mock-page{min-height:210px;margin:9px}.mock-page-content h3{font-size:1.35rem}.mock-phone{width:95px;padding:5px}.phone-screen{height:170px}.phone-screen span{font-size:.8rem}.window-bar{height:32px}
-      .inspiration-grid{grid-template-columns:1fr;gap:14px}.inspiration-card{height:320px}.gift-section{padding-bottom:70px}.gift-card{grid-template-columns:1fr;padding:20px;gap:25px}.gift-photo{height:245px}.gift-copy{padding:0 4px 5px}
-      .final-cta{padding:65px 0}.final-stats{grid-template-columns:repeat(2,1fr);gap:20px}.footer-main,.footer-bottom{align-items:flex-start;flex-direction:column}.footer-links{gap:12px 18px}
-    }
-    /* Ajustes responsivos extras para celulares estreitos e telas com notch. */
-    @media(max-width:480px){
-      .container{width:calc(100% - 28px)}
-      .site-header{padding-inline:8px;top:max(8px,env(safe-area-inset-top))}
-      .nav-wrap{max-width:100%;width:100%;justify-content:space-between;gap:6px;padding:7px 9px}
-      .brand{font-size:1.22rem;gap:4px}.brand-mark{width:17px;height:22px}
-      .nav-actions{gap:5px}.nav-actions .btn{font-size:.62rem;padding:8px 9px;gap:5px;white-space:nowrap}
-      .menu-toggle{flex:0 0 30px;width:30px;height:30px}
-      .nav-links{left:0;right:0;width:100%;max-height:calc(100svh - 75px);overflow-y:auto}
-      .hero-content{padding:100px 16px 88px}.hero h1{font-size:clamp(2.45rem,12vw,3.8rem);line-height:1.02}.hero-copy{font-size:.9rem;line-height:1.65}
-      .hero-actions{gap:14px;width:100%}.hero-actions .btn{min-height:46px;padding:12px 16px}
-      .collage-title h2{font-size:clamp(2.25rem,10.5vw,3.3rem);letter-spacing:-.065em}
-      .collage-photo{width:clamp(68px,24vw,112px)!important}
-      .collage-photo.p1{left:13%;top:23%}.collage-photo.p2{left:50%;top:19%}
-      .collage-photo.p3{left:1%;top:38%}.collage-photo.p4{left:61%;top:39%}
-      .collage-photo.p5{left:11%;top:56%}.collage-photo.p6{left:54%;top:57%}
-      .collage-photo.p7{left:36%;top:31%;width:clamp(64px,19vw,92px)!important}
-      .collage-photo.p8{left:34%;top:68%;width:clamp(66px,20vw,96px)!important}
-      .collage-photo.p9{left:5%;top:49%;width:clamp(65px,19vw,92px)!important}
-      .collage-photo.p10{left:64%;top:51%;width:clamp(65px,19vw,92px)!important}
-      .story-panel-copy{width:calc(100% - 32px)}
-      .story-panel-copy .eyebrow{font-size:.58rem;letter-spacing:.15em;margin-bottom:14px}
-      .story-panel-copy h2{font-size:clamp(2.45rem,11vw,4rem);line-height:1.02}
-      .story-panel-copy p{font-size:.9rem;line-height:1.65;margin-top:16px;max-width:32ch}
-      .story-panel--phrase .story-panel-copy h2{font-size:clamp(2.65rem,11.5vw,4.15rem)}
-      .story-panel-number{right:14px;bottom:max(16px,env(safe-area-inset-bottom));font-size:.58rem;letter-spacing:.12em}
-      .share-story-section{padding:70px 20px}.share-story-section h2{font-size:clamp(2.25rem,10.5vw,3.5rem);line-height:1.05}
-      .share-story-section p{font-size:.96rem;line-height:1.7}
-      .section{padding:68px 0}.section-heading h2{font-size:clamp(2.25rem,10vw,3.5rem)}
-      .gift-card{padding:16px}.gift-photo{height:210px}
-      .final-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .footer-links{flex-wrap:wrap}
-    }
-    @media(max-width:360px){
-      .brand{font-size:1.1rem}.nav-actions .btn{font-size:.58rem;padding:7px 7px}.nav-wrap{gap:4px;padding-inline:7px}
-      .hero h1{font-size:2.35rem}.hero-actions{flex-direction:column;align-items:stretch;max-width:260px}.hero-actions .btn{width:100%}
-      .story-panel-copy h2{font-size:2.35rem}.story-panel--phrase .story-panel-copy h2{font-size:2.5rem}
-    }
+        /* Smooth CSS Transitions & Animations */
+        .template-card {
+            opacity: 0;
+            transform: scale(0.85) translateY(20px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
 
-    /* Processo Festeva: carrossel em arco sincronizado Ã  rolagem. */
-    .process-scroll{height:500svh;position:relative;background:#fbfaf8;color:#24202b;isolation:isolate;--process-muted:#817b89}
-    .process-sticky{position:sticky;top:0;height:100svh;min-height:580px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:clamp(88px,12vh,118px) 16px clamp(14px,2vh,22px);background:#fbfaf8;user-select:none;touch-action:pan-y}
-    .process-heading{text-align:center;position:relative;z-index:4;margin:0 auto;max-width:850px}
-    .process-heading h2{font-family:var(--serif);font-size:clamp(2rem,4.2vw,3.2rem);font-weight:400;letter-spacing:-.04em;line-height:1.08;margin:0;color:#24202b}
-    .process-gradient{background:linear-gradient(105deg,#d90091 0%,#8a82e5 28%,#47abf9 52%,#00d5f3 73%,#00cfa9 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .process-stage{position:relative;width:min(880px,94vw);height:clamp(230px,39vh,330px);flex:0 0 auto;display:flex;justify-content:center;align-items:flex-start;margin:auto 0 8px;isolation:isolate;touch-action:pan-y}
-    .process-arc-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
-    .process-arc-svg path{stroke:#8a82e5;stroke-opacity:.42;stroke-width:1.5;stroke-dasharray:6 7;vector-effect:non-scaling-stroke}
-    .process-cards{position:absolute;inset:0;z-index:1;pointer-events:none}
-    .process-card{position:absolute;top:0;left:50%;width:clamp(155px,21vw,218px);display:flex;flex-direction:column;align-items:center;transform-origin:center center;will-change:transform,opacity;backface-visibility:hidden}
-    .process-photo{width:100%;height:clamp(215px,30vh,285px);border-radius:20px;background:#fff;padding:4px;box-shadow:0 18px 38px rgba(36,32,43,.12),0 2px 8px rgba(0,0,0,.04);overflow:hidden}
-    .process-photo img{width:100%;height:100%;object-fit:cover;border-radius:16px;display:block}
-    .process-footer{position:relative;z-index:4;text-align:center;width:min(560px,94vw);min-height:112px;flex:0 0 auto;margin:0 auto 0}
-    .process-description{display:none;animation:processFadeIn .3s ease both}
-    .process-description.active{display:block}
-    .process-description h3{font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,1.85rem);font-weight:400;letter-spacing:-.025em;margin:0 0 4px;color:#24202b}
-    .process-description p{font-size:clamp(.86rem,1.5vw,1rem);line-height:1.45;color:var(--process-muted);max-width:390px;margin:0 auto}
-    .process-progress{display:flex;align-items:center;justify-content:center;margin-top:12px}
-    .process-progress-track{width:120px;height:2px;background:#e6e1e9;border-radius:2px;overflow:hidden}
-    .process-progress-bar{height:100%;width:20%;background:linear-gradient(90deg,#ff00aa,#8a82e5,#47abf9,#00d5f3,#00e5e2);transition:width .15s ease-out}
-    @keyframes processFadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:680px){.process-scroll{height:450svh}.process-sticky{min-height:560px;padding:clamp(82px,11vh,105px) 12px max(16px,env(safe-area-inset-bottom))}.process-heading h2{font-size:clamp(1.65rem,6.5vw,2rem)}.process-stage{width:96vw;height:clamp(220px,32vh,270px);margin:auto 0 12px}.process-card{width:clamp(132px,39vw,164px)}.process-photo{height:clamp(195px,28vh,220px);border-radius:17px;padding:4px}.process-photo img{border-radius:13px}.process-footer{min-height:112px;width:calc(100% - 16px)}.process-description h3{font-size:1.55rem}.process-description p{font-size:.86rem;max-width:340px}}
-    @media(max-height:700px) and (min-width:681px){.process-sticky{padding-top:82px;padding-bottom:12px}.process-stage{height:clamp(205px,35vh,255px)}.process-photo{height:clamp(190px,28vh,235px)}}
-    @media(prefers-reduced-motion:reduce){.process-description,.process-progress-bar{animation:none;transition:none}}
+        .template-card.show {
+            opacity: 0.35; /* Similar à opacidade escurecida do layout original */
+            transform: scale(1) translateY(0);
+        }
 
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
-  </style>
+        .template-card.show:hover {
+            opacity: 0.85;
+            transform: scale(1.03) translateY(-4px);
+            z-index: 10;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        /* Glassmorphism Card Central */
+        .main-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.9) 100%);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+                        0 0 80px rgba(99, 102, 241, 0.15);
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .main-card.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Pulsing Accent Glow */
+        .glow-effect {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
 </head>
-<body>
-  <header class="site-header" id="header">
-    <div class="container nav-wrap">
-      <a class="brand" href="#inicio" aria-label="Festeva, inÃ­cio">
-        <svg class="brand-mark" viewBox="0 0 32 40" fill="none" aria-hidden="true"><path d="M16 37C17 25 16 15 7 3M16 29C7 27 3 21 4 15C12 17 16 22 16 29ZM17 21C26 17 29 10 26 4C18 8 16 14 17 21ZM15 12C9 11 7 7 7 3C13 4 16 7 15 12ZM17 34C23 31 27 26 26 20C19 22 16 27 17 34Z" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        festeva
-      </a>
-      <nav class="nav-links" id="navLinks" aria-label="NavegaÃ§Ã£o principal">
-        <a href="#inicio">InÃ­cio</a><a href="#como-funciona">Como funciona</a><a href="#modelos">Modelos</a><a href="#presentes">Lista de presentes</a><a href="#ajuda">Ajuda</a>
-      </nav>
-      <div class="nav-actions"><a class="login-link" href="#criar" data-toast="A Ã¡rea de login serÃ¡ conectada Ã  sua aplicaÃ§Ã£o.">Entrar</a><a class="btn btn-primary" href="#criar">Criar meu site <span class="arrow">â†—</span></a><button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">â˜°</button></div>
-    </div>
-  </header>
+<body class="min-h-screen text-slate-100 relative flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
-  <main>
-    <div class="intro-scroll-stage" id="introScrollStage">
-    <section class="hero" id="inicio">
-      <div class="hero-bg" aria-hidden="true">
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=2200&q=88" aria-label="VÃ­deo de uma celebraÃ§Ã£o ao ar livre">
-          <source src="https://videos.pexels.com/video-files/3195394/3195394-hd_1920_1080_25fps.mp4" type="video/mp4">
-        </video>
-        <div class="hero-overlay"></div>
-      </div>
-      <div class="container hero-content">
-        <h1>Toda grande celebraÃ§Ã£o <em>comeÃ§a com um sonho.</em></h1>
-        <p class="hero-copy">Crie seu site personalizado, prepare convites digitais e organize cada detalhe da sua celebraÃ§Ã£o em um sÃ³ lugar.</p>
-        <div class="hero-actions"><a class="btn btn-primary" href="#como-funciona">Comece jÃ¡ <span class="arrow">â†’</span></a></div>
-      </div>
-      <a class="scroll-cue" href="#como-funciona"><span></span> Descubra como funciona</a>
-    </section>
+    <!-- Efeito de Luz de Fundo -->
+    <div class="glow-effect"></div>
 
-    <section class="section editor-section" id="como-funciona" aria-label="Imagine, personalize e crie">
-      <div class="collage-stage">
-        <div class="collage-title"><h2><span>Imagine.</span><span>Personalize.</span><span>Crie.</span></h2></div>
-        <img class="collage-photo p1" loading="lazy" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=650&q=85" alt="Casamento ao ar livre">
-        <img class="collage-photo p2" loading="lazy" src="https://images.unsplash.com/photo-1530103862676-de8c9deBAD1?auto=format&fit=crop&w=650&q=85" alt="Festa de aniversÃ¡rio com balÃµes">
-        <img class="collage-photo p3" loading="lazy" src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=650&q=85" alt="Detalhes delicados de uma celebraÃ§Ã£o">
-        <img class="collage-photo p4" loading="lazy" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=650&q=85" alt="FamÃ­lia reunida em um momento especial">
-        <img class="collage-photo p5" loading="lazy" src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=650&q=85" alt="Noivos celebrando juntos">
-        <img class="collage-photo p6" loading="lazy" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=650&q=85" alt="Mesa de festa decorada">
-        <img class="collage-photo p7" loading="lazy" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=650&q=85" alt="Detalhes de casamento">
-        <img class="collage-photo p8" loading="lazy" src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=650&q=85" alt="Flores para uma ocasiÃ£o especial">
-        <img class="collage-photo p9" loading="lazy" src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=650&q=85" alt="CelebraÃ§Ã£o de formatura">
-        <img class="collage-photo p10" loading="lazy" src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=650&q=85" alt="Amigos comemorando juntos">
-      </div>
-    </section>
-    </div>
-
-    <section class="process-scroll" id="processo" aria-label="Como funciona o Festeva">
-      <div class="process-sticky" id="processSticky">
-        <header class="process-heading">
-          <h2>Do primeiro detalhe<br>Ã  <span class="process-gradient">grande celebraÃ§Ã£o.</span></h2>
-        </header>
-        <div class="process-stage" id="processStage" aria-label="Galeria de etapas; role a pÃ¡gina para navegar">
-          <svg class="process-arc-svg" viewBox="0 0 900 330" fill="none" aria-hidden="true" preserveAspectRatio="none">
-            <path d="M 40,290 A 410,210 0 0,1 860,290" />
-          </svg>
-          <div class="process-cards" id="processCards">
-            <article class="process-card"><div class="process-photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Casamento com decoraÃ§Ã£o elegante"></div></article>
-            <article class="process-card"><div class="process-photo"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Noivos celebrando juntos"></div></article>
-            <article class="process-card"><div class="process-photo"><img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Mesa de celebraÃ§Ã£o decorada"></div></article>
-            <article class="process-card"><div class="process-photo"><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Detalhes de uma festa especial"></div></article>
-            <article class="process-card"><div class="process-photo"><img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=800&q=80" alt="CelebraÃ§Ã£o entre amigos"></div></article>
-          </div>
+    <!-- Cabeçalho Flutuante Minimalista -->
+    <header class="relative z-30 px-6 py-5 flex justify-between items-center max-w-7xl mx-auto w-full">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-wand-magic-sparkles text-white text-lg"></i>
+            </div>
+            <span class="font-bold text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
+                WebCraft<span class="text-indigo-400">.io</span>
+            </span>
         </div>
-        <div class="process-footer" aria-live="polite" aria-atomic="true">
-          <div class="process-description active"><h3>Imagine</h3><p>Comece com uma ideia especial e transforme-a em algo Ãºnico.</p></div>
-          <div class="process-description"><h3>Personalize</h3><p>Escolha cores, imagens e detalhes com a sua identidade.</p></div>
-          <div class="process-description"><h3>Organize</h3><p>ReÃºna as informaÃ§Ãµes importantes em um sÃ³ lugar, incluindo os detalhes da festa e a lista de presentes.</p></div>
-          <div class="process-description"><h3>Compartilhe</h3><p>Envie os convites digitais e mantenha seus convidados por dentro de tudo.</p></div>
-          <div class="process-description"><h3>Celebre</h3><p>Viva cada momento especial sabendo que tudo foi planejado com carinho.</p></div>
-          <div class="process-progress" aria-hidden="true"><div class="process-progress-track"><div class="process-progress-bar" id="processProgressBar"></div></div></div>
-        </div>
-      </div>
-    </section>
 
-    <section class="history-fullscreen" aria-label="Sua histÃ³ria comeÃ§a aqui">
-      <div class="history-fullscreen-copy">
-        <span class="history-fullscreen-number">7.</span>
-        <h2>Sua histÃ³ria<br>comeÃ§a aqui.</h2>
-      </div>
-    </section>
-
-    <section class="section events-section" id="celebracoes">
-      <div class="container events-layout">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Para todas as celebraÃ§Ãµes</p>
-          <h2>O cenÃ¡rio perfeito para o seu evento.</h2>
-          <p>Seja um casamento, aniversÃ¡rio, chÃ¡ de bebÃª, formatura ou uma data especial, o Festeva ajuda a criar um site Ãºnico, do seu jeito.</p>
-          <a class="text-link" href="#modelos">Explorar possibilidades <span class="arrow">â†’</span></a>
+        <div class="flex items-center gap-3">
+            <button onclick="triggerAnimateSequence()" class="px-4 py-2 text-xs md:text-sm font-medium bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 rounded-full text-slate-300 hover:text-white transition-all flex items-center gap-2 backdrop-blur-md">
+                <i class="fa-solid fa-rotate-right text-xs"></i>
+                Reanimar
+            </button>
+            <button class="w-10 h-10 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white transition-all backdrop-blur-md">
+                <i class="fa-solid fa-bars"></i>
+            </button>
         </div>
-        <div class="event-grid">
-          <a href="#modelos" class="event-card reveal"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="DecoraÃ§Ã£o de casamento com flores"></div><span class="event-icon">â™¡</span><span>Casamentos</span></a>
-          <a href="#modelos" class="event-card reveal delay-1"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1530103862676-de8c9deBAD1?auto=format&fit=crop&w=600&q=80" alt="BalÃµes e decoraÃ§Ã£o de festa"></div><span class="event-icon">âœ³</span><span>AniversÃ¡rios</span></a>
-          <a href="#modelos" class="event-card reveal delay-2"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1492725764893-90b379c2b6e7?auto=format&fit=crop&w=600&q=80" alt="Detalhes delicados para uma celebraÃ§Ã£o"></div><span class="event-icon">âœ¿</span><span>ChÃ¡ de bebÃª</span></a>
-          <a href="#modelos" class="event-card reveal"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="CelebraÃ§Ã£o de formatura"></div><span class="event-icon">âœ§</span><span>Formaturas</span></a>
-          <a href="#modelos" class="event-card reveal delay-1"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=600&q=80" alt="AlianÃ§as para bodas"></div><span class="event-icon">âˆž</span><span>Bodas</span></a>
-          <a href="#modelos" class="event-card reveal delay-2"><div class="event-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=600&q=80" alt="Mesa decorada para uma festa"></div><span class="event-icon">âœ¦</span><span>Outros momentos</span></a>
-        </div>
-      </div>
-    </section>
+    </header>
 
-    <section class="section inspiration-section" id="modelos">
-      <div class="container inspiration-layout">
-        <div class="section-heading reveal">
-          <p class="eyebrow">InspiraÃ§Ã£o para o seu dia</p>
-          <h2>Um modelo para cada histÃ³ria.</h2>
-          <p>Encontre um estilo que combine com o seu momento. Do clÃ¡ssico ao contemporÃ¢neo, o ponto de partida perfeito para criar algo seu.</p>
-          <a class="text-link" href="#criar">Ver todos os modelos <span class="arrow">â†’</span></a>
-        </div>
-        <div class="inspiration-grid">
-          <article class="inspiration-card reveal"><img loading="lazy" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=85" alt="Casamento ao ar livre"><div class="inspiration-info"><small>ClÃ¡ssico & romÃ¢ntico</small><h3>EssÃªncia</h3><a class="mini-link" href="#criar" data-toast="A seleÃ§Ã£o de modelos serÃ¡ conectada ao catÃ¡logo real.">Ver modelo â†—</a></div></article>
-          <article class="inspiration-card reveal delay-1"><img loading="lazy" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=700&q=85" alt="Casal em celebraÃ§Ã£o"><div class="inspiration-info"><small>Natural & delicado</small><h3>Jardim</h3><a class="mini-link" href="#criar" data-toast="A seleÃ§Ã£o de modelos serÃ¡ conectada ao catÃ¡logo real.">Ver modelo â†—</a></div></article>
-          <article class="inspiration-card reveal delay-2"><img loading="lazy" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=85" alt="Mesa de festa elegante"><div class="inspiration-info"><small>Moderno & editorial</small><h3>Editorial</h3><a class="mini-link" href="#criar" data-toast="A seleÃ§Ã£o de modelos serÃ¡ conectada ao catÃ¡logo real.">Ver modelo â†—</a></div></article>
-        </div>
-      </div>
-    </section>
+    <!-- Container Principal do Grid e Card Central -->
+    <main class="relative z-20 flex-1 flex items-center justify-center p-4 md:p-8 min-h-[85vh]">
 
-    <section class="section gift-section" id="presentes">
-      <div class="container">
-        <div class="gift-card reveal">
-          <div class="gift-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=1000&q=85" alt="Presentes cuidadosamente embrulhados"></div>
-          <div class="gift-copy"><p class="eyebrow">Presentes com significado</p><h2>Carinho que chega de todos os lados.</h2><p>ReÃºna sua lista de presentes no mesmo lugar do seu site. Seus convidados encontram as opÃ§Ãµes com facilidade e participam da celebraÃ§Ã£o de um jeito especial.</p><div class="gift-options"><span class="pill">Lista personalizada</span><span class="pill">Fotos e descriÃ§Ãµes</span><span class="pill">ExperiÃªncia simples</span></div><a class="btn btn-primary" href="#criar">Criar minha lista <span class="arrow">â†’</span></a></div>
+        <!-- BACKGROUND MASONRY/GRID DE TEMPLATES (Aparecem em sequência) -->
+        <div id="grid-container" class="absolute inset-0 p-4 md:p-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 overflow-hidden pointer-events-auto">
+            <!-- Os cards serão injetados dinamicamente via JS -->
         </div>
-      </div>
-    </section>
 
-    <section class="final-cta" id="criar">
-      <div class="final-bg"></div>
-      <div class="container final-layout">
-        <div><p class="eyebrow">Pronto para comeÃ§ar?</p><h2>Seu momento merece um lugar especial.</h2><p>Crie um espaÃ§o para compartilhar os detalhes, reunir as pessoas queridas e guardar as memÃ³rias que fazem tudo valer a pena.</p><a class="btn btn-light" href="mailto:oi@festeva.com.br?subject=Quero%20criar%20meu%20site%20no%20Festeva">Quero criar meu site <span class="arrow">â†’</span></a></div>
-        <div class="final-stats"><div class="stat"><strong>Seu estilo</strong><span>PersonalizaÃ§Ã£o de verdade</span></div><div class="stat"><strong>Em um sÃ³ lugar</strong><span>InformaÃ§Ãµes e convidados</span></div><div class="stat"><strong>Do seu jeito</strong><span>Modelos para inspirar</span></div><div class="stat"><strong>Feito para vocÃª</strong><span>Momentos inesquecÃ­veis</span></div></div>
-      </div>
-    </section>
-  </main>
+        <!-- CARD DE DESTAQUE CENTRAL (Frente) -->
+        <div id="main-hero-card" class="main-card relative z-30 max-w-2xl w-full p-8 md:p-14 rounded-3xl text-center border border-white/60 mx-auto">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold tracking-wide uppercase mb-6 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
+                Soluções Exclusivas
+            </div>
 
-  <footer id="ajuda">
-    <div class="container">
-      <div class="footer-main"><a class="brand" href="#inicio"><svg class="brand-mark" viewBox="0 0 32 40" fill="none" aria-hidden="true"><path d="M16 37C17 25 16 15 7 3M16 29C7 27 3 21 4 15C12 17 16 22 16 29ZM17 21C26 17 29 10 26 4C18 8 16 14 17 21ZM15 12C9 11 7 7 7 3C13 4 16 7 15 12ZM17 34C23 31 27 26 26 20C19 22 16 27 17 34Z" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg>festeva</a><nav class="footer-links" aria-label="Links do rodapÃ©"><a href="#como-funciona">Como funciona</a><a href="#modelos">Modelos</a><a href="#presentes">Lista de presentes</a><a href="mailto:oi@festeva.com.br">Fale com a gente</a><a href="#ajuda" data-toast="Em breve: central de ajuda do Festeva.">Ajuda</a></nav></div>
-      <div class="footer-bottom"><span>Â© <span id="year"></span> Festeva. Todos os direitos reservados.</span><span>Celebre. Compartilhe. Viva.</span></div>
-    </div>
-  </footer>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script>
-    const introStage = document.getElementById('introScrollStage');
-    const editorSection = document.querySelector('.editor-section');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (introStage && editorSection && !reducedMotion) {
-      let ticking = false;
-      const photos = [...document.querySelectorAll('.collage-photo')];
-      const clamp = (n, min=0, max=1) => Math.min(max, Math.max(min, n));
-      const updateScrollScene = () => {
-        const rect = introStage.getBoundingClientRect();
-        const vh = Math.max(1, window.innerHeight);
-        const travel = Math.max(0, -rect.top / vh);
-        const rise = clamp(travel);
-        editorSection.style.setProperty('--editor-rise', `${(1 - rise) * 100}svh`);
-        // A tipografia surge suavemente enquanto a seÃ§Ã£o termina de chegar ao centro.
-        const titleProgress = clamp((travel - .68) / .94);
-        document.querySelectorAll('.collage-title h2 span').forEach((line, index) => {
-          const lineProgress = clamp((titleProgress - index * .10) / .94);
-          const easedLine = lineProgress * lineProgress * (3 - 2 * lineProgress);
-          line.style.opacity = String(easedLine);
-          line.style.transform = `translate3d(0,${(1-easedLine)*18}px,0)`;
-        });
-        // Entrada e saÃ­da mais lentas: as fotos se aproximam do centro e passam por cima da tipografia.
-        const photoProgress = travel < 1.12 ? 0 : travel < 2.20 ? clamp((travel - 1.12) / 1.08) : travel < 2.36 ? 1 : travel < 3.22 ? clamp((3.22 - travel) / .86) : 0;
-        photos.forEach((photo, index) => {
-          // Efeito de cartas lanÃ§adas sobre a mesa: todas as fotos partem do mesmo
-          // ponto de origem no canto inferior esquerdo e se espalham atÃ© suas posiÃ§Ãµes.
-          const order = [4, 0, 7, 2, 9, 1, 6, 3, 8, 5];
-          const stagger = order[index] * .027;
-          const local = clamp((photoProgress - stagger) / .90);
-          const ease = local < .78
-            ? 1 - Math.pow(1 - local / .78, 3)
-            : 1 + Math.sin(((local - .78) / .22) * Math.PI) * .035 * (1 - local);
-          const styles = getComputedStyle(photo);
-          const stage = photo.parentElement;
-          // O mesmo ponto fÃ­sico de lanÃ§amento para todas: canto inferior esquerdo.
-          const fromX = -photo.offsetLeft;
-          const fromY = stage.clientHeight - photo.offsetTop;
-          const tilt = parseFloat(styles.getPropertyValue('--tilt')) || 0;
-          photo.style.opacity = String(ease);
-          const toss = Math.sin(local * Math.PI) * (index % 2 ? 9 : -9);
-          photo.style.zIndex = String(10 + order[index]);
-          photo.style.transform = `translate3d(${fromX * (1 - ease)}px, ${fromY * (1 - ease)}px, 0) rotate(${(tilt * ease) + toss}deg) scale(${.72 + .28 * Math.min(1, ease)})`;
-        });
-        ticking = false;
-      };
-      const requestSceneUpdate = () => {
-        if (!ticking) { window.requestAnimationFrame(updateScrollScene); ticking = true; }
-      };
-      window.addEventListener('scroll', requestSceneUpdate, { passive: true });
-      window.addEventListener('resize', requestSceneUpdate);
-      updateScrollScene();
-    } else if (editorSection) {
-      editorSection.style.setProperty('--editor-rise', '0px');
-      document.querySelectorAll('.collage-photo').forEach(photo => { photo.style.opacity = '1'; photo.style.transform = 'none'; });
-      document.querySelectorAll('.collage-title h2 span').forEach(line => { line.style.opacity = '1'; line.style.transform = 'none'; });
-    }
-    const storySection = document.querySelector('.celebration-story');
-    const storyTrack = document.getElementById('storyTrack');
-    if (storySection && storyTrack && !reducedMotion) {
-      let storyTicking = false;
-      const updateStory = () => {
-        const rect = storySection.getBoundingClientRect();
-        const vh = Math.max(1, window.innerHeight);
-        const available = Math.max(1, storySection.offsetHeight - vh);
-        const progress = Math.min(1, Math.max(0, -rect.top / available));
-        // Deslocamento horizontal contÃ­nuo e suave: cada cena entra sem trancos nem pausas bruscas.
-        const panels = [...storyTrack.querySelectorAll('.story-panel')];
-        const phase = progress * (panels.length - 1);
-        const segment = Math.min(panels.length - 2, Math.floor(phase));
-        const withinSegment = phase - segment;
-        const smoothSegment = withinSegment * withinSegment * (3 - 2 * withinSegment);
-        const position = segment + smoothSegment;
-        storyTrack.style.transform = `translate3d(${-position * 20}%,0,0)`;
-        // As frases sÃ³ comeÃ§am a aparecer quando a foto jÃ¡ estÃ¡ quase centralizada.
-        panels.forEach((panel, panelIndex) => {
-          const heading = panel.querySelector('h2');
-          if (!heading) return;
-          if (!heading.dataset.splitWords) {
-            const original = heading.textContent.trim();
-            if (panel.classList.contains('story-panel--phrase')) {
-              heading.innerHTML = [...original].map((char, charIndex) => char === ' '
-                ? ' '
-                : `<span class="story-letter" data-letter-index="${charIndex}">${char}</span>`).join('');
-            } else {
-              heading.innerHTML = original.split(/\s+/).map((word, wordIndex) => `<span class="story-word" data-word-index="${wordIndex}">${word}</span>`).join(' ');
-            }
-            heading.dataset.splitWords = 'true';
-          }
-          const distance = Math.abs(position - panelIndex);
-          const reveal = Math.min(1, Math.max(0, (0.38 - distance) / 0.38));
-          const eased = reveal * reveal * (3 - 2 * reveal);
-          if (panel.classList.contains('story-panel--phrase')) {
-            const letters = [...heading.querySelectorAll('.story-letter')];
-            letters.forEach((letter, letterIndex) => {
-              const letterProgress = Math.min(1, Math.max(0, (eased * 1.7) - letterIndex * 0.018));
-              const letterEase = letterProgress * letterProgress * (3 - 2 * letterProgress);
-              letter.style.opacity = String(letterEase);
-              letter.style.transform = `translateY(${(1-letterEase)*.45}em)`;
+            <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight md:leading-tight mb-6 tracking-tight">
+                Criação de Sites Personalizados
+            </h1>
+
+            <p class="text-slate-600 text-base md:text-lg mb-8 max-w-xl mx-auto leading-relaxed">
+                Transforme sua presença digital com designs sob medida, alta performance e layouts projetados especificamente para acelerar o seu negócio.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button class="w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 group">
+                    <span>Solicitar Orçamento</span>
+                    <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <button class="w-full sm:w-auto px-8 py-4 bg-slate-100 hover:bg-slate-200/80 text-slate-800 font-semibold rounded-2xl transition-all border border-slate-200/80">
+                    Ver Portfólio
+                </button>
+            </div>
+
+            <!-- Indicadores sutis na base do card -->
+            <div class="mt-8 pt-6 border-t border-slate-200/60 flex items-center justify-center gap-6 text-xs font-medium text-slate-500">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500"></i> Alta Velocidade</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-mobile-screen text-indigo-500"></i> 100% Responsivo</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass text-emerald-500"></i> Otimizado para SEO</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé Discreto -->
+    <footer class="relative z-30 px-6 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 WebCraft. Todos os direitos reservados. Clique em "Reanimar" no topo para ver o efeito novamente.</p>
+    </footer>
+
+    <!-- Script de Lógica do Grid e Animações -->
+    <script>
+        // Lista de imagens do Unsplash simulando mockups de sites e empresas
+        const templates = [
+            { img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop", title: "SaaS Dashboard" },
+            { img: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop", title: "Corporativo" },
+            { img: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=600&auto=format&fit=crop", title: "Agência Criativa" },
+            { img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=600&auto=format&fit=crop", title: "Consultoria" },
+            { img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop", title: "Portfólio Pessoal" },
+            { img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=600&auto=format&fit=crop", title: "Startup Tech" },
+            { img: "https://images.unsplash.com/photo-1542744094-3a31b272c490?q=80&w=600&auto=format&fit=crop", title: "E-Commerce" },
+            { img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=600&auto=format&fit=crop", title: "UI/UX System" },
+            { img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=600&auto=format&fit=crop", title: "Software Landing" },
+            { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop", title: "Equipe Criativa" },
+            { img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=600&auto=format&fit=crop", title: "Plataforma de Ensino" },
+            { img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop", title: "Arquitetura & Design" },
+            { img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=600&auto=format&fit=crop", title: "Marketing Digital" },
+            { img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop", title: "Fintech App" },
+            { img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop", title: "Desenvolvimento Web" }
+        ];
+
+        const gridContainer = document.getElementById('grid-container');
+        const mainCard = document.getElementById('main-hero-card');
+
+        // Função para construir os cartões do grid
+        function generateGridItems() {
+            gridContainer.innerHTML = '';
+            
+            // Duplica ligeiramente a lista para garantir que preencha telas maiores de desktop
+            const fullList = [...templates, ...templates.slice(0, 5)];
+
+            fullList.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'template-card relative rounded-2xl overflow-hidden bg-slate-800/80 border border-slate-700/40 shadow-xl cursor-pointer group h-48 md:h-64';
+                
+                // Fallback para caso alguma imagem falhe
+                card.innerHTML = `
+                    <img 
+                        src="${item.img}" 
+                        alt="${item.title}" 
+                        class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                        onerror="this.src='https://placehold.co/600x400/1e293b/ffffff?text=Template+Website'"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity"></div>
+                    <div class="absolute bottom-3 left-3 right-3 text-left">
+                        <span class="text-[11px] font-medium text-indigo-300 bg-indigo-950/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-indigo-800/50 inline-block mb-1">
+                            ${item.title}
+                        </span>
+                    </div>
+                `;
+
+                gridContainer.appendChild(card);
             });
-          }
-          const image = panel.querySelector('img');
-          if (image) {
-            // A foto anima apenas na entrada. Depois de entrar, fica estÃ¡vel
-            // dentro do prÃ³prio painel; nÃ£o hÃ¡ animaÃ§Ã£o reversa de saÃ­da.
-            // A escala extra cobre as bordas durante o deslocamento e evita frestas.
-            const entryProgress = Math.min(1, Math.max(0, position - (panelIndex - 1)));
-            const entry = entryProgress * entryProgress * (3 - 2 * entryProgress);
-            const directions = {
-              1: [-34, 0], // casamento: entra pela esquerda
-              2: [0, 34],  // chÃ¡ de bebÃª: entra de baixo para cima
-              3: [0, -34], // aniversÃ¡rio: entra de cima para baixo
-              4: [0, 34]   // bodas: entra de baixo para cima
-            };
-            const [dx, dy] = directions[panelIndex] || [0, 0];
-            const x = dx * (1 - entry);
-            const y = dy * (1 - entry);
-            const imageScale = 1.14 - entry * 0.06;
-            image.style.transform = `translate3d(${x}%,${y}%,0) scale(${imageScale})`;
-            image.style.clipPath = 'inset(0 0 0 0)';
-          }
-          heading.querySelectorAll('.story-word').forEach((word) => {
-            // Texto entra com um movimento curto, sem palavras voando de lados opostos.
-            word.style.opacity = String(eased);
-            word.style.transform = `translate3d(0,${(1-eased)*14}px,0)`;
-          });
+        }
+
+        // Função para disparar a animação em cascata (Staggering)
+        function triggerAnimateSequence() {
+            const cards = document.querySelectorAll('.template-card');
+            
+            // Esconde o card principal e os templates
+            mainCard.classList.remove('show');
+            cards.forEach(card => card.classList.remove('show'));
+
+            // Embaralha levemente as ordens de aparição para um visual mais orgânico
+            const cardIndices = Array.from(Array(cards.length).keys());
+            // Animação dos cards de fundo em ordem pseudo-aleatória ou espiral
+            cardIndices.sort(() => Math.random() - 0.5);
+
+            cardIndices.forEach((cardIndex, i) => {
+                setTimeout(() => {
+                    if (cards[cardIndex]) {
+                        cards[cardIndex].classList.add('show');
+                    }
+                }, i * 45); // Atraso cascata de 45ms por card
+            });
+
+            // Surge o Card Principal Central após grande parte dos cards do fundo estarem visíveis
+            setTimeout(() => {
+                mainCard.classList.add('show');
+            }, cards.length * 20);
+        }
+
+        // Inicialização na carga da página
+        window.addEventListener('DOMContentLoaded', () => {
+            generateGridItems();
+            
+            // Pequeno delay para garantir fluidez no carregamento
+            setTimeout(() => {
+                triggerAnimateSequence();
+            }, 100);
         });
-        storyTicking = false;
-      };
-      const requestStoryUpdate = () => { if (!storyTicking) { requestAnimationFrame(updateStory); storyTicking = true; } };
-      window.addEventListener('scroll', requestStoryUpdate, { passive: true });
-      window.addEventListener('resize', requestStoryUpdate);
-      updateStory();
-    }
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) { heroVideo.play().catch(() => {}); heroVideo.addEventListener('error', () => { heroVideo.style.display = 'none'; }); }
-    const header = document.getElementById('header');
-    const menuToggle = document.getElementById('menuToggle');
-    const navLinks = document.getElementById('navLinks');
-    const toast = document.getElementById('toast');
-    let toastTimer;
-    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20), {passive:true});
-    menuToggle.addEventListener('click', () => {
-      const open = navLinks.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', String(open));
-      menuToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-      menuToggle.textContent = open ? 'Ã—' : 'â˜°';
-    });
-    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      navLinks.classList.remove('open'); menuToggle.setAttribute('aria-expanded','false'); menuToggle.textContent='â˜°';
-    }));
-    function showToast(message) {
-      toast.textContent = message; toast.classList.add('show');
-      clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
-    }
-    document.querySelectorAll('[data-toast]').forEach(el => el.addEventListener('click', e => {
-      e.preventDefault(); showToast(el.dataset.toast);
-    }));
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); }
-      });
-    }, {threshold:0.12});
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Carrossel em arco: a rolagem da pÃ¡gina move as fotos; arrastar tambÃ©m permite navegar.
-    (() => {
-      const section = document.querySelector('.process-scroll');
-      const stage = document.getElementById('processStage');
-      const sticky = document.getElementById('processSticky');
-      const cards = [...document.querySelectorAll('.process-card')];
-      const captions = [...document.querySelectorAll('.process-description')];
-      const progressBar = document.getElementById('processProgressBar');
-      if (!section || !stage || !sticky || !cards.length) return;
-      const total = cards.length;
-      let currentProgress = 0, targetProgress = 0, isDragging = false;
-      let startX = 0, dragStartProgress = 0, animationFrame = 0;
-      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function getArcPoint(offset) {
-        const angle = offset * 0.38 * Math.PI;
-        const stageWidth = stage.clientWidth;
-        const stageHeight = stage.clientHeight;
-        const rx = Math.min(360, stageWidth * 0.415);
-        const ry = Math.min(200, stageHeight * 0.62);
-        return { x: rx * Math.sin(angle), y: ry * (1 - Math.cos(angle)), rotate: (angle * 180 / Math.PI) * 0.65 };
-      }
-      function updatePositions() {
-        animationFrame = 0;
-        currentProgress += (targetProgress - currentProgress) * (reducedMotion ? 1 : 0.12);
-        if (Math.abs(targetProgress - currentProgress) < 0.001) currentProgress = targetProgress;
-        const activeIndex = clamp(Math.round(currentProgress), 0, total - 1);
-        cards.forEach((card, index) => {
-          const offset = index - currentProgress;
-          const point = getArcPoint(offset);
-          const absOffset = Math.abs(offset);
-          const opacity = clamp(1 - Math.pow(absOffset / 1.3, 2), 0, 1);
-          const scale = Math.max(0.72, 1 - absOffset * 0.1);
-          card.style.transform = `translate3d(calc(-50% + ${point.x}px), ${point.y}px, 0) scale(${scale}) rotate(${point.rotate}deg)`;
-          card.style.opacity = opacity.toFixed(3);
-          card.style.zIndex = String(Math.round((1 - absOffset) * 100));
-          card.setAttribute('aria-hidden', absOffset > 0.5 ? 'true' : 'false');
+        // Suporte para re-ajustar em caso de resize da tela
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                // Manter suavidade sem reinstanciar caso não necessário
+            }, 250);
         });
-        captions.forEach((caption, index) => caption.classList.toggle('active', index === activeIndex));
-        progressBar.style.width = `${((activeIndex + 1) / total) * 100}%`;
-        if (Math.abs(targetProgress - currentProgress) >= 0.001) animationFrame = requestAnimationFrame(updatePositions);
-      }
-      function handleScroll() {
-        if (isDragging) return;
-        const rect = section.getBoundingClientRect();
-        const scrollable = rect.height - window.innerHeight;
-        if (scrollable <= 0) return;
-        targetProgress = clamp((-rect.top) / scrollable, 0, 1) * (total - 1);
-        if (!animationFrame) animationFrame = requestAnimationFrame(updatePositions);
-      }
-      function onPointerDown(event) {
-        if (event.pointerType === 'mouse' && event.button !== 0) return;
-        isDragging = true; startX = event.clientX; dragStartProgress = targetProgress;
-        sticky.style.cursor = 'grabbing';
-        if (stage.setPointerCapture && event.pointerId !== undefined) { try { stage.setPointerCapture(event.pointerId); } catch (_) {} }
-      }
-      function onPointerMove(event) {
-        if (!isDragging) return;
-        const sensitivity = 1 / Math.max(280, stage.clientWidth * 0.82);
-        targetProgress = clamp(dragStartProgress + ((startX - event.clientX) * sensitivity), 0, total - 1);
-        if (!animationFrame) animationFrame = requestAnimationFrame(updatePositions);
-      }
-      function onPointerUp() {
-        if (!isDragging) return;
-        isDragging = false; sticky.style.cursor = 'grab';
-        targetProgress = clamp(Math.round(targetProgress), 0, total - 1);
-        if (!animationFrame) animationFrame = requestAnimationFrame(updatePositions);
-      }
-      sticky.addEventListener('pointerdown', onPointerDown);
-      window.addEventListener('pointermove', onPointerMove, { passive: true });
-      window.addEventListener('pointerup', onPointerUp, { passive: true });
-      window.addEventListener('pointercancel', onPointerUp, { passive: true });
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      window.addEventListener('resize', () => { handleScroll(); if (!animationFrame) animationFrame = requestAnimationFrame(updatePositions); }, { passive: true });
-      sticky.style.cursor = 'grab';
-      updatePositions(); handleScroll();
-    })();
-
-  </script>
+    </script>
 </body>
 </html>
