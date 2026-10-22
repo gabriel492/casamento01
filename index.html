@@ -444,21 +444,21 @@
         const rise = clamp(travel);
         editorSection.style.setProperty('--editor-rise', `${(1 - rise) * 100}svh`);
         // A tipografia surge suavemente enquanto a seÃ§Ã£o termina de chegar ao centro.
-        const titleProgress = clamp((travel - .72) / .72);
+        const titleProgress = clamp((travel - .68) / .94);
         document.querySelectorAll('.collage-title h2 span').forEach((line, index) => {
-          const lineProgress = clamp((titleProgress - index * .10) / .82);
+          const lineProgress = clamp((titleProgress - index * .10) / .94);
           const easedLine = lineProgress * lineProgress * (3 - 2 * lineProgress);
           line.style.opacity = String(easedLine);
           line.style.transform = `translate3d(0,${(1-easedLine)*18}px,0)`;
         });
         // Entrada e saÃ­da mais lentas: as fotos se aproximam do centro e passam por cima da tipografia.
-        const photoProgress = travel < 1.12 ? 0 : travel < 2.02 ? clamp((travel - 1.12) / .9) : travel < 2.14 ? 1 : travel < 2.88 ? clamp((2.88 - travel) / .74) : 0;
+        const photoProgress = travel < 1.12 ? 0 : travel < 2.20 ? clamp((travel - 1.12) / 1.08) : travel < 2.36 ? 1 : travel < 3.22 ? clamp((3.22 - travel) / .86) : 0;
         photos.forEach((photo, index) => {
           // Efeito de cartas lanÃ§adas sobre a mesa: todas as fotos partem do mesmo
           // ponto de origem no canto inferior esquerdo e se espalham atÃ© suas posiÃ§Ãµes.
           const order = [4, 0, 7, 2, 9, 1, 6, 3, 8, 5];
           const stagger = order[index] * .027;
-          const local = clamp((photoProgress - stagger) / .76);
+          const local = clamp((photoProgress - stagger) / .90);
           const ease = local < .78
             ? 1 - Math.pow(1 - local / .78, 3)
             : 1 + Math.sin(((local - .78) / .22) * Math.PI) * .035 * (1 - local);
