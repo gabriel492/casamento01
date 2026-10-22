@@ -274,9 +274,9 @@
     .process-content{position:relative;z-index:1;width:min(560px,90vw);display:flex;align-items:center;flex-direction:column;text-align:center;padding-top:32px}
     .process-step-label{font-size:.67rem;font-weight:800;letter-spacing:.08em;color:white;background:#111;border-radius:4px;padding:5px 9px;margin-bottom:24px}
     .process-image-window{width:224px;height:300px;border-radius:20px;overflow:hidden;position:relative;clip-path:none;transition:opacity .55s ease,transform .55s ease;background:#dedbd5}
-    .process-image-window.is-revealing{opacity:.25;transform:scale(.97)}
+    .process-image-window.is-revealing{opacity:1;transform:scale(.99)}
     .process-image-window img{width:100%;height:100%;object-fit:cover;transform:scale(1.03);transition:transform .7s,opacity .35s;opacity:1}
-    .process-image-window.is-revealing img{opacity:.15;transform:scale(.9)}
+    .process-image-window.is-revealing img{opacity:1;transform:scale(1)}
     .process-description{margin-top:16px;background:rgba(255,255,255,.94);border-radius:17px;padding:16px 28px 18px;width:100%;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 35px rgba(0,0,0,.025);transition:opacity .3s,transform .3s}
     .process-description.is-changing{opacity:0;transform:translateY(12px)}
     .process-kicker{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#8a837a;margin:0 0 5px}
@@ -592,7 +592,6 @@
       const kicker = document.getElementById('processKicker');
       const title = document.getElementById('processTitle');
       const copy = document.getElementById('processText');
-      const dots = [...document.querySelectorAll('#processPagination span')];
       const steps = [
         {kicker:'O comeÃ§o de tudo',title:'Imagine',text:'Toda celebraÃ§Ã£o comeÃ§a com uma ideia. Inspire-se e descubra o estilo que combina com a sua histÃ³ria.',alt:'Casamento com decoraÃ§Ã£o elegante',src:'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85'},
         {kicker:'Do seu jeito',title:'Personalize',text:'Escolha cores, fontes, fotos e detalhes que tenham a sua personalidade. Cada escolha deixa o site mais seu.',alt:'Detalhes delicados de convite e decoraÃ§Ã£o',src:'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=900&q=85'},
@@ -612,8 +611,6 @@
           changeTimer=setTimeout(()=>{
             image.src=step.src; image.alt=step.alt; label.textContent=`[ ETAPA 0${index+1} ]`;
             kicker.textContent=step.kicker; title.textContent=step.title; copy.textContent=step.text;
-            dots.forEach((dot,i)=>dot.classList.toggle('active',i===index));
-            document.getElementById('processPagination').setAttribute('aria-label',`Etapa ${index+1} de 4`);
             windowEl.classList.remove('is-revealing'); description.classList.remove('is-changing');
           },240);
         }
