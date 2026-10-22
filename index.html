@@ -1,174 +1,114 @@
-
-<section class="festeva-scroll" id="festevaScroll">
-  <header class="fs-heading">
-    <span class="fs-eyebrow">A experiência Festeva</span>
-    <h2>Uma ideia.<br><span>Mil possibilidades.</span></h2>
-    <p>Deslize pela experiência e descubra cada detalhe.</p>
-  </header>
-
-  <div class="fs-sticky">
-    <div class="fs-arc" aria-hidden="true"></div>
-
-    <div class="fs-visual" aria-live="polite">
-      <article class="fs-slide is-active">
-        <span class="fs-step">STEP 01</span>
-        <div class="fs-photo">
-          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85"
-               alt="Cerimônia de casamento">
-        </div>
-        <div class="fs-caption">
-          <h3>Imagine</h3>
-          <p>Tudo começa com uma ideia especial.</p>
-        </div>
-      </article>
-
-      <article class="fs-slide">
-        <span class="fs-step">STEP 02</span>
-        <div class="fs-photo">
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=85"
-               alt="Detalhes de uma celebração">
-        </div>
-        <div class="fs-caption">
-          <h3>Personalize</h3>
-          <p>Escolha os detalhes que representam você.</p>
-        </div>
-      </article>
-
-      <article class="fs-slide">
-        <span class="fs-step">STEP 03</span>
-        <div class="fs-photo">
-          <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=85"
-               alt="Mesa decorada para uma festa">
-        </div>
-        <div class="fs-caption">
-          <h3>Organize</h3>
-          <p>Reúna tudo o que importa em um só lugar.</p>
-        </div>
-      </article>
-
-      <article class="fs-slide">
-        <span class="fs-step">STEP 04</span>
-        <div class="fs-photo">
-          <img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=900&q=85"
-               alt="Celebração especial">
-        </div>
-        <div class="fs-caption">
-          <h3>Celebre</h3>
-          <p>Compartilhe o seu momento com quem você ama.</p>
-        </div>
-      </article>
-    </div>
-
-    <div class="fs-progress">
-      <span class="fs-current">01</span>
-      <span class="fs-progress-track"><i></i></span>
-      <span class="fs-total">04</span>
-    </div>
-  </div>
-
-  <!-- Cada bloco ocupa uma etapa de scroll -->
-  <div class="fs-scroll-steps" aria-hidden="true">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-</section>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fbfaf8">
+<title>Festeva â€” Carrossel em scroll</title>
 <style>
+:root {
+  --festeva-bg: #fbfaf8;
+  --festeva-ink: #24202b;
+  --festeva-muted: #817b89;
+  --festeva-lilac: #8a82e5;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--festeva-bg);
+  color: var(--festeva-ink);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 .festeva-scroll {
-  --fs-ink: #24202b;
-  --fs-muted: #817b89;
-  --fs-accent: #8a82e5;
   position: relative;
-  background: #fbfaf8;
-  color: var(--fs-ink);
-  font-family: Inter, Arial, sans-serif;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--festeva-bg);
 }
-
-.festeva-scroll *,
-.festeva-scroll *::before,
-.festeva-scroll *::after {
-  box-sizing: border-box;
-}
-
 .fs-heading {
+  position: relative;
+  z-index: 2;
+  padding: 86px 20px 20px;
   text-align: center;
-  padding: 90px 20px 10px;
 }
-
 .fs-eyebrow {
   display: inline-block;
   padding: 8px 13px;
-  border: 1px solid #e3dff6;
-  border-radius: 99px;
+  border: 1px solid rgba(138,130,229,.28);
+  border-radius: 999px;
   color: #777087;
   font-size: 10px;
+  font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
-
 .fs-heading h2 {
-  margin: 22px 0 12px;
-  font: 400 clamp(38px, 5.5vw, 68px)/1.05 Georgia, serif;
-  letter-spacing: -.045em;
+  margin: 22px 0 13px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 5.5vw, 68px);
+  font-weight: 400;
+  letter-spacing: -.05em;
+  line-height: 1.05;
 }
-
-.fs-heading h2 span {
-  background: linear-gradient(100deg,#ff00aa,#8a82e5,#47abf9,#00d5f3,#00e5e2,#00d6a8);
-  background-clip: text;
+.fs-gradient-text {
+  background: linear-gradient(105deg,#d90091 0%,#8a82e5 28%,#47abf9 52%,#00d5f3 73%,#00cfa9 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
-
 .fs-heading p {
-  color: var(--fs-muted);
+  max-width: 470px;
+  margin: 0 auto;
+  color: var(--festeva-muted);
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
+/* Palco fixo enquanto os blocos de scroll passam por trÃ¡s */
 .fs-sticky {
   position: sticky;
   top: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
   height: 100svh;
-  min-height: 600px;
+  min-height: 570px;
   max-height: 900px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   isolation: isolate;
 }
 
-/* Arco decorativo pontilhado */
+/* Arco superior: semicircular, mais redondo e sem fechar em elipse */
 .fs-arc {
   position: absolute;
   z-index: -1;
-  width: min(900px, 120vw);
-  height: min(900px, 120vw);
   left: 50%;
   top: 43%;
-  border: 1px dashed rgba(138,130,229,.3);
-  border-radius: 50%;
+  width: min(650px, 94vw);
+  aspect-ratio: 2 / 1;
+  border: 1px dashed rgba(138,130,229,.34);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0 / 100% 100% 0 0;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
-
 .fs-arc::after {
   content: "";
   position: absolute;
-  inset: 28px;
-  border: 1px dashed rgba(138,130,229,.1);
-  border-radius: 50%;
+  inset: 15px 15px 0;
+  border: 1px dashed rgba(138,130,229,.13);
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0 / 100% 100% 0 0;
 }
 
 .fs-visual {
   position: relative;
-  width: min(360px, 78vw);
-  height: min(600px, 76svh);
-  min-height: 400px;
+  width: min(340px, 76vw);
+  height: min(590px, 76svh);
+  min-height: 390px;
+  margin-top: -2vh;
 }
-
 .fs-slide {
   position: absolute;
   inset: 0;
@@ -179,81 +119,67 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(38px) rotate(5deg) scale(.94);
-  transition:
-    opacity .5s ease,
-    transform .7s cubic-bezier(.2,.75,.25,1),
-    visibility .5s;
+  transform: translate3d(0, 24px, 0) scale(.975) rotate(2deg);
+  will-change: opacity, transform;
+  transition: opacity .85s ease, transform .85s cubic-bezier(.2,.7,.2,1), visibility .85s;
 }
-
-.fs-slide.is-active {
-  opacity: 1;
+.fs-slide.is-visible {
   visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0) rotate(0) scale(1);
-  z-index: 2;
 }
-
-.fs-slide.is-leaving {
-  opacity: 0;
-  transform: translateY(-35px) rotate(-5deg) scale(.96);
-}
-
 .fs-step {
+  flex: 0 0 auto;
   margin-bottom: 13px;
   padding: 8px 12px;
-  color: white;
-  background: rgba(36,32,43,.93);
   border: 1px solid rgba(255,255,255,.15);
   border-radius: 8px;
+  background: rgba(36,32,43,.93);
+  color: #fff;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .15em;
 }
-
 .fs-photo {
   width: 100%;
-  height: 68%;
-  min-height: 280px;
-  max-height: 450px;
+  height: 66%;
+  min-height: 260px;
+  max-height: 435px;
   padding: 4px;
   overflow: hidden;
   border-radius: 24px;
-  background: white;
-  box-shadow: 0 22px 60px rgba(36,32,43,.13);
+  background: #fff;
+  box-shadow: 0 22px 60px rgba(36,32,43,.13), 0 3px 10px rgba(36,32,43,.04);
 }
-
 .fs-photo img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   border-radius: 20px;
+  object-fit: cover;
+  -webkit-user-drag: none;
 }
-
 .fs-caption {
   width: 100%;
-  padding: 18px 8px 0;
+  padding: 17px 8px 0;
   text-align: center;
 }
-
 .fs-caption h3 {
   margin: 0 0 8px;
-  font: 400 29px/1.2 Georgia, serif;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.5vw, 30px);
+  font-weight: 400;
+  letter-spacing: -.035em;
 }
-
 .fs-caption p {
-  margin: 0 auto;
   max-width: 290px;
-  color: var(--fs-muted);
+  margin: 0 auto;
+  color: var(--festeva-muted);
   font-size: 13px;
   line-height: 1.7;
 }
-
 .fs-progress {
   position: absolute;
   z-index: 5;
-  bottom: max(25px, env(safe-area-inset-bottom));
+  bottom: max(24px, env(safe-area-inset-bottom));
   left: 50%;
   display: flex;
   align-items: center;
@@ -263,138 +189,186 @@
   font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
-
-.fs-current {
-  color: var(--fs-ink);
-  font-weight: 700;
-}
-
-.fs-progress-track {
-  display: block;
-  width: 90px;
-  height: 2px;
-  background: #e6e1e9;
-  overflow: hidden;
-}
-
+.fs-current { color: var(--festeva-ink); font-weight: 700; }
+.fs-progress-track { width: 90px; height: 2px; overflow: hidden; background: #e6e1e9; }
 .fs-progress-track i {
   display: block;
   width: 25%;
   height: 100%;
-  background: linear-gradient(90deg,#ff00aa,#8a82e5,#47abf9,#00e5e2);
-  transition: width .4s ease;
+  background: linear-gradient(90deg,#ff00aa,#8a82e5,#47abf9,#00d5f3,#00e5e2,#00f9cb);
+  transform-origin: left center;
 }
 
-.fs-scroll-steps > div {
-  height: 85svh;
-  pointer-events: none;
-}
+/* Cada bloco define a duraÃ§Ã£o de uma etapa. */
+.fs-scroll-steps { position: relative; z-index: 0; margin-top: -1px; }
+.fs-scroll-steps > div { height: 82svh; pointer-events: none; }
+.fs-scroll-steps > div:first-child { height: 60svh; }
+.fs-scroll-steps > div:last-child { height: 65svh; }
+.fs-end-space { height: 8svh; }
 
 @media (max-width: 600px) {
-  .fs-heading {
-    padding-top: 65px;
-  }
-
-  .fs-sticky {
-    min-height: 540px;
-    height: 100svh;
-  }
-
-  .fs-visual {
-    width: min(300px, 76vw);
-    height: min(510px, 70svh);
-    min-height: 380px;
-  }
-
-  .fs-photo {
-    height: 65%;
-    min-height: 250px;
-    border-radius: 20px;
-  }
-
-  .fs-photo img {
-    border-radius: 16px;
-  }
-
-  .fs-caption h3 {
-    font-size: 25px;
-  }
-
-  .fs-scroll-steps > div {
-    height: 75svh;
-  }
+  .fs-heading { padding: 66px 18px 12px; }
+  .fs-heading h2 { font-size: clamp(37px, 10vw, 51px); }
+  .fs-heading p { max-width: 340px; font-size: 13px; }
+  .fs-sticky { min-height: 520px; }
+  .fs-arc { top: 39%; width: min(510px, 116vw); }
+  .fs-visual { width: min(295px, 76vw); height: min(500px, 70svh); min-height: 370px; margin-top: -1vh; }
+  .fs-photo { height: 64%; min-height: 245px; border-radius: 20px; }
+  .fs-photo img { border-radius: 16px; }
+  .fs-caption { padding-top: 14px; }
+  .fs-caption h3 { font-size: 25px; }
+  .fs-caption p { max-width: 250px; font-size: 12px; }
+  .fs-scroll-steps > div { height: 75svh; }
+  .fs-scroll-steps > div:first-child { height: 48svh; }
+  .fs-scroll-steps > div:last-child { height: 50svh; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .fs-slide,
-  .fs-progress-track i {
-    transition-duration: .01ms !important;
-  }
+  .fs-slide, .fs-progress-track i { transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
 }
 </style>
+</head>
+<body>
+<section class="festeva-scroll" id="festevaScroll">
+  <header class="fs-heading">
+    <span class="fs-eyebrow">Uma experiÃªncia Festeva</span>
+    <h2>Do primeiro detalhe<br>Ã  <span class="fs-gradient-text">grande celebraÃ§Ã£o.</span></h2>
+    <p>Crie, personalize e compartilhe uma experiÃªncia que tenha tudo a ver com vocÃª.</p>
+  </header>
+
+  <div class="fs-sticky">
+    <div class="fs-arc" aria-hidden="true"></div>
+    <div class="fs-visual" aria-live="polite">
+      <article class="fs-slide" data-step="01">
+        <span class="fs-step">STEP 01</span>
+        <div class="fs-photo"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85" alt="CerimÃ´nia de casamento ao ar livre" draggable="false"></div>
+        <div class="fs-caption"><h3>Imagine</h3><p>Comece com uma ideia especial e transforme-a em algo Ãºnico.</p></div>
+      </article>
+      <article class="fs-slide" data-step="02">
+        <span class="fs-step">STEP 02</span>
+        <div class="fs-photo"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=85" alt="Detalhes delicados de uma celebraÃ§Ã£o" draggable="false"></div>
+        <div class="fs-caption"><h3>Personalize</h3><p>Escolha cores, imagens e detalhes com a sua identidade.</p></div>
+      </article>
+      <article class="fs-slide" data-step="03">
+        <span class="fs-step">STEP 03</span>
+        <div class="fs-photo"><img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=85" alt="Mesa decorada para uma festa" draggable="false"></div>
+        <div class="fs-caption"><h3>Organize</h3><p>ReÃºna as informaÃ§Ãµes importantes em um sÃ³ lugar.</p></div>
+      </article>
+      <article class="fs-slide" data-step="04">
+        <span class="fs-step">STEP 04</span>
+        <div class="fs-photo"><img src="https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=900&q=85" alt="Pessoas celebrando juntas" draggable="false"></div>
+        <div class="fs-caption"><h3>Celebre</h3><p>Compartilhe o seu espaÃ§o e viva cada momento.</p></div>
+      </article>
+    </div>
+    <div class="fs-progress" aria-hidden="true">
+      <span class="fs-current">01</span><span class="fs-progress-track"><i></i></span><span class="fs-total">04</span>
+    </div>
+  </div>
+
+  <div class="fs-scroll-steps" aria-hidden="true">
+    <div></div><div></div><div></div><div></div>
+  </div>
+  <div class="fs-end-space" aria-hidden="true"></div>
+</section>
 
 <script>
 (() => {
-  const section = document.querySelector("#festevaScroll");
-  if (!section || section.dataset.scrollReady) return;
-  section.dataset.scrollReady = "true";
+  const section = document.querySelector('#festevaScroll');
+  if (!section || section.dataset.initialized === 'true') return;
+  section.dataset.initialized = 'true';
 
-  const slides = [...section.querySelectorAll(".fs-slide")];
-  const steps = [...section.querySelectorAll(".fs-scroll-steps > div")];
-  const current = section.querySelector(".fs-current");
-  const total = section.querySelector(".fs-total");
-  const progress = section.querySelector(".fs-progress-track i");
+  const slides = [...section.querySelectorAll('.fs-slide')];
+  const steps = [...section.querySelectorAll('.fs-scroll-steps > div')];
+  const currentLabel = section.querySelector('.fs-current');
+  const progressBar = section.querySelector('.fs-progress-track i');
+  const total = slides.length;
+  let rafPending = false;
 
-  let activeIndex = -1;
-  let ticking = false;
+  section.querySelector('.fs-total').textContent = String(total).padStart(2, '0');
 
-  total.textContent = String(slides.length).padStart(2, "0");
-
+  // Calcula a posiÃ§Ã£o de cada etapa na pÃ¡gina e interpola a opacidade.
+  // Assim, a imagem atual desaparece gradualmente enquanto a prÃ³xima surge.
   function update() {
-    ticking = false;
+    rafPending = false;
+    if (!steps.length || !slides.length) return;
 
-    const sectionRect = section.getBoundingClientRect();
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const scrolled = -sectionRect.top;
-    const ratio = Math.max(0, Math.min(0.9999, scrolled / scrollable));
+    const viewportCenter = window.innerHeight * 0.5;
+    const centers = steps.map(step => {
+      const rect = step.getBoundingClientRect();
+      return rect.top + rect.height * 0.5;
+    });
 
-    // A seção inicial possui um trecho de introdução.
-    // O sticky percorre as etapas em sequência.
-    const index = Math.min(
-      slides.length - 1,
-      Math.floor(ratio * slides.length)
-    );
-
-    if (index !== activeIndex) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("is-active", i === index);
-        slide.classList.remove("is-leaving");
-      });
-
-      activeIndex = index;
-      current.textContent = String(index + 1).padStart(2, "0");
-      progress.style.width =
-        `${((index + 1) / slides.length) * 100}%`;
+    let segment = 0;
+    if (viewportCenter <= centers[0]) {
+      segment = 0;
+    } else if (viewportCenter >= centers[centers.length - 1]) {
+      segment = centers.length - 1;
+    } else {
+      for (let i = 0; i < centers.length - 1; i++) {
+        if (viewportCenter >= centers[i] && viewportCenter <= centers[i + 1]) {
+          segment = i;
+          break;
+        }
+      }
     }
+
+    let blend = 0;
+    if (segment < centers.length - 1) {
+      const span = Math.max(1, centers[segment + 1] - centers[segment]);
+      blend = Math.max(0, Math.min(1, (viewportCenter - centers[segment]) / span));
+      // Suaviza a passagem, mantendo a troca contÃ­nua e sem cortes bruscos.
+      blend = blend * blend * (3 - 2 * blend);
+    }
+
+    slides.forEach((slide, index) => {
+      let opacity = 0;
+      let y = 18;
+      let scale = .975;
+      let rotate = 2;
+
+      if (index === segment) {
+        opacity = 1 - blend;
+        y = -12 * blend;
+        scale = 1 - .018 * blend;
+        rotate = 2 * blend;
+      } else if (index === segment + 1 && segment < slides.length - 1) {
+        opacity = blend;
+        y = 18 * (1 - blend);
+        scale = .982 + .018 * blend;
+        rotate = 2 * (1 - blend);
+      } else if (index === 0 && viewportCenter < centers[0]) {
+        opacity = 1;
+        y = 0;
+        scale = 1;
+        rotate = 0;
+      } else if (index === slides.length - 1 && viewportCenter >= centers[centers.length - 1]) {
+        opacity = 1;
+        y = 0;
+        scale = 1;
+        rotate = 0;
+      }
+
+      // Quando duas imagens se cruzam, a opacidade total fica controlada.
+      slide.style.opacity = String(opacity);
+      slide.style.transform = `translate3d(0, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+      slide.style.visibility = opacity > .015 ? 'visible' : 'hidden';
+      slide.style.zIndex = String(Math.round(opacity * 10) + (index === segment + 1 ? 1 : 0));
+      slide.setAttribute('aria-hidden', opacity > .5 ? 'false' : 'true');
+    });
+
+    const displayIndex = Math.min(total - 1, Math.max(0, segment + (blend >= .5 && segment < total - 1 ? 1 : 0)));
+    currentLabel.textContent = String(displayIndex + 1).padStart(2, '0');
+    progressBar.style.width = `${((segment + blend + 1) / total) * 100}%`;
   }
 
-  function requestUpdate() {
-    if (ticking) return;
-    ticking = true;
+  function scheduleUpdate() {
+    if (rafPending) return;
+    rafPending = true;
     requestAnimationFrame(update);
   }
 
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate, { passive: true });
-
-  // Observa quando a seção se aproxima da tela.
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(requestUpdate, {
-      threshold: [0, .1, .5, 1]
-    });
-    observer.observe(section);
-  }
-
+  window.addEventListener('scroll', scheduleUpdate, { passive: true });
+  window.addEventListener('resize', scheduleUpdate, { passive: true });
   update();
 })();
 </script>
