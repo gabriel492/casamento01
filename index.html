@@ -1,343 +1,602 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criação de Sites Personalizados</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      font-family: 'Inter', sans-serif;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #090d16;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1f293d;
-      border-radius: 4px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebStudio — Criar Sites Personalizados</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    .central-card-box {
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .card-focused {
-      box-shadow: 0 0 50px rgba(120, 119, 198, 0.4), 0 20px 40px rgba(0, 0, 0, 0.5);
-      border-color: rgba(255, 255, 255, 0.9) !important;
-      transform: scale(1.02);
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* Cards de fundo com transição estável para não quebrar o layout */
-    .bg-card {
-      transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease;
-      will-change: opacity, transform;
-    }
-    .bg-card:hover {
-      transform: scale(1.03) translateY(-4px) !important;
-      opacity: 1 !important;
-      z-index: 20;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0e17;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
 
-    .phrase-transition {
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .phrase-hidden {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-  </style>
+        /* Barra de Acento Magenta Topo Esquerdo */
+        .top-gradient-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 140px;
+            height: 4px;
+            background: linear-gradient(90deg, #ec4899, #8b5cf6);
+            border-bottom-right-radius: 4px;
+            z-index: 60;
+        }
+
+        /* Wrapper da Seção com Rolação Fluida */
+        .scroll-section-wrapper {
+            height: 220vh;
+            position: relative;
+        }
+
+        .sticky-viewport {
+            position: sticky;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Layout Grid Exato da Foto */
+        .exact-grid-container {
+            display: grid;
+            grid-template-columns: 1.1fr 1.3fr 1.8fr 0.9fr 1fr 1.5fr 0.8fr;
+            grid-template-rows: 1.1fr 1.4fr 1.1fr;
+            gap: 14px;
+            width: 100vw;
+            height: 100vh;
+            padding: 80px 16px 16px 16px;
+            position: relative;
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Desfoque Suave no Fundo */
+        .exact-grid-container.blurred-bg .exact-card:not(.slot-center-hero) {
+            filter: blur(3px) brightness(0.65);
+            transform: scale(0.985);
+        }
+
+        /* Cards do Fundo */
+        .exact-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background-color: #1a2236;
+            opacity: 0;
+            transform: scale(0.75) translateY(35px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.4s ease;
+            will-change: opacity, transform, filter;
+        }
+
+        .exact-card.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Overlay Escuro das Fotos */
+        .card-tint {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(18, 25, 45, 0.65);
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .exact-card:hover .card-tint {
+            opacity: 0.15;
+        }
+
+        .exact-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .exact-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Posicionamento dos Slots */
+        .slot-top-left-tall { grid-column: 1; grid-row: 1 / span 2; }
+        .slot-bottom-left-tall { grid-column: 1; grid-row: 3; }
+
+        .slot-top-mid-wide { grid-column: 2 / span 2; grid-row: 1; }
+        .slot-mid-left-portrait { grid-column: 2; grid-row: 2; }
+        .slot-bottom-mid-solid { grid-column: 2; grid-row: 3; }
+
+        .slot-top-center-solid { grid-column: 4; grid-row: 1; }
+        .slot-bottom-center-person { grid-column: 3 / span 2; grid-row: 3; }
+
+        /* Card Central (Transforma-se de texto solto para Card ao rolar) */
+        .slot-center-hero {
+            grid-column: 3 / span 3;
+            grid-row: 2;
+            z-index: 20;
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) !important;
+        }
+
+        .hero-exact-card {
+            border-radius: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            background: transparent;
+            border: 1px solid transparent;
+            box-shadow: none;
+            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Estado visível do card central quando surge no scroll */
+        .hero-exact-card.hero-visible {
+            background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-exact-card.hero-focused {
+            transform: scale(1.05) !important;
+            box-shadow: 0 35px 80px -15px rgba(99, 102, 241, 0.4),
+                        0 0 45px rgba(255, 255, 255, 0.5);
+            border-color: #818cf8;
+        }
+
+        .solid-placeholder-card {
+            background: #252e42;
+        }
+
+        .slot-top-mid-right-person { grid-column: 5; grid-row: 1; }
+        .slot-top-right-wide { grid-column: 6; grid-row: 1; }
+        .slot-top-far-right-strip { grid-column: 7; grid-row: 1; }
+
+        .slot-mid-right-card1 { grid-column: 6; grid-row: 2; }
+        .slot-mid-right-card2 { grid-column: 7; grid-row: 2; }
+
+        .slot-bottom-mid-right-box { grid-column: 5; grid-row: 3; }
+        .slot-bottom-right-wide { grid-column: 6; grid-row: 3; }
+        .slot-bottom-far-right-strip { grid-column: 7; grid-row: 3; }
+
+        /* Indicador Flutuante */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 18px;
+            border-radius: 9999px;
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .scroll-section-wrapper { height: auto; }
+            .sticky-viewport { position: relative; height: auto; }
+            .exact-grid-container {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                padding: 100px 16px 24px 16px;
+            }
+            .exact-card { height: 220px; opacity: 1 !important; transform: none !important; }
+            .slot-center-hero { order: -1; height: auto; min-height: 260px; }
+            .scroll-indicator { display: none; }
+        }
+    </style>
 </head>
-<body class="bg-[#090d16] text-slate-100 antialiased selection:bg-indigo-500 selection:text-white">
+<body>
 
-  <!-- HEADER -->
-  <header class="fixed top-0 left-0 w-full z-50 bg-[#090d16]/80 backdrop-blur-md border-b border-slate-800/60 px-6 py-4 transition-all">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
-          S
-        </div>
-        <span class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">Estúdio LZ</span>
-      </div>
+    <!-- Linha Magenta Topo -->
+    <div class="top-gradient-bar"></div>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-        <a href="#hero" class="hover:text-white transition-colors">Início</a>
-        <a href="#efeito" class="hover:text-white transition-colors">Showcase</a>
-        <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
-        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
-      </nav>
+    <!-- Header Fixo -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                    LZ
+                </div>
+                <span class="font-bold text-lg tracking-tight text-white group-hover:text-indigo-400 transition-colors">WebStudio</span>
+            </a>
 
-      <div class="flex items-center gap-4">
-        <button onclick="scrollToEffect()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs md:text-sm font-semibold px-4 py-2 rounded-full transition-all shadow-md shadow-indigo-600/30 active:scale-95">
-          Ver Animação
-        </button>
-      </div>
-    </div>
-  </header>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#experiencia" class="hover:text-white transition-colors">Experiência</a>
+                <a href="#servicos" class="hover:text-white transition-colors">Serviços</a>
+                <a href="#portfolio" class="hover:text-white transition-colors">Portfólio</a>
+                <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
+            </nav>
 
-  <div class="h-20"></div>
-
-  <!-- SEÇÃO DE INTRODUÇÃO -->
-  <section id="hero" class="py-16 text-center px-4 max-w-4xl mx-auto">
-    <span class="inline-block px-3 py-1 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 border border-indigo-500/20 rounded-full mb-4">
-      Design & Desenvolvimento Web
-    </span>
-    <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4">
-      Experiências Digitais Sob Medida
-    </h1>
-    <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
-      Role a página abaixo para testar o efeito interativo de surgimento gradual dos templates.
-    </p>
-    <div class="flex items-center justify-center gap-2 text-slate-500 text-xs animate-bounce">
-      <span>Role para baixo</span>
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-    </div>
-  </section>
-
-  <!-- ÁREA DO EFEITO INTERATIVO -->
-  <div id="efeito" class="relative h-[250vh] w-full bg-[#070a11]">
-    
-    <div class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-
-      <!-- BOTÃO DIREITO -->
-      <div class="absolute top-6 right-6 z-40">
-        <button class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700/60 backdrop-blur-md flex items-center justify-center text-slate-300 hover:text-white transition-all shadow-lg">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
-      </div>
-
-      <!-- DETALHE ROXO TOPO ESQUERDO -->
-      <div class="absolute top-0 left-0 w-24 h-1 bg-gradient-to-r from-purple-600 to-indigo-500 z-40"></div>
-
-      <!-- OVERLAY DE DESFOQUE DO FUNDO -->
-      <div id="bg-overlay" class="absolute inset-0 z-10 bg-[#070a11]/40 backdrop-blur-[0px] opacity-0 transition-all duration-500 pointer-events-none"></div>
-
-      <!-- GRID DE CARDS FIXO E ALINHADO -->
-      <div id="grid-bg" class="absolute inset-0 p-4 md:p-6 grid grid-cols-4 md:grid-cols-6 grid-rows-3 gap-3 md:gap-4 z-0 w-full h-full max-w-[1600px] mx-auto pointer-events-auto">
-        
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.1">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.15">
-          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-95" data-delay="0.2">
-          <div class="absolute inset-0 bg-gradient-to-br from-slate-700/30 to-slate-900/60"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.25">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.3">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-2 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.35">
-          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.4">
-          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.45">
-          <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.5">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl bg-slate-800/60 border border-slate-700/40 relative shadow-lg opacity-0 scale-95" data-delay="0.55">
-          <div class="absolute inset-0 bg-gradient-to-tr from-slate-900/80 to-slate-800/40"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.6">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-1 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.65">
-          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-        <div class="bg-card col-span-2 row-span-1 rounded-2xl overflow-hidden relative shadow-lg group opacity-0 scale-95" data-delay="0.7">
-          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover brightness-75 group-hover:brightness-100 transition-all" alt="Template">
-          <div class="absolute inset-0 bg-indigo-950/40 mix-blend-multiply"></div>
-        </div>
-
-      </div>
-
-      <!-- CARD CENTRAL -->
-      <div class="relative z-20 w-[90%] max-w-2xl px-4 pointer-events-auto">
-        <div id="main-card" class="central-card-box w-full rounded-[28px] p-8 md:p-14 text-center border border-transparent shadow-none relative overflow-hidden backdrop-blur-none bg-transparent transition-all duration-300">
-          
-          <div id="card-bg-gradient" class="absolute inset-0 bg-gradient-to-br from-[#f8f9ff] via-[#f1f3fd] to-[#e8edfb] opacity-0 transition-opacity duration-500 -z-10"></div>
-          
-          <div class="relative z-10 flex flex-col items-center justify-center min-h-[160px]">
-            <h2 id="main-phrase" class="phrase-transition text-2xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight transition-colors duration-500">
-              Criar sites personalizados.
-            </h2>
-
-            <p id="sub-phrase" class="phrase-transition opacity-0 max-h-0 overflow-hidden text-slate-600 text-sm md:text-base mt-4 max-w-md">
-              Desenvolvemos a sua presença digital com alta performance, design moderno e animações fluidas.
-            </p>
-
-            <div id="card-action" class="phrase-transition opacity-0 max-h-0 overflow-hidden mt-6">
-              <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
-                Solicitar Projeto
-              </button>
+            <div class="flex items-center gap-4">
+                <button onclick="openModal()" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-xs tracking-wide uppercase transition-all shadow-md shadow-indigo-600/20 hover:scale-105">
+                    Solicitar Orçamento
+                </button>
+                <button onclick="openModal()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center border border-slate-700 transition-all">
+                    <i class="fa-solid fa-bars text-sm"></i>
+                </button>
             </div>
-          </div>
-
         </div>
-      </div>
+    </header>
 
-    </div>
-
-  </div>
-
-  <!-- SEÇÃO SOBRE -->
-  <section id="sobre" class="py-24 px-6 max-w-6xl mx-auto border-t border-slate-800/80 bg-[#090d16]">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <h3 class="text-lg font-bold text-white mb-2">Alta Performance</h3>
-        <p class="text-slate-400 text-sm">Sites otimizados para carregamento instantâneo, SEO aprimorado e conversão elevada.</p>
-      </div>
-      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <h3 class="text-lg font-bold text-white mb-2">Layouts Exclusivos</h3>
-        <p class="text-slate-400 text-sm">Design 100% sob medida para a sua marca, sem temas genéricos.</p>
-      </div>
-      <div class="p-6 rounded-2xl bg-slate-900/50 border border-slate-800">
-        <h3 class="text-lg font-bold text-white mb-2">Totalmente Responsivo</h3>
-        <p class="text-slate-400 text-sm">Navegação perfeita em computadores, tablets e smartphones.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="contato" class="bg-[#05070d] border-t border-slate-800/80 py-12 px-6 text-slate-400 text-sm">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="flex items-center gap-3">
-        <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-xs">S</div>
-        <span class="font-semibold text-white">Estúdio LZ &copy; 2026</span>
-      </div>
-      <p class="text-slate-500 text-xs text-center">Desenvolvimento de Sites, Web Apps e Interfaces Interativas.</p>
-      <div class="flex items-center gap-6 text-slate-400">
-        <a href="#" class="hover:text-white transition-colors">Instagram</a>
-        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- SCRIPT DE CONTROLE DO SCROLL -->
-  <script>
-    const efeitoContainer = document.getElementById('efeito');
-    const mainCard = document.getElementById('main-card');
-    const cardBgGradient = document.getElementById('card-bg-gradient');
-    const bgOverlay = document.getElementById('bg-overlay');
-    const bgCards = document.querySelectorAll('.bg-card');
-    const mainPhrase = document.getElementById('main-phrase');
-    const subPhrase = document.getElementById('sub-phrase');
-    const cardAction = document.getElementById('card-action');
-
-    let phraseChanged = false;
-
-    function scrollToEffect() {
-      efeitoContainer.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.addEventListener('scroll', () => {
-      const rect = efeitoContainer.getBoundingClientRect();
-      const containerHeight = efeitoContainer.offsetHeight - window.innerHeight;
-      
-      let progress = -rect.top / containerHeight;
-      progress = Math.max(0, Math.min(1, progress));
-
-      const revealProgress = Math.min(1, Math.max(0, (progress - 0.05) / 0.6));
-
-      cardBgGradient.style.opacity = revealProgress;
-      
-      if (revealProgress > 0.1) {
-        mainCard.classList.remove('border-transparent', 'shadow-none');
-        mainCard.classList.add('border-white/20', 'shadow-2xl');
-        mainPhrase.classList.remove('text-white');
-        mainPhrase.classList.add('text-slate-800');
-      } else {
-        mainCard.classList.add('border-transparent', 'shadow-none');
-        mainCard.classList.remove('border-white/20', 'shadow-2xl');
-        mainPhrase.classList.add('text-white');
-        mainPhrase.classList.remove('text-slate-800');
-      }
-
-      // Surgimento fluido e alinhado dos cards de fundo
-      bgCards.forEach((card) => {
-        const delay = parseFloat(card.getAttribute('data-delay')) || 0;
-        const cardProgress = Math.min(1, Math.max(0, (revealProgress - delay * 0.25) / 0.75));
-
-        card.style.opacity = cardProgress * 0.85;
-        card.style.transform = `scale(${0.95 + (cardProgress * 0.05)})`;
-      });
-
-      if (progress > 0.75) {
-        bgOverlay.style.opacity = '1';
-        bgOverlay.style.backdropFilter = 'blur(3px)';
-        mainCard.classList.add('card-focused');
-
-        if (!phraseChanged) {
-          phraseChanged = true;
-          mainPhrase.classList.add('phrase-hidden');
-          
-          setTimeout(() => {
-            mainPhrase.innerText = 'Sua presença digital levada ao próximo nível.';
-            mainPhrase.classList.remove('phrase-hidden');
+    <!-- Seção Principal com Grid Animação no Scroll -->
+    <section class="scroll-section-wrapper" id="experiencia">
+        <div class="sticky-viewport">
             
-            subPhrase.style.maxHeight = '100px';
-            subPhrase.style.opacity = '1';
-            cardAction.style.maxHeight = '100px';
-            cardAction.style.opacity = '1';
-          }, 300);
-        }
-      } else {
-        bgOverlay.style.opacity = '0';
-        bgOverlay.style.backdropFilter = 'blur(0px)';
-        mainCard.classList.remove('card-focused');
+            <div class="exact-grid-container" id="gridContainer">
 
-        if (phraseChanged && progress < 0.6) {
-          phraseChanged = false;
-          mainPhrase.classList.add('phrase-hidden');
+                <div class="exact-card slot-top-left-tall bg-card">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop" alt="Office">
+                    <div class="card-tint"></div>
+                </div>
 
-          setTimeout(() => {
-            mainPhrase.innerText = 'Criar sites personalizados.';
-            mainPhrase.classList.remove('phrase-hidden');
-            
-            subPhrase.style.maxHeight = '0px';
-            subPhrase.style.opacity = '0';
-            cardAction.style.maxHeight = '0px';
-            cardAction.style.opacity = '0';
-          }, 300);
+                <div class="exact-card slot-bottom-left-tall bg-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Portrait">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-top-mid-wide bg-card">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" alt="Team">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-mid-left-portrait bg-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Professional">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-bottom-mid-solid solid-placeholder-card bg-card">
+                    <div class="card-tint" style="opacity: 0.4;"></div>
+                </div>
+
+                <div class="exact-card slot-top-center-solid solid-placeholder-card bg-card">
+                    <div class="card-tint" style="opacity: 0.4;"></div>
+                </div>
+
+                <div class="exact-card slot-bottom-center-person bg-card">
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800&auto=format&fit=crop" alt="Laptop user">
+                    <div class="card-tint"></div>
+                </div>
+
+                <!-- CARD CENTRAL (COMEÇA LIMPO APENAS COM TEXTO E SURGE O CARD AO ROLAR) -->
+                <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
+                    <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300">
+                        Design & Performance
+                    </span>
+                    <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-all duration-300">
+                        Criar sites personalizados.
+                    </h1>
+                    <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-all duration-300">
+                        Role para baixo para revelar nosso ecossistema de templates.
+                    </p>
+                    <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-indigo-600 text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
+                        Iniciar Seu Projeto
+                    </button>
+                </div>
+
+                <div class="exact-card slot-top-mid-right-person bg-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="Person">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-top-right-wide bg-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" alt="Senior">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-top-far-right-strip bg-card">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop" alt="Portrait">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-mid-right-card1 bg-card">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=800&auto=format&fit=crop" alt="Working">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-mid-right-card2 bg-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" alt="Executive">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-bottom-mid-right-box bg-card">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop" alt="Desk">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-bottom-right-wide bg-card">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=800&auto=format&fit=crop" alt="Thinking">
+                    <div class="card-tint"></div>
+                </div>
+
+                <div class="exact-card slot-bottom-far-right-strip bg-card">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" alt="Mobile user">
+                    <div class="card-tint"></div>
+                </div>
+
+            </div>
+
+            <div class="scroll-indicator" id="scrollIndicator">
+                <i class="fa-solid fa-arrow-down-long animate-bounce text-indigo-400"></i>
+                <span>Role para revelar os cards</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Serviços -->
+    <section class="py-24 bg-slate-900 border-t border-slate-800 relative z-20" id="servicos">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white">Por que escolher nossos sites?</h2>
+                <p class="text-slate-400 mt-4 text-sm md:text-base">Combinamos design de alto nível com código extremamente rápido e focado em conversão.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Layout Exclusivo</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Nenhum modelo genérico. Criamos protótipos sob medida alinhados com a identidade visual da sua marca.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-violet-600/20 text-violet-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Velocidade Máxima</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Páginas otimizadas para carregar instantaneamente em qualquer dispositivo, melhorando seu SEO no Google.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Foco em Vendas</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Arquitetura de conversão projetada para transformar visitantes casuais em clientes pagantes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-900 relative z-20" id="sobre">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white">LZ</div>
+                    <span class="font-bold text-white text-lg">WebStudio</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Especialistas na criação de landing pages, plataformas e e-commerces de altíssimo padrão visual.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="text-white text-sm font-semibold mb-4">Navegação</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#experiencia" class="hover:text-white transition-colors">Efeito Interativo</a></li>
+                    <li><a href="#servicos" class="hover:text-white transition-colors">Serviços</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Projetos Recentes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white text-sm font-semibold mb-4">Contato</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><i class="fa-solid fa-envelope mr-2 text-indigo-400"></i> contato@webstudio.com</li>
+                    <li><i class="fa-solid fa-phone mr-2 text-indigo-400"></i> +55 (41) 99999-8888</li>
+                    <li><i class="fa-solid fa-location-dot mr-2 text-indigo-400"></i> Curitiba / PR — Brasil</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white text-sm font-semibold mb-4">Redes Sociais</h4>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600">
+            <p>© 2026 WebStudio. Todos os direitos reservados.</p>
+            <p class="mt-2 sm:mt-0">Desenvolvido com excelência técnica & visual.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Form -->
+    <div id="modal-form" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-2xl font-bold mb-2">Criar Seu Site</h3>
+            <p class="text-slate-400 text-sm mb-6">Preencha os campos abaixo para dar o primeiro passo no seu projeto.</p>
+            <form onsubmit="handleSend(event)" class="space-y-4">
+                <input type="text" placeholder="Seu Nome" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <input type="email" placeholder="Seu E-mail" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
+                <textarea placeholder="Conte-nos brevemente sobre o projeto" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
+                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30">
+                    Enviar Solicitação
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const wrapper = document.querySelector('.scroll-section-wrapper');
+        const gridContainer = document.getElementById('gridContainer');
+        const heroCard = document.getElementById('heroCard');
+        const heroText = document.getElementById('heroText');
+        const heroSubtext = document.getElementById('heroSubtext');
+        const heroBadge = document.getElementById('heroBadge');
+        const heroButton = document.getElementById('heroButton');
+        const bgCards = Array.from(document.querySelectorAll('.bg-card:not(.slot-center-hero)'));
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        const initialPhrase = "Criar sites personalizados.";
+        const finalPhrase = "Sua presença digital levada ao próximo nível.";
+        
+        const initialSubtext = "Role para baixo para revelar nosso ecossistema de templates.";
+        const finalSubtext = "Estratégia, performance e design sob medida para o seu negócio.";
+
+        let isCompletedState = false;
+        let isSnapping = false;
+
+        function updateScrollAnimation() {
+            if (window.innerWidth <= 1024) return;
+
+            const wrapperRect = wrapper.getBoundingClientRect();
+            const wrapperHeight = wrapper.offsetHeight - window.innerHeight;
+            const scrollProgress = Math.min(Math.max(-wrapperRect.top / wrapperHeight, 0), 1);
+
+            const revealProgress = Math.min(scrollProgress / 0.65, 1);
+            const totalBgCards = bgCards.length;
+            const visibleCardsCount = Math.floor(revealProgress * totalBgCards);
+
+            // Animação dos cards do fundo
+            bgCards.forEach((card, idx) => {
+                if (idx < visibleCardsCount) {
+                    card.classList.add('show');
+                } else {
+                    card.classList.remove('show');
+                }
+            });
+
+            // Surgimento do Card Central junto com os cards de fundo
+            if (revealProgress > 0.05) {
+                heroCard.classList.add('hero-visible');
+                heroText.classList.remove('text-white');
+                heroText.classList.add('text-[#111827]');
+                heroSubtext.classList.remove('text-slate-400');
+                heroSubtext.classList.add('text-slate-600');
+            } else {
+                heroCard.classList.remove('hero-visible');
+                heroText.classList.add('text-white');
+                heroText.classList.remove('text-[#111827]');
+                heroSubtext.classList.add('text-slate-400');
+                heroSubtext.classList.remove('text-slate-600');
+            }
+
+            // Destaque e troca de frase ao atingir o final do efeito
+            if (scrollProgress >= 0.7) {
+                if (!isCompletedState) {
+                    isCompletedState = true;
+                    gridContainer.classList.add('blurred-bg');
+                    heroCard.classList.add('hero-focused');
+                    scrollIndicator.style.opacity = '0';
+
+                    heroBadge.classList.remove('opacity-0');
+                    heroButton.classList.remove('opacity-0', 'pointer-events-none');
+
+                    heroText.style.opacity = '0';
+                    heroSubtext.style.opacity = '0';
+
+                    setTimeout(() => {
+                        heroText.textContent = finalPhrase;
+                        heroSubtext.textContent = finalSubtext;
+                        heroText.style.opacity = '1';
+                        heroSubtext.style.opacity = '1';
+                    }, 180);
+
+                    if (!isSnapping && window.scrollY < wrapper.offsetTop + wrapperHeight * 0.85) {
+                        isSnapping = true;
+                        const targetY = wrapper.offsetTop + wrapperHeight * 0.78;
+                        window.scrollTo({ top: targetY, behavior: 'smooth' });
+                        setTimeout(() => { isSnapping = false; }, 600);
+                    }
+                }
+            } else {
+                if (isCompletedState) {
+                    isCompletedState = false;
+                    gridContainer.classList.remove('blurred-bg');
+                    heroCard.classList.remove('hero-focused');
+                    scrollIndicator.style.opacity = '1';
+
+                    heroBadge.classList.add('opacity-0');
+                    heroButton.classList.add('opacity-0', 'pointer-events-none');
+
+                    heroText.style.opacity = '0';
+                    heroSubtext.style.opacity = '0';
+
+                    setTimeout(() => {
+                        heroText.textContent = initialPhrase;
+                        heroSubtext.textContent = initialSubtext;
+                        heroText.style.opacity = '1';
+                        heroSubtext.style.opacity = '1';
+                    }, 180);
+                }
+            }
         }
-      }
-    });
-  </script>
+
+        window.addEventListener('scroll', updateScrollAnimation, { passive: true });
+        window.addEventListener('resize', updateScrollAnimation);
+
+        function openModal() {
+            const modal = document.getElementById('modal-form');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-form');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function handleSend(e) {
+            e.preventDefault();
+            closeModal();
+            alert('Obrigado! Sua solicitação foi enviada com sucesso.');
+        }
+
+        window.addEventListener('DOMContentLoaded', updateScrollAnimation);
+    </script>
 </body>
 </html>
