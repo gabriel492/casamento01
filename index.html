@@ -50,17 +50,17 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: clamp(16px, 2.5vh, 28px) 16px clamp(12px, 2vh, 20px);
+  padding: clamp(24px, 4vh, 48px) 16px clamp(12px, 2vh, 20px);
   overflow: hidden;
   user-select: none;
   touch-action: pan-y;
   background: var(--festeva-bg);
 }
 
-/* Título Topo */
+/* Título Topo com Padding Superior Aumentado */
 .fs-heading {
   text-align: center;
-  margin-top: clamp(4px, 1.5vh, 16px);
+  margin-top: clamp(8px, 1.5vh, 20px);
 }
 
 .fs-heading h2 {
@@ -69,7 +69,7 @@ body {
   font-size: clamp(26px, 4.2vw, 46px);
   font-weight: 400;
   letter-spacing: -.03em;
-  line-height: 1.05;
+  line-height: 1.08;
 }
 
 .fs-gradient-text {
@@ -83,7 +83,7 @@ body {
 .fs-stage {
   position: relative;
   width: min(880px, 94vw);
-  height: clamp(230px, 34vh, 320px);
+  height: clamp(220px, 32vh, 300px);
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -124,10 +124,10 @@ body {
   will-change: transform, opacity;
 }
 
-/* Moldura Retrato (Proporção ~3:4 / Vertical) */
+/* Moldura Retrato Vertical */
 .fs-photo {
   width: 100%;
-  height: clamp(230px, 32vh, 310px);
+  height: clamp(220px, 30vh, 290px);
   border-radius: 20px;
   background: #fff;
   padding: 4px;
@@ -143,13 +143,13 @@ body {
   display: block;
 }
 
-/* Legendas e Progresso */
+/* Legendas e Progresso com Fonte da Descrição Maior */
 .fs-footer {
   position: relative;
   z-index: 3;
   text-align: center;
-  min-height: 70px;
-  margin-bottom: clamp(4px, 1vh, 10px);
+  min-height: 80px;
+  margin-bottom: clamp(4px, 1vh, 12px);
 }
 
 .fs-caption-item {
@@ -162,29 +162,29 @@ body {
 }
 
 .fs-caption-item h3 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
   font-family: Georgia, serif;
-  font-size: clamp(20px, 2.4vw, 24px);
+  font-size: clamp(22px, 2.6vw, 27px);
   font-weight: 400;
 }
 
 .fs-caption-item p {
   margin: 0 auto;
-  max-width: 290px;
+  max-width: 360px;
   color: var(--festeva-muted);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: clamp(14px, 1.8vw, 16px);
+  line-height: 1.45;
 }
 
 .fs-progress {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .fs-progress-track {
-  width: 110px;
+  width: 120px;
   height: 2px;
   background: #e6e1e9;
   border-radius: 2px;
@@ -214,9 +214,10 @@ body {
 
 @media (max-width: 600px) {
   .fs-heading h2 { font-size: 25px; }
-  .fs-stage { height: 220px; }
+  .fs-stage { height: 210px; }
   .fs-card { width: 155px; }
-  .fs-photo { height: 215px; }
+  .fs-photo { height: 205px; }
+  .fs-caption-item p { font-size: 14px; }
 }
 </style>
 </head>
@@ -313,7 +314,7 @@ body {
   let startX = 0;
   let dragStartProgress = 0;
 
-  // Função trigonométrica do Arco para fotos no formato retrato
+  // Função trigonométrica do Arco
   function getArcPoint(progressOffset) {
     const angle = (progressOffset * 0.38) * Math.PI;
     const rx = 360;
