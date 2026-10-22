@@ -112,6 +112,16 @@
     .share-story-section p{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.85;max-width:650px;margin:0 auto;color:#716b64;text-wrap:balance;}
     .share-story-section h2 span{display:inline-block;}
     @media(max-width:680px){.share-story-section{padding:82px 22px}.share-story-section h2{font-size:clamp(2.6rem,11vw,4.2rem)}}
+
+    /* Faixa editorial em tela cheia apÃ³s o carrossel em arco */
+    .history-fullscreen{position:relative;min-height:100svh;height:100svh;display:grid;place-items:center;overflow:hidden;background:#39352e;color:#fff;isolation:isolate}
+    .history-fullscreen::before{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2400&q=90') center 48%/cover no-repeat;transform:scale(1.025);z-index:-2}
+    .history-fullscreen::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,20,17,.48),rgba(20,20,17,.2) 50%,rgba(20,20,17,.42)),linear-gradient(0deg,rgba(20,20,17,.28),rgba(20,20,17,.12));z-index:-1}
+    .history-fullscreen-copy{width:min(1100px,calc(100% - 40px));text-align:center;padding:90px 0 50px}
+    .history-fullscreen-number{display:block;margin-bottom:24px;font-size:.75rem;letter-spacing:.28em;font-weight:600;color:rgba(255,255,255,.82)}
+    .history-fullscreen h2{margin:0;color:#fff;font-size:clamp(2.8rem,8.2vw,8rem);line-height:.98;letter-spacing:-.055em;text-transform:uppercase;text-wrap:balance;text-shadow:0 4px 35px rgba(0,0,0,.22)}
+    @media(max-width:680px){.history-fullscreen-copy{width:calc(100% - 32px)}.history-fullscreen h2{font-size:clamp(2.7rem,11vw,4.7rem)}.history-fullscreen::before{background-position:56% center}}
+
     .section{padding:105px 0}
     .section-heading{max-width:510px}
     .section-heading p{max-width:430px;line-height:1.85}
@@ -366,6 +376,13 @@
           <div class="process-description"><h3>Celebre</h3><p>Viva cada momento especial sabendo que tudo foi planejado com carinho.</p></div>
           <div class="process-progress" aria-hidden="true"><div class="process-progress-track"><div class="process-progress-bar" id="processProgressBar"></div></div></div>
         </div>
+      </div>
+    </section>
+
+    <section class="history-fullscreen" aria-label="Sua histÃ³ria comeÃ§a aqui">
+      <div class="history-fullscreen-copy">
+        <span class="history-fullscreen-number">7.</span>
+        <h2>Sua histÃ³ria<br>comeÃ§a aqui.</h2>
       </div>
     </section>
 
