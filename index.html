@@ -337,7 +337,7 @@
 
     /* Card central */
     .fx-hero{grid-column:3/span 3;grid-row:2;z-index:20;opacity:1!important;transform:none!important;background:transparent!important;min-height:0;min-width:0;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem 1.5rem;text-align:center;position:relative;box-shadow:none;border:none;overflow:visible}
-    .fx-hero-bg{position:absolute;inset:0;border-radius:var(--r,var(--r0,28px));background:linear-gradient(135deg,#fbfbfe 0%,#eef3f9 50%,#e2e8f5 100%);box-shadow:0 25px 50px -12px rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .4s ease-out,box-shadow 1s ease,visibility 0s linear .4s;z-index:1}
+    .fx-hero-bg{position:absolute;inset:0;transform:translateZ(0);border-radius:var(--r,var(--r0,28px));background:linear-gradient(135deg,#fbfbfe 0%,#eef3f9 50%,#e2e8f5 100%);box-shadow:0 25px 50px -12px rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .4s ease-out,box-shadow 1s ease,visibility 0s linear .4s;z-index:1}
     .fx-hero-bg.is-visible{visibility:visible;transition:opacity .4s ease-out,box-shadow 1s ease,visibility 0s}
     .fx-hero-bg::before{content:'';position:absolute;inset:-2px;border-radius:calc(var(--r,var(--r0,28px)) + 2px);padding:2px;background:linear-gradient(135deg,#FF00AA,#8A82E5,#47ABF9,#00D5F3,#00E5E2,#00F9CB);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2;opacity:.85;transition:opacity 1s ease}
     .fx-hero.is-focused .fx-hero-bg{box-shadow:0 25px 50px -12px rgba(0,213,243,.35),0 0 22px rgba(255,0,170,.25)}
@@ -349,7 +349,7 @@
     .fx-hero.is-focused .fx-hero-bg::after{opacity:1}
     .fx-hero.is-expanded .fx-hero-bg{box-shadow:none}
     .fx-hero.is-expanded .fx-hero-bg::before,.fx-hero.is-expanded .fx-hero-bg::after{opacity:0}
-    .fx-hero-white{position:absolute;inset:0;border-radius:inherit;background:#fff;opacity:0;pointer-events:none}
+    .fx-hero-white{position:absolute;inset:0;border-radius:inherit;background:#fff;opacity:0;pointer-events:none;transform:translateZ(0)}
 
     .fx-hero-inner{position:relative;z-index:10;width:100%;height:100%;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.fx-phrase{width:100%;max-width:100%;margin-inline:auto;text-align:center;align-items:center;justify-content:center}
     .fx-phrase{display:flex;flex-direction:column;align-items:center;transition:opacity .8s ease;transform:translateY(18px)}
@@ -907,6 +907,19 @@
     let isCompleted = false;
     let textTimer = null;
     let ticking = false;
+    // Geometria estática do card: medir no início/redimensionamento evita leituras
+    // de layout repetidas em cada quadro da rolagem.
+    let geometry = null;
+    function measureGeometry() {
+      const sr = sticky.getBoundingClientRect();
+      const cr = hero.getBoundingClientRect();
+      geometry = {
+        top: cr.top - sr.top,
+        right: sr.right - cr.right,
+        bottom: sr.bottom - cr.bottom,
+        left: cr.left - sr.left
+      };
+    }
 
     // Troca texto e cor juntos, sempre com a frase escondida
     function setPhrase(t, s, dark) {
@@ -954,11 +967,9 @@
 
       const e = Math.min(Math.max((total - EXP_START) / (EXP_END - EXP_START), 0), 1);
       const eased = e * e * (3 - 2 * e);
-      if (eased > 0) {
-        const sr = sticky.getBoundingClientRect();
-        const cr = hero.getBoundingClientRect();
+      if (eased > 0 && geometry) {
         const baseRadius = window.innerWidth <= 768 ? 20 : 28;
-        heroBg.style.inset = `${-((cr.top - sr.top) * eased)}px ${-((sr.right - cr.right) * eased)}px ${-((sr.bottom - cr.bottom) * eased)}px ${-((cr.left - sr.left) * eased)}px`;
+        heroBg.style.inset = `${-(geometry.top * eased)}px ${-(geometry.right * eased)}px ${-(geometry.bottom * eased)}px ${-(geometry.left * eased)}px`;
         heroBg.style.setProperty('--r', `${baseRadius * (1 - eased)}px`);
         heroWhite.style.opacity = Math.min(eased / WHITE_AT, 1);
       } else {
@@ -974,8 +985,9 @@
       ticking = true;
       requestAnimationFrame(() => { update(); ticking = false; });
     }
+    measureGeometry();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener('resize', () => { measureGeometry(); onScroll(); }, { passive: true });
     update();
 
     // Modal
