@@ -88,7 +88,6 @@
         /* Desfoque Suave no Fundo */
         .exact-grid-container.blurred-bg .exact-card:not(.slot-center-hero) {
             filter: blur(3px) brightness(0.65);
-            transform: scale(0.985);
         }
 
         /* Cards do Fundo */
@@ -198,13 +197,13 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease-out, visibility 0s linear 0.4s;
+            transition: opacity 0.4s ease-out, box-shadow 1s ease, visibility 0s linear 0.4s;
             z-index: 1;
         }
 
         .hero-bg-overlay.is-visible {
             visibility: visible;
-            transition: opacity 0.4s ease-out, visibility 0s;
+            transition: opacity 0.4s ease-out, box-shadow 1s ease, visibility 0s;
         }
 
         /* Borda Gradiente Festiva (herda a visibilidade do overlay) */
@@ -221,12 +220,13 @@
             pointer-events: none;
             z-index: 2;
             opacity: 0.85;
+            transition: opacity 1s ease;
         }
 
         /* Foco Final com Brilho Intenso */
         .hero-exact-card.hero-focused .hero-bg-overlay {
-            box-shadow: 0 30px 70px -10px rgba(0, 213, 243, 0.35),
-                        0 0 50px rgba(255, 0, 170, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 213, 243, 0.35),
+                        0 0 22px rgba(255, 0, 170, 0.25);
         }
 
         .hero-exact-card.hero-focused .hero-bg-overlay::before {
@@ -247,8 +247,8 @@
         .hero-bg-overlay::after {
             content: '';
             position: absolute;
-            inset: -3px;
-            border-radius: calc(var(--r, var(--r0, 28px)) + 3px);
+            inset: -2px;
+            border-radius: calc(var(--r, var(--r0, 28px)) + 2px);
             padding: 4px;
             background: conic-gradient(
                 from var(--border-angle),
@@ -269,7 +269,7 @@
             filter: drop-shadow(0 0 8px rgba(0, 213, 243, 0.9))
                     drop-shadow(0 0 16px rgba(255, 0, 170, 0.6));
             animation: borderTravel 3.2s linear infinite;
-            transition: opacity 0.5s ease;
+            transition: opacity 1.2s ease;
         }
 
         .hero-exact-card.hero-focused .hero-bg-overlay::after {
@@ -288,6 +288,28 @@
             background: #ffffff;
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* A frase do meio some quando o card termina de ocupar a tela */
+        /* Letras, badge e botão aparecem com fade suave no realce */
+        #heroText,
+        #heroSubtext {
+            transition: none;
+        }
+        #heroBadge {
+            transition: opacity 0.9s ease;
+        }
+        #heroButton {
+            transition: opacity 0.9s ease 0.2s, transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        #heroPhrase {
+            transition: opacity 0.8s ease;
+        }
+        /* Some rápido assim que o fundo claro começa a aparecer (antes do realce) */
+        .hero-exact-card.phrase-pre-hidden #heroPhrase {
+            opacity: 0;
+            transition: opacity 0.35s ease;
         }
 
         /* Borda e brilho só somem quando a expansão termina por completo */
@@ -435,12 +457,14 @@
                         <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
                             Design & Performance
                         </span>
+                        <div id="heroPhrase" class="flex flex-col items-center">
                         <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-colors duration-500">
                             Criar sites personalizados.
                         </h1>
                         <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-colors duration-500">
                             Role para baixo para revelar nosso ecossistema de templates.
                         </p>
+                        </div>
                         <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-[#FF00AA] text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
                             Iniciar Seu Projeto
                         </button>
@@ -542,17 +566,25 @@
         let textTimer = null;
         let ticking = false;
 
-        function swapTexts(title, subtitle) {
+        // Troca texto E cor juntos, sempre com a frase escondida (sem fade próprio),
+        // para a frase antiga nunca aparecer antes da nova.
+        function setPhrase(title, subtitle, dark) {
+            heroText.textContent = title;
+            heroSubtext.textContent = subtitle;
+            heroText.classList.toggle('text-white', !dark);
+            heroText.classList.toggle('text-[#111827]', dark);
+            heroSubtext.classList.toggle('text-slate-400', !dark);
+            heroSubtext.classList.toggle('text-slate-600', dark);
+        }
+
+        function swapTexts(title, subtitle, dark, delay) {
             // Cancela troca anterior pendente para evitar texto errado ao rolar rápido
             clearTimeout(textTimer);
-            heroText.style.opacity = '0';
-            heroSubtext.style.opacity = '0';
-            textTimer = setTimeout(() => {
-                heroText.textContent = title;
-                heroSubtext.textContent = subtitle;
-                heroText.style.opacity = '1';
-                heroSubtext.style.opacity = '1';
-            }, 180);
+            if (delay > 0) {
+                textTimer = setTimeout(() => setPhrase(title, subtitle, dark), delay);
+            } else {
+                setPhrase(title, subtitle, dark);
+            }
         }
 
         function updateScrollAnimation() {
@@ -579,12 +611,8 @@
             heroBgOverlay.style.opacity = overlayProgress;
             heroBgOverlay.classList.toggle('is-visible', overlayProgress > 0);
 
-            // Texto só fica escuro quando o fundo claro já está bem visível
-            const darkText = overlayProgress > 0.5;
-            heroText.classList.toggle('text-white', !darkText);
-            heroText.classList.toggle('text-[#111827]', darkText);
-            heroSubtext.classList.toggle('text-slate-400', !darkText);
-            heroSubtext.classList.toggle('text-slate-600', darkText);
+            // Entre o início do fundo claro e o realce não aparece frase nenhuma
+            heroCard.classList.toggle('phrase-pre-hidden', overlayProgress > 0.02 && scrollProgress < 0.7);
 
             // Estado final: foco, desfoque e troca de frase
             if (scrollProgress >= 0.7) {
@@ -597,7 +625,7 @@
                     heroBadge.classList.remove('opacity-0');
                     heroButton.classList.remove('opacity-0', 'pointer-events-none');
 
-                    swapTexts(finalPhrase, finalSubtext);
+                    swapTexts(finalPhrase, finalSubtext, true, 0);
                 }
             } else {
                 if (isCompletedState) {
@@ -609,7 +637,7 @@
                     heroBadge.classList.add('opacity-0');
                     heroButton.classList.add('opacity-0', 'pointer-events-none');
 
-                    swapTexts(initialPhrase, initialSubtext);
+                    swapTexts(initialPhrase, initialSubtext, false, 450);
                 }
             }
 
@@ -618,6 +646,7 @@
             const EXP_END = 0.9;
             const e = Math.min(Math.max((totalProgress - EXP_START) / (EXP_END - EXP_START), 0), 1);
             const eased = e * e * (3 - 2 * e);
+            const WHITE_AT = 0.4; // ponto em que o card fica totalmente branco
 
             if (eased > 0) {
                 const sr = stickyViewport.getBoundingClientRect();
@@ -632,7 +661,7 @@
                 heroBgOverlay.style.inset =
                     `${-(top * eased + bleed)}px ${-(right * eased + bleed)}px ${-(bottom * eased + bleed)}px ${-(left * eased + bleed)}px`;
                 heroBgOverlay.style.setProperty('--r', `${baseRadius * (1 - eased)}px`);
-                heroWhite.style.opacity = eased;
+                heroWhite.style.opacity = Math.min(eased / WHITE_AT, 1); // fica 100% branco quando eased chega em WHITE_AT
             } else {
                 heroBgOverlay.style.inset = '';
                 heroBgOverlay.style.removeProperty('--r');
