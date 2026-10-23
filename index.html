@@ -168,7 +168,7 @@
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Fundo claro com opacidade controlada no JS */
+        /* Fundo claro com opacidade controlada no JS e borda Gradiente Festeva constante */
         .hero-bg-overlay {
             position: absolute;
             inset: 0;
@@ -180,28 +180,31 @@
             z-index: 1;
         }
 
-        /* Foco Final com Borda e Brilho Gradiente Festeva */
-        .hero-exact-card.hero-focused {
-            transform: scale(1) translateY(0) !important;
-        }
-
-        .hero-exact-card.hero-focused .hero-bg-overlay {
-            box-shadow: 0 25px 60px -10px rgba(0, 213, 243, 0.3),
-                        0 0 40px rgba(255, 0, 170, 0.25);
-        }
-
-        .hero-exact-card.hero-focused::before {
+        /* Borda Gradiente Festeva Fixa no Card Central */
+        .hero-bg-overlay::before {
             content: '';
             position: absolute;
-            inset: -3px;
-            border-radius: 31px;
-            padding: 3px;
+            inset: -2px;
+            border-radius: 30px;
+            padding: 2px;
             background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
             z-index: 2;
+            opacity: 0.85;
+        }
+
+        /* Foco Final com Brilho Intenso Festeva */
+        .hero-exact-card.hero-focused .hero-bg-overlay {
+            box-shadow: 0 30px 70px -10px rgba(0, 213, 243, 0.35),
+                        0 0 50px rgba(255, 0, 170, 0.3);
+        }
+
+        .hero-exact-card.hero-focused .hero-bg-overlay::before {
+            opacity: 1;
+            background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
         }
 
         .solid-placeholder-card {
@@ -326,7 +329,7 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL -->
+                <!-- CARD CENTRAL COM BORDA GRADIENTE FESTEVA -->
                 <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
                     <div class="hero-bg-overlay" id="heroBgOverlay"></div>
 
