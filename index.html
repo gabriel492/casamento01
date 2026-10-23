@@ -145,12 +145,13 @@
         .slot-top-center-solid { grid-column: 4; grid-row: 1; }
         .slot-bottom-center-person { grid-column: 3 / span 2; grid-row: 3; }
 
-        /* Card Central com Surgimento Sutil Igual aos Demais */
+        /* Card Central */
         .slot-center-hero {
             grid-column: 3 / span 3;
             grid-row: 2;
             z-index: 20;
-            background-color: transparent !important;
+            opacity: 1 !important;
+            transform: scale(1) translateY(0) !important;
         }
 
         .hero-exact-card {
@@ -161,31 +162,27 @@
             justify-content: center;
             padding: 2.5rem 2rem;
             text-align: center;
+            background: transparent;
+            border: 2px solid transparent;
+            box-shadow: none;
+            transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            opacity: 0;
-            transform: scale(0.75) translateY(35px);
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                        background 0.5s ease, box-shadow 0.5s ease;
-            will-change: opacity, transform;
         }
 
-        /* Estado visível do card central (Surgindo de forma sutil) */
-        .hero-exact-card.show {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+        /* Estado visível do card central com fundo claro ativado no scroll */
+        .hero-exact-card.hero-visible {
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
         }
 
-        /* Borda Gradiente Festeva Padrão Aplicada no Foco Final */
+        /* Foco Final com Borda Gradiente Festeva */
         .hero-exact-card.hero-focused {
             transform: scale(1.04) translateY(0) !important;
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
-            box-shadow: 0 25px 60px -15px rgba(255, 0, 170, 0.25),
-                        0 0 35px rgba(0, 213, 243, 0.25);
+            box-shadow: 0 35px 80px -15px rgba(255, 0, 170, 0.3),
+                        0 0 45px rgba(0, 213, 243, 0.3);
         }
 
-        /* Pseudo-elemento para aplicar o gradiente Festeva na borda do Card Central no Foco */
         .hero-exact-card.hero-focused::before {
             content: '';
             position: absolute;
@@ -322,8 +319,8 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL COM COMPORTAMENTO DE SURGIMENTO IDÊNTICO AOS OUTROS -->
-                <div class="exact-card slot-center-hero hero-exact-card bg-card" id="heroCard" data-delay="0.2">
+                <!-- CARD CENTRAL -->
+                <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
                     <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
                         Design & Performance
                     </span>
@@ -497,7 +494,7 @@
         const heroSubtext = document.getElementById('heroSubtext');
         const heroBadge = document.getElementById('heroBadge');
         const heroButton = document.getElementById('heroButton');
-        const bgCards = Array.from(document.querySelectorAll('.bg-card'));
+        const bgCards = Array.from(document.querySelectorAll('.bg-card:not(.slot-center-hero)'));
         const scrollIndicator = document.getElementById('scrollIndicator');
 
         const initialPhrase = "Criar sites personalizados.";
@@ -520,7 +517,7 @@
             const totalBgCards = bgCards.length;
             const visibleCardsCount = Math.floor(revealProgress * totalBgCards);
 
-            // Animação unificada e sutil de todos os cards (incluindo o central)
+            // Animação dos cards de fundo
             bgCards.forEach((card, idx) => {
                 if (idx < visibleCardsCount) {
                     card.classList.add('show');
@@ -529,13 +526,17 @@
                 }
             });
 
-            // Ajuste dinâmico da cor do texto do card central dependendo se ele já surgiu
+            // O card central só surge com o fundo claro e cor escura no texto após iniciar o scroll (revealProgress > 0.05)
             if (revealProgress > 0.05) {
+                heroCard.classList.add('hero-visible');
+                heroCard.classList.add('show');
                 heroText.classList.remove('text-white');
                 heroText.classList.add('text-[#111827]');
                 heroSubtext.classList.remove('text-slate-400');
                 heroSubtext.classList.add('text-slate-600');
             } else {
+                heroCard.classList.remove('hero-visible');
+                heroCard.classList.remove('show');
                 heroText.classList.add('text-white');
                 heroText.classList.remove('text-[#111827]');
                 heroSubtext.classList.add('text-slate-400');
