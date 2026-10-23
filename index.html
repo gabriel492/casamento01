@@ -57,7 +57,7 @@
 
         /* Wrapper da Seção com Rolação Fluida */
         .scroll-section-wrapper {
-            height: 220vh;
+            height: 380vh;
             position: relative;
         }
 
@@ -72,11 +72,11 @@
             justify-content: center;
         }
 
-        /* Layout Grid Exato da Foto */
+        /* Layout Grid */
         .exact-grid-container {
             display: grid;
-            grid-template-columns: 1.1fr 1.3fr 1.8fr 0.9fr 1fr 1.5fr 0.8fr;
-            grid-template-rows: 1.1fr 1.4fr 1.1fr;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 1.8fr) minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 0.8fr);
+            grid-template-rows: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1.1fr);
             gap: 14px;
             width: 100vw;
             height: 100vh;
@@ -152,6 +152,21 @@
             z-index: 20;
             opacity: 1 !important;
             transform: scale(1) translateY(0) !important;
+            background-color: transparent !important; /* sem fundo próprio antes do efeito */
+        }
+
+        /* Tamanho do card travado: o texto novo não pode aumentar o card */
+        .slot-center-hero {
+            min-height: 0;
+            min-width: 0;
+        }
+
+        #heroText {
+            font-size: clamp(1.4rem, min(3.1vw, 5vh), 2.75rem);
+        }
+
+        #heroSubtext {
+            font-size: clamp(0.75rem, min(1.1vw, 1.8vh), 1rem);
         }
 
         .hero-exact-card {
@@ -160,32 +175,44 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2.5rem 2rem;
+            padding: 1rem 1.5rem;
             text-align: center;
             position: relative;
             background: transparent;
             box-shadow: none;
+            border: none;
+            overflow: visible;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Fundo claro com opacidade controlada no JS e borda Gradiente Festeva constante */
+        /*
+          Fundo claro do card central.
+          Fica COMPLETAMENTE oculto (visibility: hidden) até o efeito começar,
+          assim nem a borda gradiente nem o brilho aparecem antes da hora.
+        */
         .hero-bg-overlay {
             position: absolute;
             inset: 0;
-            border-radius: 28px;
+            border-radius: var(--r, var(--r0, 28px));
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
             opacity: 0;
-            transition: opacity 0.4s ease-out;
+            visibility: hidden;
+            transition: opacity 0.4s ease-out, visibility 0s linear 0.4s;
             z-index: 1;
         }
 
-        /* Borda Gradiente Festeva Fixa no Card Central */
+        .hero-bg-overlay.is-visible {
+            visibility: visible;
+            transition: opacity 0.4s ease-out, visibility 0s;
+        }
+
+        /* Borda Gradiente Festiva (herda a visibilidade do overlay) */
         .hero-bg-overlay::before {
             content: '';
             position: absolute;
             inset: -2px;
-            border-radius: 30px;
+            border-radius: calc(var(--r, var(--r0, 28px)) + 2px);
             padding: 2px;
             background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -196,7 +223,7 @@
             opacity: 0.85;
         }
 
-        /* Foco Final com Brilho Intenso Festeva */
+        /* Foco Final com Brilho Intenso */
         .hero-exact-card.hero-focused .hero-bg-overlay {
             box-shadow: 0 30px 70px -10px rgba(0, 213, 243, 0.35),
                         0 0 50px rgba(255, 0, 170, 0.3);
@@ -204,7 +231,72 @@
 
         .hero-exact-card.hero-focused .hero-bg-overlay::before {
             opacity: 1;
-            background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
+        }
+
+        /* Realce que percorre a borda do card (aparece só no estado final) */
+        @property --border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes borderTravel {
+            to { --border-angle: 360deg; }
+        }
+
+        .hero-bg-overlay::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: calc(var(--r, var(--r0, 28px)) + 3px);
+            padding: 4px;
+            background: conic-gradient(
+                from var(--border-angle),
+                transparent 0deg,
+                transparent 240deg,
+                #FF00AA 285deg,
+                #47ABF9 315deg,
+                #00F9CB 340deg,
+                #ffffff 352deg,
+                transparent 360deg
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            filter: drop-shadow(0 0 8px rgba(0, 213, 243, 0.9))
+                    drop-shadow(0 0 16px rgba(255, 0, 170, 0.6));
+            animation: borderTravel 3.2s linear infinite;
+            transition: opacity 0.5s ease;
+        }
+
+        .hero-exact-card.hero-focused .hero-bg-overlay::after {
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-bg-overlay::after { animation: none; }
+        }
+
+        /* Camada branca que preenche o card durante a expansão */
+        .hero-white {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: #ffffff;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Borda e brilho só somem quando a expansão termina por completo */
+        .hero-exact-card.is-expanded .hero-bg-overlay {
+            box-shadow: none;
+        }
+        .hero-exact-card.is-expanded .hero-bg-overlay::before,
+        .hero-exact-card.is-expanded .hero-bg-overlay::after {
+            opacity: 0;
         }
 
         .solid-placeholder-card {
@@ -242,18 +334,52 @@
             transition: opacity 0.3s ease;
         }
 
-        @media (max-width: 1024px) {
-            .scroll-section-wrapper { height: auto; }
-            .sticky-viewport { position: relative; height: auto; }
+        /* ===== Mobile: mesmo efeito, grid adaptado para tela vertical ===== */
+        @media (max-width: 768px) {
+            :root { --r0: 20px; }
+
+            .sticky-viewport { height: 100vh; height: 100svh; }
+
             .exact-grid-container {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                padding: 100px 16px 24px 16px;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                grid-template-rows: repeat(3, minmax(0, 0.9fr)) minmax(0, 1.9fr) minmax(0, 1.9fr) repeat(3, minmax(0, 0.9fr));
+                gap: 10px;
+                height: 100vh;
+                height: 100svh;
+                padding: 16px 12px 12px 12px;
             }
-            .exact-card { height: 220px; opacity: 1 !important; transform: none !important; }
-            .slot-center-hero { order: -1; height: auto; min-height: 260px; }
-            .scroll-indicator { display: none; }
+
+            .exact-card { border-radius: 14px; }
+            .hero-exact-card { border-radius: 20px; padding: 0.75rem 1rem; }
+
+            /* Topo: 8 cards */
+            .slot-top-left-tall          { grid-column: 1;          grid-row: 1 / span 2; }
+            .slot-top-mid-wide           { grid-column: 2 / span 2; grid-row: 1; }
+            .slot-top-center-solid       { grid-column: 4;          grid-row: 1; }
+            .slot-mid-left-portrait      { grid-column: 2;          grid-row: 2; }
+            .slot-bottom-mid-solid       { grid-column: 3;          grid-row: 2; }
+            .slot-top-mid-right-person   { grid-column: 4;          grid-row: 2 / span 2; }
+            .slot-bottom-left-tall       { grid-column: 1;          grid-row: 3; }
+            .slot-bottom-center-person   { grid-column: 2 / span 2; grid-row: 3; }
+
+            /* Card central ocupa a largura toda */
+            .slot-center-hero            { grid-column: 1 / span 4; grid-row: 4 / span 2; }
+
+            /* Base: 7 cards */
+            .slot-top-right-wide         { grid-column: 1 / span 2; grid-row: 6; }
+            .slot-top-far-right-strip    { grid-column: 3;          grid-row: 6; }
+            .slot-mid-right-card1        { grid-column: 4;          grid-row: 6 / span 2; }
+            .slot-mid-right-card2        { grid-column: 1;          grid-row: 7; }
+            .slot-bottom-mid-right-box   { grid-column: 2 / span 2; grid-row: 7; }
+            .slot-bottom-right-wide      { grid-column: 1 / span 2; grid-row: 8; }
+            .slot-bottom-far-right-strip { grid-column: 3 / span 2; grid-row: 8; }
+
+            #heroText    { font-size: clamp(1.15rem, 5.4vw, 1.7rem); }
+            #heroSubtext { font-size: 0.78rem; margin-top: 0.4rem; }
+            #heroBadge   { margin-bottom: 0.4rem; font-size: 0.65rem; }
+            #heroButton  { margin-top: 0.75rem; padding: 0.55rem 1.1rem; }
+
+            .scroll-indicator { bottom: 14px; font-size: 11px; padding: 6px 14px; }
         }
     </style>
 </head>
@@ -262,38 +388,10 @@
     <!-- Linha Magenta Topo -->
     <div class="top-gradient-bar"></div>
 
-    <!-- Header Fixo -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#FF00AA] via-[#47ABF9] to-[#00F9CB] flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
-                    LZ
-                </div>
-                <span class="font-bold text-lg tracking-tight text-white group-hover:text-indigo-400 transition-colors">WebStudio</span>
-            </a>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-                <a href="#experiencia" class="hover:text-white transition-colors">Experiência</a>
-                <a href="#servicos" class="hover:text-white transition-colors">Serviços</a>
-                <a href="#portfolio" class="hover:text-white transition-colors">Portfólio</a>
-                <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
-            </nav>
-
-            <div class="flex items-center gap-4">
-                <button onclick="openModal()" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF00AA] via-[#8A82E5] to-[#00D5F3] hover:brightness-110 text-white font-semibold text-xs tracking-wide uppercase transition-all shadow-md shadow-pink-600/20 hover:scale-105">
-                    Solicitar Orçamento
-                </button>
-                <button onclick="openModal()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center border border-slate-700 transition-all">
-                    <i class="fa-solid fa-bars text-sm"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
     <!-- Seção Principal com Grid Animação no Scroll -->
     <section class="scroll-section-wrapper" id="experiencia">
         <div class="sticky-viewport">
-            
+
             <div class="exact-grid-container" id="gridContainer">
 
                 <div class="exact-card slot-top-left-tall bg-card">
@@ -329,9 +427,9 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL COM BORDA GRADIENTE FESTEVA -->
+                <!-- CARD CENTRAL -->
                 <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
-                    <div class="hero-bg-overlay" id="heroBgOverlay"></div>
+                    <div class="hero-bg-overlay" id="heroBgOverlay"><div class="hero-white" id="heroWhite"></div></div>
 
                     <div class="relative z-10 flex flex-col items-center justify-center">
                         <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
@@ -398,89 +496,6 @@
         </div>
     </section>
 
-    <!-- Seção de Serviços -->
-    <section class="py-24 bg-slate-900 border-t border-slate-800 relative z-20" id="servicos">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white">Por que escolher nossos sites?</h2>
-                <p class="text-slate-400 mt-4 text-sm md:text-base">Combinamos design de alto nível com código extremamente rápido e focado em conversão.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-pink-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-600/20 text-[#FF00AA] flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Layout Exclusivo</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Nenhum modelo genérico. Criamos protótipos sob medida alinhados com a identidade visual da sua marca.</p>
-                </div>
-
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-cyan-600/20 text-[#00D5F3] flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Velocidade Máxima</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Páginas otimizadas para carregar instantaneamente em qualquer dispositivo, melhorando seu SEO no Google.</p>
-                </div>
-
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-teal-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-teal-600/20 text-[#00F9CB] flex items-center justify-center text-xl mb-6">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Foco em Vendas</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Arquitetura de conversão projetada para transformar visitantes casuais em clientes pagantes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-900 relative z-20" id="sobre">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div class="space-y-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-[#FF00AA] to-[#00D5F3] flex items-center justify-center font-bold text-white">LZ</div>
-                    <span class="font-bold text-white text-lg">WebStudio</span>
-                </div>
-                <p class="text-xs text-slate-500 leading-relaxed">
-                    Especialistas na criação de landing pages, plataformas e e-commerces de altíssimo padrão visual.
-                </p>
-            </div>
-
-            <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Navegação</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="#experiencia" class="hover:text-white transition-colors">Efeito Interativo</a></li>
-                    <li><a href="#servicos" class="hover:text-white transition-colors">Serviços</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Projetos Recentes</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Contato</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><i class="fa-solid fa-envelope mr-2 text-[#FF00AA]"></i> contato@webstudio.com</li>
-                    <li><i class="fa-solid fa-phone mr-2 text-[#00D5F3]"></i> +55 (41) 99999-8888</li>
-                    <li><i class="fa-solid fa-location-dot mr-2 text-[#00F9CB]"></i> Curitiba / PR — Brasil</li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Redes Sociais</h4>
-                <div class="flex gap-3">
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#FF00AA] hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#47ABF9] hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#00F9CB] hover:text-slate-950 transition-all"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-6 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600">
-            <p>© 2026 WebStudio. Todos os direitos reservados.</p>
-            <p class="mt-2 sm:mt-0">Desenvolvimento com excelência técnica & visual.</p>
-        </div>
-    </footer>
-
     <!-- Modal Form -->
     <div id="modal-form" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-md w-full p-8 relative shadow-2xl">
@@ -505,6 +520,8 @@
         const gridContainer = document.getElementById('gridContainer');
         const heroCard = document.getElementById('heroCard');
         const heroBgOverlay = document.getElementById('heroBgOverlay');
+        const heroWhite = document.getElementById('heroWhite');
+        const stickyViewport = document.querySelector('.sticky-viewport');
         const heroText = document.getElementById('heroText');
         const heroSubtext = document.getElementById('heroSubtext');
         const heroBadge = document.getElementById('heroBadge');
@@ -514,19 +531,39 @@
 
         const initialPhrase = "Criar sites personalizados.";
         const finalPhrase = "Sua presença digital levada ao próximo nível.";
-        
+
         const initialSubtext = "Role para baixo para revelar nosso ecossistema de templates.";
         const finalSubtext = "Estratégia, performance e design sob medida para o seu negócio.";
 
+        // O fundo do card só começa a surgir depois deste ponto do reveal (0 a 1)
+        const OVERLAY_START = 0.15;
+
         let isCompletedState = false;
-        let isSnapping = false;
+        let textTimer = null;
+        let ticking = false;
+
+        function swapTexts(title, subtitle) {
+            // Cancela troca anterior pendente para evitar texto errado ao rolar rápido
+            clearTimeout(textTimer);
+            heroText.style.opacity = '0';
+            heroSubtext.style.opacity = '0';
+            textTimer = setTimeout(() => {
+                heroText.textContent = title;
+                heroSubtext.textContent = subtitle;
+                heroText.style.opacity = '1';
+                heroSubtext.style.opacity = '1';
+            }, 180);
+        }
 
         function updateScrollAnimation() {
-            if (window.innerWidth <= 1024) return;
-
             const wrapperRect = wrapper.getBoundingClientRect();
             const wrapperHeight = wrapper.offsetHeight - window.innerHeight;
-            const scrollProgress = Math.min(Math.max(-wrapperRect.top / wrapperHeight, 0), 1);
+            const totalProgress = Math.min(Math.max(-wrapperRect.top / wrapperHeight, 0), 1);
+
+            // Fase 1 (0 a INTRO_END): cards aparecem e card central ganha realce
+            // Fase 2 (EXP_START a EXP_END): card cresce até tela cheia e fica branco
+            const INTRO_END = 0.43;
+            const scrollProgress = Math.min(totalProgress / INTRO_END, 1);
 
             const revealProgress = Math.min(scrollProgress / 0.65, 1);
             const totalBgCards = bgCards.length;
@@ -534,29 +571,22 @@
 
             // Animação gradual dos cards do fundo
             bgCards.forEach((card, idx) => {
-                if (idx < visibleCardsCount) {
-                    card.classList.add('show');
-                } else {
-                    card.classList.remove('show');
-                }
+                card.classList.toggle('show', idx < visibleCardsCount);
             });
 
-            // Transição sutil do fundo claro do card central e da cor do texto
-            heroBgOverlay.style.opacity = revealProgress;
+            // Fundo claro do card central: totalmente oculto até OVERLAY_START
+            const overlayProgress = Math.min(Math.max((revealProgress - OVERLAY_START) / (1 - OVERLAY_START), 0), 1);
+            heroBgOverlay.style.opacity = overlayProgress;
+            heroBgOverlay.classList.toggle('is-visible', overlayProgress > 0);
 
-            if (revealProgress > 0.2) {
-                heroText.classList.remove('text-white');
-                heroText.classList.add('text-[#111827]');
-                heroSubtext.classList.remove('text-slate-400');
-                heroSubtext.classList.add('text-slate-600');
-            } else {
-                heroText.classList.add('text-white');
-                heroText.classList.remove('text-[#111827]');
-                heroSubtext.classList.add('text-slate-400');
-                heroSubtext.classList.remove('text-slate-600');
-            }
+            // Texto só fica escuro quando o fundo claro já está bem visível
+            const darkText = overlayProgress > 0.5;
+            heroText.classList.toggle('text-white', !darkText);
+            heroText.classList.toggle('text-[#111827]', darkText);
+            heroSubtext.classList.toggle('text-slate-400', !darkText);
+            heroSubtext.classList.toggle('text-slate-600', darkText);
 
-            // Ativação do foco final, desfoque e troca de frase
+            // Estado final: foco, desfoque e troca de frase
             if (scrollProgress >= 0.7) {
                 if (!isCompletedState) {
                     isCompletedState = true;
@@ -567,22 +597,7 @@
                     heroBadge.classList.remove('opacity-0');
                     heroButton.classList.remove('opacity-0', 'pointer-events-none');
 
-                    heroText.style.opacity = '0';
-                    heroSubtext.style.opacity = '0';
-
-                    setTimeout(() => {
-                        heroText.textContent = finalPhrase;
-                        heroSubtext.textContent = finalSubtext;
-                        heroText.style.opacity = '1';
-                        heroSubtext.style.opacity = '1';
-                    }, 180);
-
-                    if (!isSnapping && window.scrollY < wrapper.offsetTop + wrapperHeight * 0.85) {
-                        isSnapping = true;
-                        const targetY = wrapper.offsetTop + wrapperHeight * 0.78;
-                        window.scrollTo({ top: targetY, behavior: 'smooth' });
-                        setTimeout(() => { isSnapping = false; }, 600);
-                    }
+                    swapTexts(finalPhrase, finalSubtext);
                 }
             } else {
                 if (isCompletedState) {
@@ -594,21 +609,50 @@
                     heroBadge.classList.add('opacity-0');
                     heroButton.classList.add('opacity-0', 'pointer-events-none');
 
-                    heroText.style.opacity = '0';
-                    heroSubtext.style.opacity = '0';
-
-                    setTimeout(() => {
-                        heroText.textContent = initialPhrase;
-                        heroSubtext.textContent = initialSubtext;
-                        heroText.style.opacity = '1';
-                        heroSubtext.style.opacity = '1';
-                    }, 180);
+                    swapTexts(initialPhrase, initialSubtext);
                 }
             }
+
+            // Expansão do card até tela cheia
+            const EXP_START = 0.5;
+            const EXP_END = 0.9;
+            const e = Math.min(Math.max((totalProgress - EXP_START) / (EXP_END - EXP_START), 0), 1);
+            const eased = e * e * (3 - 2 * e);
+
+            if (eased > 0) {
+                const sr = stickyViewport.getBoundingClientRect();
+                const cr = heroCard.getBoundingClientRect();
+                const top = cr.top - sr.top;
+                const left = cr.left - sr.left;
+                const right = sr.right - cr.right;
+                const bottom = sr.bottom - cr.bottom;
+                const baseRadius = window.innerWidth <= 768 ? 20 : 28;
+                const bleed = 0;
+
+                heroBgOverlay.style.inset =
+                    `${-(top * eased + bleed)}px ${-(right * eased + bleed)}px ${-(bottom * eased + bleed)}px ${-(left * eased + bleed)}px`;
+                heroBgOverlay.style.setProperty('--r', `${baseRadius * (1 - eased)}px`);
+                heroWhite.style.opacity = eased;
+            } else {
+                heroBgOverlay.style.inset = '';
+                heroBgOverlay.style.removeProperty('--r');
+                heroWhite.style.opacity = 0;
+            }
+            heroCard.classList.toggle('is-expanded', e >= 0.999);
         }
 
-        window.addEventListener('scroll', updateScrollAnimation, { passive: true });
-        window.addEventListener('resize', updateScrollAnimation);
+        // Throttle com requestAnimationFrame
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                updateScrollAnimation();
+                ticking = false;
+            });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
 
         function openModal() {
             const modal = document.getElementById('modal-form');
@@ -619,6 +663,11 @@
             const modal = document.getElementById('modal-form');
             modal.classList.add('opacity-0', 'pointer-events-none');
         }
+
+        // Fecha o modal com Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
 
         function handleSend(e) {
             e.preventDefault();
