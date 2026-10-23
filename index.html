@@ -145,7 +145,7 @@
         .slot-top-center-solid { grid-column: 4; grid-row: 1; }
         .slot-bottom-center-person { grid-column: 3 / span 2; grid-row: 3; }
 
-        /* Card Central (Transforma-se de texto solto para Card ao rolar) */
+        /* Card Central (Sem fundo/borda no início, surge com o scroll) */
         .slot-center-hero {
             grid-column: 3 / span 3;
             grid-row: 2;
@@ -168,7 +168,7 @@
             transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Estado visível do card central quando surge no scroll */
+        /* Estado visível do card central ativado no scroll */
         .hero-exact-card.hero-visible {
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
             border-color: rgba(255, 255, 255, 0.9);
@@ -304,15 +304,15 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL (COMEÇA LIMPO APENAS COM TEXTO E SURGE O CARD AO ROLAR) -->
+                <!-- CARD CENTRAL (COMEÇA COM TEXTO BRANCO NO FUNDO ESCURO; O CARD SURGE AO ROLAR) -->
                 <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
                     <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300">
                         Design & Performance
                     </span>
-                    <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-all duration-300">
+                    <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-colors duration-500">
                         Criar sites personalizados.
                     </h1>
-                    <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-all duration-300">
+                    <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-colors duration-500">
                         Role para baixo para revelar nosso ecossistema de templates.
                     </p>
                     <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-indigo-600 text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
@@ -448,7 +448,7 @@
 
         <div class="max-w-7xl mx-auto px-6 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600">
             <p>© 2026 WebStudio. Todos os direitos reservados.</p>
-            <p class="mt-2 sm:mt-0">Desenvolvido com excelência técnica & visual.</p>
+            <p class="mt-2 sm:mt-0">Desenvolvimento com excelência técnica & visual.</p>
         </div>
     </footer>
 
@@ -502,7 +502,7 @@
             const totalBgCards = bgCards.length;
             const visibleCardsCount = Math.floor(revealProgress * totalBgCards);
 
-            // Animação dos cards do fundo
+            // Animação dos cards de fundo
             bgCards.forEach((card, idx) => {
                 if (idx < visibleCardsCount) {
                     card.classList.add('show');
@@ -511,7 +511,7 @@
                 }
             });
 
-            // Surgimento do Card Central junto com os cards de fundo
+            // Surgimento do Card Central (moldura clara) sincronizado com o scroll
             if (revealProgress > 0.05) {
                 heroCard.classList.add('hero-visible');
                 heroText.classList.remove('text-white');
@@ -526,7 +526,7 @@
                 heroSubtext.classList.remove('text-slate-600');
             }
 
-            // Destaque e troca de frase ao atingir o final do efeito
+            // Ativação do foco final e troca de frase
             if (scrollProgress >= 0.7) {
                 if (!isCompletedState) {
                     isCompletedState = true;
