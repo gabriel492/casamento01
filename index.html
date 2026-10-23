@@ -347,9 +347,9 @@
     .fx-hero.is-expanded .fx-hero-bg::before,.fx-hero.is-expanded .fx-hero-bg::after{opacity:0}
     .fx-hero-white{position:absolute;inset:0;border-radius:inherit;background:#fff;opacity:0;pointer-events:none}
 
-    .fx-hero-inner{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .fx-hero-inner{position:relative;z-index:10;width:100%;height:100%;min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.fx-phrase{width:100%;max-width:100%;margin-inline:auto;text-align:center;align-items:center;justify-content:center}
     .fx-phrase{display:flex;flex-direction:column;align-items:center;transition:opacity .8s ease}
-    .fx-hero.pre-hidden .fx-phrase{opacity:0;transition:opacity .35s ease}
+    .fx-hero.pre-hidden .fx-phrase{opacity:0;transition:opacity 1.2s ease}
     #fxTitle{margin:0;max-width:none;font-family:var(--sans);font-weight:800;letter-spacing:-.025em;line-height:1.25;color:#fff;user-select:none;text-align:center;text-shadow:none;font-size:clamp(1.4rem,min(3.1vw,5vh),2.75rem);transition:none}
     #fxSub{margin:.75rem 0 0;max-width:24rem;color:#94a3b8;line-height:1.6;text-align:center;font-size:clamp(.75rem,min(1.1vw,1.8vh),1rem);transition:none}
     #fxTitle.dark{color:#111827}
@@ -398,7 +398,7 @@
     /* Nav bar: menu flutuante branco com frost de 80% e texto preto */
     .site-header .nav-wrap,
     .site-header.scrolled .nav-wrap,
-    .site-header:not(.scrolled) .nav-wrap{background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 32px rgba(0,0,0,.12);color:#000}
+    .site-header:not(.scrolled) .nav-wrap{background:rgb(255,255,255);-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 32px rgba(0,0,0,.12);color:#000}
     .site-header .nav-links a:not(.btn),.site-header .login-link{color:#000}
     .site-header .nav-links a:not(.btn):hover{color:var(--olive)}
     .site-header .menu-toggle,.site-header.scrolled .menu-toggle{color:#000;border-color:rgba(0,0,0,.2)}
@@ -501,7 +501,7 @@
           <div class="fx-hero-inner">
             <div class="fx-phrase" id="fxPhrase">
               <h2 id="fxTitle">Criar sites personalizados.</h2>
-              <p class="fx-sub" id="fxSub">Role para baixo para revelar nosso ecossistema de templates.</p>
+              <p class="fx-sub" id="fxSub"></p>
             </div>
             <button type="button" class="fx-btn" id="fxButton">Iniciar Seu Projeto</button>
           </div>
@@ -891,7 +891,7 @@
 
     const initialPhrase = 'Criar sites personalizados.';
     const finalPhrase = 'Sua presença digital levada ao próximo nível.';
-    const initialSubtext = 'Role para baixo para revelar nosso ecossistema de templates.';
+    const initialSubtext = '';
     const finalSubtext = 'Estratégia, performance e design sob medida para o seu negócio.';
 
     const OVERLAY_START = 0.15; // o fundo claro do card só surge depois deste ponto do reveal
