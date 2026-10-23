@@ -163,23 +163,40 @@
             padding: 2.5rem 2rem;
             text-align: center;
             background: transparent;
-            border: 1px solid transparent;
+            border: 2px solid transparent;
             box-shadow: none;
             transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            background-clip: padding-box;
         }
 
-        /* Estado visível do card central ativado com delay no scroll */
+        /* Borda Gradiente Festeva ativada no Scroll */
         .hero-exact-card.hero-visible {
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
-            border-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            background-clip: padding-box;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Pseudo-elemento para aplicar o gradiente Festeva na borda */
+        .hero-exact-card.hero-visible::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .hero-exact-card.hero-focused {
             transform: scale(1.05) !important;
-            box-shadow: 0 35px 80px -15px rgba(99, 102, 241, 0.4),
-                        0 0 45px rgba(255, 255, 255, 0.5);
-            border-color: #818cf8;
+            box-shadow: 0 35px 80px -15px rgba(255, 0, 170, 0.35),
+                        0 0 45px rgba(0, 249, 203, 0.4);
         }
 
         .solid-placeholder-card {
@@ -241,7 +258,7 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#FF00AA] via-[#47ABF9] to-[#00F9CB] flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
                     LZ
                 </div>
                 <span class="font-bold text-lg tracking-tight text-white group-hover:text-indigo-400 transition-colors">WebStudio</span>
@@ -255,7 +272,7 @@
             </nav>
 
             <div class="flex items-center gap-4">
-                <button onclick="openModal()" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-xs tracking-wide uppercase transition-all shadow-md shadow-indigo-600/20 hover:scale-105">
+                <button onclick="openModal()" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#FF00AA] via-[#8A82E5] to-[#00D5F3] hover:brightness-110 text-white font-semibold text-xs tracking-wide uppercase transition-all shadow-md shadow-pink-600/20 hover:scale-105">
                     Solicitar Orçamento
                 </button>
                 <button onclick="openModal()" class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 flex items-center justify-center border border-slate-700 transition-all">
@@ -304,9 +321,9 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL -->
+                <!-- CARD CENTRAL COM BORDA GRADIENTE FESTEVA -->
                 <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
-                    <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300">
+                    <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
                         Design & Performance
                     </span>
                     <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-colors duration-500">
@@ -315,7 +332,7 @@
                     <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-colors duration-500">
                         Role para baixo para revelar nosso ecossistema de templates.
                     </p>
-                    <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-indigo-600 text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
+                    <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-[#FF00AA] text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
                         Iniciar Seu Projeto
                     </button>
                 </div>
@@ -464,7 +481,7 @@
                 <input type="text" placeholder="Seu Nome" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
                 <input type="email" placeholder="Seu E-mail" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
                 <textarea placeholder="Conte-nos brevemente sobre o projeto" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
-                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-indigo-600/30">
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-[#FF00AA] to-[#00D5F3] hover:brightness-110 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-pink-600/30">
                     Enviar Solicitação
                 </button>
             </form>
@@ -511,7 +528,7 @@
                 }
             });
 
-            // Atraso no surgimento do Card Central (atiba somente a partir de ~20% do surgimento)
+            // Atraso no surgimento do Card Central com borda Gradiente Festeva
             if (revealProgress > 0.20) {
                 heroCard.classList.add('hero-visible');
                 heroText.classList.remove('text-white');
