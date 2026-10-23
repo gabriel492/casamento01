@@ -91,7 +91,7 @@
             transform: scale(0.985);
         }
 
-        /* Cards do Fundo */
+        /* Cards do Fundo e Base Comum */
         .exact-card {
             position: relative;
             border-radius: 24px;
@@ -150,8 +150,6 @@
             grid-column: 3 / span 3;
             grid-row: 2;
             z-index: 20;
-            opacity: 1 !important;
-            transform: scale(1) translateY(0) !important;
         }
 
         .hero-exact-card {
@@ -165,30 +163,30 @@
             background: transparent;
             border: 2px solid transparent;
             box-shadow: none;
-            transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
             position: relative;
         }
 
-        /* Estado visível do card central com fundo claro ativado no scroll */
-        .hero-exact-card.hero-visible {
+        /* Quando visível no scroll (surgimento gradual idêntico) */
+        .hero-exact-card.show {
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
         }
 
-        /* Foco Final com Borda Gradiente Festeva */
+        /* Foco Final com Borda e Brilho Gradiente Festeva (Sem crescer o card) */
         .hero-exact-card.hero-focused {
-            transform: scale(1.04) translateY(0) !important;
+            transform: scale(1) translateY(0) !important;
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
-            box-shadow: 0 35px 80px -15px rgba(255, 0, 170, 0.3),
-                        0 0 45px rgba(0, 213, 243, 0.3);
+            box-shadow: 0 25px 60px -10px rgba(0, 213, 243, 0.25),
+                        0 0 40px rgba(255, 0, 170, 0.2);
         }
 
         .hero-exact-card.hero-focused::before {
             content: '';
             position: absolute;
-            inset: -2px;
-            border-radius: 30px;
-            padding: 2px;
+            inset: -3px;
+            border-radius: 31px;
+            padding: 3px;
             background: linear-gradient(135deg, #FF00AA, #8A82E5, #47ABF9, #00D5F3, #00E5E2, #00F9CB);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -319,15 +317,15 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL -->
-                <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
+                <!-- CARD CENTRAL COM SURGIMENTO GRADUAL IGUAL AOS OUTROS -->
+                <div class="exact-card slot-center-hero hero-exact-card bg-card" id="heroCard">
                     <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
                         Design & Performance
                     </span>
-                    <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight select-none transition-colors duration-500">
+                    <h1 id="heroText" class="text-3xl md:text-5xl font-extrabold text-[#111827] tracking-tight leading-tight select-none transition-colors duration-500">
                         Criar sites personalizados.
                     </h1>
-                    <p id="heroSubtext" class="text-slate-400 text-sm md:text-base mt-3 max-w-sm transition-colors duration-500">
+                    <p id="heroSubtext" class="text-slate-600 text-sm md:text-base mt-3 max-w-sm transition-colors duration-500">
                         Role para baixo para revelar nosso ecossistema de templates.
                     </p>
                     <button id="heroButton" onclick="openModal()" class="mt-6 px-6 py-3 bg-[#111827] hover:bg-[#FF00AA] text-white font-medium text-xs md:text-sm rounded-xl transition-all shadow-lg hover:scale-105 active:scale-95 opacity-0 pointer-events-none">
@@ -494,7 +492,7 @@
         const heroSubtext = document.getElementById('heroSubtext');
         const heroBadge = document.getElementById('heroBadge');
         const heroButton = document.getElementById('heroButton');
-        const bgCards = Array.from(document.querySelectorAll('.bg-card:not(.slot-center-hero)'));
+        const bgCards = Array.from(document.querySelectorAll('.bg-card'));
         const scrollIndicator = document.getElementById('scrollIndicator');
 
         const initialPhrase = "Criar sites personalizados.";
@@ -517,7 +515,7 @@
             const totalBgCards = bgCards.length;
             const visibleCardsCount = Math.floor(revealProgress * totalBgCards);
 
-            // Animação dos cards de fundo
+            // Animação unificada e gradual de todos os cards incluindo o central
             bgCards.forEach((card, idx) => {
                 if (idx < visibleCardsCount) {
                     card.classList.add('show');
@@ -525,23 +523,6 @@
                     card.classList.remove('show');
                 }
             });
-
-            // O card central só surge com o fundo claro e cor escura no texto após iniciar o scroll (revealProgress > 0.05)
-            if (revealProgress > 0.05) {
-                heroCard.classList.add('hero-visible');
-                heroCard.classList.add('show');
-                heroText.classList.remove('text-white');
-                heroText.classList.add('text-[#111827]');
-                heroSubtext.classList.remove('text-slate-400');
-                heroSubtext.classList.add('text-slate-600');
-            } else {
-                heroCard.classList.remove('hero-visible');
-                heroCard.classList.remove('show');
-                heroText.classList.add('text-white');
-                heroText.classList.remove('text-[#111827]');
-                heroSubtext.classList.add('text-slate-400');
-                heroSubtext.classList.remove('text-slate-600');
-            }
 
             // Ativação do foco final, desfoque e troca de frase
             if (scrollProgress >= 0.7) {
