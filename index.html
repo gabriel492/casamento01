@@ -145,13 +145,12 @@
         .slot-top-center-solid { grid-column: 4; grid-row: 1; }
         .slot-bottom-center-person { grid-column: 3 / span 2; grid-row: 3; }
 
-        /* Card Central */
+        /* Card Central com Surgimento Sutil Igual aos Demais */
         .slot-center-hero {
             grid-column: 3 / span 3;
             grid-row: 2;
             z-index: 20;
-            opacity: 1 !important;
-            transform: scale(1) translateY(0) !important;
+            background-color: transparent !important;
         }
 
         .hero-exact-card {
@@ -162,24 +161,32 @@
             justify-content: center;
             padding: 2.5rem 2rem;
             text-align: center;
-            background: transparent;
-            border: 2px solid transparent;
-            box-shadow: none;
-            transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            background-clip: padding-box;
+            opacity: 0;
+            transform: scale(0.75) translateY(35px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.5s ease, box-shadow 0.5s ease;
+            will-change: opacity, transform;
         }
 
-        /* Borda Gradiente Festeva ativada no Scroll */
-        .hero-exact-card.hero-visible {
+        /* Estado visível do card central (Surgindo de forma sutil) */
+        .hero-exact-card.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
             background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
         }
 
-        /* Pseudo-elemento para aplicar o gradiente Festeva na borda */
-        .hero-exact-card.hero-visible::before {
+        /* Borda Gradiente Festeva Padrão Aplicada no Foco Final */
+        .hero-exact-card.hero-focused {
+            transform: scale(1.04) translateY(0) !important;
+            background: linear-gradient(135deg, #fbfbfe 0%, #eef3f9 50%, #e2e8f5 100%);
+            box-shadow: 0 25px 60px -15px rgba(255, 0, 170, 0.25),
+                        0 0 35px rgba(0, 213, 243, 0.25);
+        }
+
+        /* Pseudo-elemento para aplicar o gradiente Festeva na borda do Card Central no Foco */
+        .hero-exact-card.hero-focused::before {
             content: '';
             position: absolute;
             inset: -2px;
@@ -191,12 +198,6 @@
             mask-composite: exclude;
             pointer-events: none;
             z-index: 1;
-        }
-
-        .hero-exact-card.hero-focused {
-            transform: scale(1.05) !important;
-            box-shadow: 0 35px 80px -15px rgba(255, 0, 170, 0.35),
-                        0 0 45px rgba(0, 249, 203, 0.4);
         }
 
         .solid-placeholder-card {
@@ -321,8 +322,8 @@
                     <div class="card-tint"></div>
                 </div>
 
-                <!-- CARD CENTRAL COM BORDA GRADIENTE FESTEVA -->
-                <div class="exact-card slot-center-hero hero-exact-card" id="heroCard">
+                <!-- CARD CENTRAL COM COMPORTAMENTO DE SURGIMENTO IDÊNTICO AOS OUTROS -->
+                <div class="exact-card slot-center-hero hero-exact-card bg-card" id="heroCard" data-delay="0.2">
                     <span id="heroBadge" class="inline-block px-3 py-1 mb-3 rounded-full bg-gradient-to-r from-[#FF00AA]/10 to-[#00F9CB]/10 text-[#FF00AA] font-semibold text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 border border-[#FF00AA]/20">
                         Design & Performance
                     </span>
@@ -395,24 +396,24 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xl mb-6">
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-pink-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-pink-600/20 text-[#FF00AA] flex items-center justify-center text-xl mb-6">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Layout Exclusivo</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">Nenhum modelo genérico. Criamos protótipos sob medida alinhados com a identidade visual da sua marca.</p>
                 </div>
 
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-violet-600/20 text-violet-400 flex items-center justify-center text-xl mb-6">
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-cyan-600/20 text-[#00D5F3] flex items-center justify-center text-xl mb-6">
                         <i class="fa-solid fa-bolt"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Velocidade Máxima</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">Páginas otimizadas para carregar instantaneamente em qualquer dispositivo, melhorando seu SEO no Google.</p>
                 </div>
 
-                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-indigo-500/50 transition-all hover:-translate-y-2">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl mb-6">
+                <div class="p-8 rounded-3xl bg-slate-950 border border-slate-800 hover:border-teal-500/50 transition-all hover:-translate-y-2">
+                    <div class="w-12 h-12 rounded-2xl bg-teal-600/20 text-[#00F9CB] flex items-center justify-center text-xl mb-6">
                         <i class="fa-solid fa-chart-line"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-white">Foco em Vendas</h3>
@@ -427,7 +428,7 @@
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
             <div class="space-y-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white">LZ</div>
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-r from-[#FF00AA] to-[#00D5F3] flex items-center justify-center font-bold text-white">LZ</div>
                     <span class="font-bold text-white text-lg">WebStudio</span>
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
@@ -447,18 +448,18 @@
             <div>
                 <h4 class="text-white text-sm font-semibold mb-4">Contato</h4>
                 <ul class="space-y-2 text-xs">
-                    <li><i class="fa-solid fa-envelope mr-2 text-indigo-400"></i> contato@webstudio.com</li>
-                    <li><i class="fa-solid fa-phone mr-2 text-indigo-400"></i> +55 (41) 99999-8888</li>
-                    <li><i class="fa-solid fa-location-dot mr-2 text-indigo-400"></i> Curitiba / PR — Brasil</li>
+                    <li><i class="fa-solid fa-envelope mr-2 text-[#FF00AA]"></i> contato@webstudio.com</li>
+                    <li><i class="fa-solid fa-phone mr-2 text-[#00D5F3]"></i> +55 (41) 99999-8888</li>
+                    <li><i class="fa-solid fa-location-dot mr-2 text-[#00F9CB]"></i> Curitiba / PR — Brasil</li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="text-white text-sm font-semibold mb-4">Redes Sociais</h4>
                 <div class="flex gap-3">
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#FF00AA] hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#47ABF9] hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-[#00F9CB] hover:text-slate-950 transition-all"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
@@ -478,10 +479,10 @@
             <h3 class="text-2xl font-bold mb-2">Criar Seu Site</h3>
             <p class="text-slate-400 text-sm mb-6">Preencha os campos abaixo para dar o primeiro passo no seu projeto.</p>
             <form onsubmit="handleSend(event)" class="space-y-4">
-                <input type="text" placeholder="Seu Nome" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <input type="email" placeholder="Seu E-mail" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500">
-                <textarea placeholder="Conte-nos brevemente sobre o projeto" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-indigo-500"></textarea>
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-[#FF00AA] to-[#00D5F3] hover:brightness-110 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-pink-600/30">
+                <input type="text" placeholder="Seu Nome" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-[#FF00AA]">
+                <input type="email" placeholder="Seu E-mail" required class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-[#00D5F3]">
+                <textarea placeholder="Conte-nos brevemente sobre o projeto" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:border-[#00F9CB]"></textarea>
+                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-[#FF00AA] via-[#47ABF9] to-[#00F9CB] hover:brightness-110 rounded-xl font-semibold text-sm transition-all shadow-lg shadow-pink-600/30">
                     Enviar Solicitação
                 </button>
             </form>
@@ -496,7 +497,7 @@
         const heroSubtext = document.getElementById('heroSubtext');
         const heroBadge = document.getElementById('heroBadge');
         const heroButton = document.getElementById('heroButton');
-        const bgCards = Array.from(document.querySelectorAll('.bg-card:not(.slot-center-hero)'));
+        const bgCards = Array.from(document.querySelectorAll('.bg-card'));
         const scrollIndicator = document.getElementById('scrollIndicator');
 
         const initialPhrase = "Criar sites personalizados.";
@@ -519,7 +520,7 @@
             const totalBgCards = bgCards.length;
             const visibleCardsCount = Math.floor(revealProgress * totalBgCards);
 
-            // Animação dos cards do fundo
+            // Animação unificada e sutil de todos os cards (incluindo o central)
             bgCards.forEach((card, idx) => {
                 if (idx < visibleCardsCount) {
                     card.classList.add('show');
@@ -528,22 +529,20 @@
                 }
             });
 
-            // Atraso no surgimento do Card Central com borda Gradiente Festeva
-            if (revealProgress > 0.20) {
-                heroCard.classList.add('hero-visible');
+            // Ajuste dinâmico da cor do texto do card central dependendo se ele já surgiu
+            if (revealProgress > 0.05) {
                 heroText.classList.remove('text-white');
                 heroText.classList.add('text-[#111827]');
                 heroSubtext.classList.remove('text-slate-400');
                 heroSubtext.classList.add('text-slate-600');
             } else {
-                heroCard.classList.remove('hero-visible');
                 heroText.classList.add('text-white');
                 heroText.classList.remove('text-[#111827]');
                 heroSubtext.classList.add('text-slate-400');
                 heroSubtext.classList.remove('text-slate-600');
             }
 
-            // Ativação do foco final e troca de frase
+            // Ativação do foco final, desfoque e troca de frase
             if (scrollProgress >= 0.7) {
                 if (!isCompletedState) {
                     isCompletedState = true;
